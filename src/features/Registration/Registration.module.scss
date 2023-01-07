@@ -1,0 +1,21 @@
+.regRoot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  form {
+    display: flex;
+    flex-direction: column;
+
+    label{
+      display: flex;
+      flex-direction: column;
+      color:rgba(0, 0, 0, 0.5);
+      input {
+        border: none;
+        border-bottom: 1.5px solid rgba(0, 0, 0, 0.16);
+        outline: none;
+      }
+    }
+  }
+}
