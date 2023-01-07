@@ -1,11 +1,11 @@
-import {ActionsType} from "../../redux-store/actions/authActions";
+import {ActionsType} from "../../../../it-incubator-friday-projectq/src/redux-store/actions/authActions";
 
 const initialState: RegistrationType = {
   email: '',
   password: ''
 }
 
-export const registrationReducer = (state: RegistrationType = initialState, action: ActionsType) => {
+export const signUpReducer = (state: RegistrationType = initialState, action: ActionsType) => {
   switch (action.type) {
     case "REGISTRATION": {
       return {...state, ...action.userData}

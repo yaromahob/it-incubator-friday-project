@@ -1,0 +1,25 @@
+@import './src/styles/variables';
+
+@mixin flexCenterBlock() {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin sectionTitle() {
+  font-weight: 600;
+  font-size: 26px;
+  line-height: 32px;
+}
+
+@mixin entryFieldTitle() {
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+@mixin entryFieldText() {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+}

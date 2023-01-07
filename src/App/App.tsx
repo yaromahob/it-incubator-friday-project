@@ -8,8 +8,8 @@ import NewPassword from '../features/NewPassword/NewPassword'
 import NotFound from '../features/NotFound/NotFound'
 import Profile from '../features/Profile/Profile'
 import RecoveryPassword from '../features/RecoveryPassword/RecoveryPassword'
-import Registration from '../features/Registration/Registration'
 import SuperComponents from '../features/TestStand/SuperComponents'
+import { SignUp } from '../features/SignUp/SignUp'
 import {Header} from "../features/Header/Header";
 
 function App() {
@@ -23,7 +23,7 @@ function App() {
           <Route path="/newPassword" element={<NewPassword />} />
           <Route path="/404" element={<NotFound />} />
           <Route path="/recoveryPassword" element={<RecoveryPassword />} />
-          <Route path="/registration" element={<Registration />} />
+          <Route path="/signUp" element={<SignUp />} />
           <Route path="/superComponents" element={<SuperComponents />} />
         </Routes>
       </div>

@@ -1,20 +1,15 @@
-.input:focus {
-  border: 1px solid #00cc22;
-
-  scale: 1.05;
-}
 
 .input {
-  width: 32.63vw;
-  height: 36px;
-  margin-bottom: 10px;
-  padding-left: 10px;
+  width: 95%;
+  /*height: 36px;*/
+  /*margin-bottom: 10px;*/
+  /*padding-left: 10px;*/
 
   font-size: 16px;
   font-weight: 500;
   line-height: 20px;
 
-  border: 1px solid #d1d1d1;
+  /*border: 1px solid #d1d1d1;*/
   border-radius: 5px;
   outline: none;
 }
@@ -40,7 +35,7 @@
 
 .error {
   position: absolute;
-  top: -20px;
+  top: 26px;
   left: 0;
 
   color: #cc0000;
