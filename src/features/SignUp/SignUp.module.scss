@@ -2,9 +2,9 @@
 .signUp {
   @include flexCenterBlock();
   flex-direction: column;
-  margin: 0 auto;
+  margin: 60px auto;
   max-width: 415px;
-  background: #FFFFFF;
+  background: #FCFCFC;
   box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1), -1px -1px 2px rgba(0, 0, 0, 0.1);
   border-radius: 2px;
   h3{
@@ -84,6 +84,10 @@
     }
     .sendBtn{
       margin-top: 60px;
+      
+      button {
+        @include entryFieldText();
+      }
     }
   }
   p{

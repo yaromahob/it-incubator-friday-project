@@ -1,10 +1,12 @@
 import React from 'react'
 import styles from './SignUp.module.scss'
-import SuperButton from "../../common/SuperButton/SuperButton";
-import {NavLink} from "react-router-dom";
-import {PasswordContainer} from "./PasswordContainer";
-import {useFormik} from "formik";
-import SuperInputText from "../../common/SuperInputText/SuperInputText";
+import SuperButton from '../../common/SuperButton/SuperButton'
+import { Navigate, NavLink } from 'react-router-dom'
+import { PasswordContainer } from './PasswordContainer'
+import { useFormik } from 'formik'
+import SuperInputText from '../../common/SuperInputText/SuperInputText'
+import { useAppDispatch, useAppSelector } from '../../redux-store/store'
+import { signUpTC } from './signUp-reducer'
 
 type FormikErrorType = {
   email?: string
@@ -12,37 +14,45 @@ type FormikErrorType = {
   confirmPassword?: string
 }
 export const SignUp = () => {
+  const dispatch = useAppDispatch()
+  const isSignUp = useAppSelector(state => state.signUp.isSignUp)
+
   const formik = useFormik({
     initialValues: {
       email: '',
       password: '',
-      confirmPassword: ''
+      confirmPassword: '',
     },
-    validate: (values) => {
-      const errors: FormikErrorType = {};
-      
+    validate: values => {
+      const errors: FormikErrorType = {}
+
       if (!values.email) {
-        errors.email = 'Required';
+        errors.email = 'Required'
       } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-        errors.email = 'Invalid email address';
+        errors.email = 'Invalid email address'
       }
       // abcdeg12/abcdEG12 - valid pass
       // !/^(?=.*[A-Z].*[A-Z])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8,}$/i.test(values.password)
       if (values.password.length < 9) {
-        errors.password = 'Password should be more 8 letters';
+        errors.password = 'Password should be more 8 letters'
       }
-      if(values.password !== values.confirmPassword){
+      if (values.password !== values.confirmPassword) {
         errors.confirmPassword = 'Passwords have to match'
       }
-      return errors;
+      return errors
     },
     onSubmit: values => {
-      // dispatch(logInTC(values));
-      console.log(values)
-      formik.resetForm();
-    }
-  });
-
+      const data = {
+        email: values.email,
+        password: values.password,
+      }
+      dispatch(signUpTC(data))
+      formik.resetForm()
+    },
+  })
+  if (isSignUp) {
+    return <Navigate to={'/login'} />
+  }
 
   return (
     <div className={styles.signUp}>
@@ -50,46 +60,43 @@ export const SignUp = () => {
       <form onSubmit={formik.handleSubmit}>
         <label className={formik.touched.email && formik.errors.email ? styles.errorField : ''}>
           Email
-          <SuperInputText type={'text'}
-                           {...formik.getFieldProps("email")} />
+          <SuperInputText type={'text'} {...formik.getFieldProps('email')} />
           <div className={styles.error}>
-            {formik.touched.email &&
-              formik.errors.email &&
-              formik.errors.email}
+            {formik.touched.email && formik.errors.email && formik.errors.email}
           </div>
         </label>
-        <label className={formik.touched.password && formik.errors.password ? styles.errorField : ''}>
+        <label
+          className={formik.touched.password && formik.errors.password ? styles.errorField : ''}
+        >
           Password
           {/*<input type="password" name="password" />*/}
-          <PasswordContainer {...formik.getFieldProps("password")}/>
+          <PasswordContainer {...formik.getFieldProps('password')} />
           <div className={styles.error}>
-            {formik.touched.password &&
-              formik.errors.password &&
-              formik.errors.password}
+            {formik.touched.password && formik.errors.password && formik.errors.password}
           </div>
         </label>
-        <label className={formik.touched.confirmPassword && formik.errors.confirmPassword ? styles.errorField : ''}>
+        <label
+          className={
+            formik.touched.confirmPassword && formik.errors.confirmPassword ? styles.errorField : ''
+          }
+        >
           Confirm password
-          <PasswordContainer {...formik.getFieldProps("confirmPassword")}/>
+          <PasswordContainer {...formik.getFieldProps('confirmPassword')} />
           <div className={styles.error}>
             {formik.touched.confirmPassword &&
               formik.errors.confirmPassword &&
               formik.errors.confirmPassword}
           </div>
         </label>
-        
+
         <div className={styles.sendBtn}>
-          <SuperButton xType={'default'}>
+          <SuperButton xType={'default'} type="submit">
             Sign Up
           </SuperButton>
         </div>
       </form>
       <p>Already have an account?</p>
-      <NavLink to='/login'>
-        Sign In
-      </NavLink>
+      <NavLink to="/login">Sign In</NavLink>
     </div>
-    
   )
 }
-
