@@ -1,12 +1,3 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  pointer-events: none;
-
-  height: 40vmin;
-}
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
