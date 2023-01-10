@@ -1,0 +1,24 @@
+.loginBlock {
+    display: block;
+    min-height: 100vh;
+    background-color: #F9F9FA;
+    box-sizing: border-box;
+    padding: 40px;
+    justify-content: center;
+
+
+}
+.formContainer{
+    height: 100%;
+    width: 40%;
+    background: #FFFFFF;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+
+
+
