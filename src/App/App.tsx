@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 
 import './App.css'
 import { Route, Routes } from 'react-router-dom'
@@ -12,11 +12,11 @@ import Registration from '../features/Registration/Registration'
 import SuperComponents from '../features/TestStand/SuperComponents'
 import {Header} from "../features/Header/Header";
 
+
 function App() {
   return (
     <div className='App'>
         <Header/>
-        
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/profile" element={<Profile />} />
