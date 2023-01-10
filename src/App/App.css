@@ -1,3 +1,7 @@
+body{
+  background-color: #F9F9FA;
+}
+/*todo*/
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
