@@ -2,7 +2,7 @@ import React, {ChangeEvent, useState} from 'react'
 import style from './User.module.scss'
 import edit from '../../../assets/svg/profile/edit.svg'
 import SuperButton from "../../../common/SuperButton/SuperButton";
-import {useAppDispatch, useAppSelector} from "../../../redux-store/store";
+import {useAppDispatch, useAppSelector} from "../../../App/store";
 import { changeUsersDataTC} from "../profileReducer";
 
 

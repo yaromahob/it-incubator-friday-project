@@ -1,5 +1,6 @@
 import {Dispatch} from "redux";
 import axios from "axios";
+import {AppDispatch, AppThunk} from "../../App/store";
 
 
 export type ProfileActionType =
@@ -44,7 +45,7 @@ export const getProfileAC = (_id: string, email: string, name: string, avatar: s
     avatar,
 }as const)
 
-export const changeUsersDataTC = (name:string,avatar?:string)=>(dispatch:Dispatch)=>{
+export const changeUsersDataTC = (name:string,avatar?:string): AppThunk=>(dispatch)=>{
     axios.put('http://localhost:7542/2.0/auth/me',{name,avatar},
         {withCredentials: true})
         .then((res)=>{

@@ -5,7 +5,7 @@ import { Navigate, NavLink } from 'react-router-dom'
 import { PasswordContainer } from './PasswordContainer'
 import { useFormik } from 'formik'
 import SuperInputText from '../../common/SuperInputText/SuperInputText'
-import { useAppDispatch, useAppSelector } from '../../redux-store/store'
+import { useAppDispatch, useAppSelector } from '../../App/store'
 import { signUpTC } from './signUp-reducer'
 
 type FormikErrorType = {
@@ -56,14 +56,18 @@ export const SignUp = () => {
 
   return (
     <div className={styles.signUp}>
+     
       <h3>Sign Up</h3>
+
       <form onSubmit={formik.handleSubmit}>
         <label className={formik.touched.email && formik.errors.email ? styles.errorField : ''}>
           Email
           <SuperInputText type={'text'} {...formik.getFieldProps('email')} />
+          
           <div className={styles.error}>
             {formik.touched.email && formik.errors.email && formik.errors.email}
           </div>
+          
         </label>
         <label
           className={formik.touched.password && formik.errors.password ? styles.errorField : ''}
@@ -88,7 +92,6 @@ export const SignUp = () => {
               formik.errors.confirmPassword}
           </div>
         </label>
-
         <div className={styles.sendBtn}>
           <SuperButton xType={'default'} type="submit">
             Sign Up

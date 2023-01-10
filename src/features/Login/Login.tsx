@@ -1,5 +1,5 @@
 import React from 'react'
-import {AppRootStateType, useAppDispatch} from "../../redux-store/store";
+import {AppRootStateType, useAppDispatch} from "../../App/store";
 import {useSelector} from "react-redux";
 import {useFormik} from "formik";
 import style from './login.module.css'
@@ -13,8 +13,8 @@ import {
     Paper,
     TextField,
 } from "@mui/material";
-import {loginTC} from "../../redux-store/reducers/authReducer";
-import {Navigate} from 'react-router-dom';
+import {loginTC} from "./loginReducer";
+import {Navigate, NavLink} from 'react-router-dom';
 import SuperButton from "../../common/SuperButton/SuperButton";
 import SuperCheckbox from "../../common/SuperCheckbox/SuperCheckbox";
 import SuperInputText from "../../common/SuperInputText/SuperInputText";
@@ -27,7 +27,7 @@ export type FormikErrorType = {
 
 export const Login = () => {
     const dispatch = useAppDispatch()
-    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
+    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
     const formik = useFormik({
         validate: (values) => {
             const errors: FormikErrorType = {}
@@ -90,17 +90,14 @@ export const Login = () => {
                                 />}
                             />
                             <p style={{display:'flex',justifyContent:'flex-end'}}>
-                                <a href={'http://localhost:3001/it-incubator-friday-project/register'}
-                                   target={'_blank'}> Forgot Password?
-                                </a>
+                                <NavLink to="/recoveryPassword">Forgot Password?</NavLink>
+
                             </p>
                             <SuperButton type={'submit'} color={'primary'} className={style.button}>
                                 Sign in
                             </SuperButton>
                             <a>Already have an account?</a>
-                            <a href={'http://localhost:3001/it-incubator-friday-project/register'}
-                               target={'_blank'}> Sign Up
-                            </a>
+                            <NavLink to="/signUp">Sign Up</NavLink>
 
                         </FormGroup>
                     </FormControl>

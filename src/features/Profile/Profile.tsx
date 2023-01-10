@@ -7,7 +7,7 @@ import union from '../../assets/svg/profile/union.svg'
 import SuperButton from "../../common/SuperButton/SuperButton";
 import {User} from "./User/User";
 import axios from "axios";
-import {useAppDispatch} from "../../redux-store/store";
+import {useAppDispatch} from "../../App/store";
 import {getProfileAC} from "./profileReducer";
 
 
