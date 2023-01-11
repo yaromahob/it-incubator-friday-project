@@ -1,0 +1,59 @@
+@import "./src/styles/mixins";
+@import "./src/features/SignUp/SignUp.module";
+
+.signUp {
+  h3{
+    @include sectionTitle();
+    margin: 35px 0 82px 0;
+  }
+
+  form {
+    label{
+      margin-bottom: 18px;
+
+    }
+
+
+    .checkboxField {
+      margin-bottom: 10px;
+      label{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        border-bottom: none;
+        @include minorTitle();
+        input {
+          border: 1px solid $mainColor;
+        }
+
+        input:checked {
+          color: #fff;
+        }
+
+        span {
+          color: #000
+        }
+      }
+    }
+    p{
+      display: flex;
+      justify-content: flex-end;
+      padding: inherit;
+      @include minorTitle();
+      color: #000;
+      opacity: 1;
+      a{
+        color: #000;
+        opacity: 1;
+        text-decoration: none;
+      }
+    }
+    .sendBtn{
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  }
+
+
+
+}
