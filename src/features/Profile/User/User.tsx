@@ -3,27 +3,25 @@ import style from './User.module.scss'
 import edit from '../../../assets/svg/profile/edit.svg'
 import SuperButton from "../../../common/SuperButton/SuperButton";
 import {useAppDispatch, useAppSelector} from "../../../App/store";
-import { changeUsersDataTC} from "../profileReducer";
-
+import {updateUsersDataTC} from "../profileReducer";
 
 
 export const User = () => {
     const nickName = useAppSelector(state => state.profile.name)
     const appDispatch = useAppDispatch()
     const [isOpen, setIsOpen] = useState(false)
-const [name,setName] = useState(nickName)
+    const [name, setName] = useState(nickName)
     const openInput = () => {
         setIsOpen(true)
     }
-    const setUsersData = ()=>{
+    const setUsersData = () => {
+        appDispatch(updateUsersDataTC(name, ""))
         setIsOpen(false)
-        appDispatch(changeUsersDataTC(name,""))
     }
 
-const changeNameHandler = (event:ChangeEvent<HTMLInputElement>)=>{
-
-    setName(event.currentTarget.value)
-}
+    const changeNameHandler = (event: ChangeEvent<HTMLInputElement>) => {
+        setName(event.currentTarget.value)
+    }
     return (
         <div className={style.nickName}>
 

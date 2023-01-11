@@ -1,5 +1,6 @@
 import {AppThunk} from "../../App/store";
 import {authAPI, LoginParamsType} from "./auth-api";
+import {setAuthApi, setAuthApiTC} from "../../App/app-reducer";
 
 const initialState: AuthStateType = {
     isLoggedIn: false
@@ -22,7 +23,8 @@ export const loginTC = (data: LoginParamsType): AppThunk => (dispatch) => {
     authAPI.login(data)
         .then((res) => {
                 if (!res.data.error) {
-                    dispatch(setIsLoggedInAC(true))
+                     dispatch(setIsLoggedInAC(true))
+                    dispatch(setAuthApiTC())
                 }
                 // dispatch(setAppStatusAC('succeeded'))
         })
@@ -35,7 +37,12 @@ export const loginTC = (data: LoginParamsType): AppThunk => (dispatch) => {
 }
 
 export const logoutTC = (): AppThunk => (dispatch) => {
-
+    authAPI.logout()
+        .then((res)=>{
+            if(res.status === 200)
+            dispatch(setIsLoggedInAC(false))
+            dispatch(setAuthApi(false))
+        })
 }
 
 export type AuthActionType = ReturnType<typeof setIsLoggedInAC>

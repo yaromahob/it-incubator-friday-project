@@ -33,9 +33,14 @@ export const authAPI = {
         return instance.post<ResponseType>(`auth/login`, data);
     },
     logout (){
-        return instance.delete(`auth/login`);
+        return instance.delete(`auth/me`,{});
     },
     me(){
-        return  instance.get(`auth/me`)
+        return  instance.post(`auth/me`,{})
     },
+}
+export const updateUser = {
+    updateUsersData(name:string,avatar?:string){
+        return instance.put('auth/me',{name,avatar})
+    }
 }
