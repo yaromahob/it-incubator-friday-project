@@ -1,68 +1,69 @@
-import {Dispatch} from "redux";
-import axios from "axios";
-import {AppDispatch, AppThunk} from "../../App/store";
+import {AppThunk} from "../../App/store";
+import {updateUserApi} from "../Login/auth-api";
+
+import {setAppError} from "../../App/app-reducer";
+import {headerSetNameAC} from "../Header/headerReducer";
 
 
 export type ProfileActionType =
-    ReturnType<typeof getProfileAC>|
-    ReturnType<typeof changeUsersDataAC>
+    ReturnType<typeof setProfileAC> |
+    ReturnType<typeof updateUsersDataAC> |
+    ReturnType<typeof changeUsersNameAC>
 
-export type InitStateType = {
-    _id: string;
-    email: string;
-    name: string;
-    avatar?: any;
-}
-const initState: InitStateType = {
+const initState = {
     _id: "",
-    email: "",
-    name: "Pedro",
-    avatar: null,
+    email: "test email",
+    name: "set your name",
+    token: "",
+    avatar: "",
 }
-
+export type InitStateType = typeof initState
 export const profileReducer = (state = initState, action: ProfileActionType): InitStateType => {
     switch (action.type) {
-        case 'GET-PROFILE':
-return {...state,_id:action._id,email:action.email,name:action.name,avatar:action.avatar,}
-        case 'CHANGE-NAME':
-            return {...state,name:action.name,avatar:action.avatar,}
+        case 'SET-PROFILE':
+            return {...state, _id: action._id, email: action.email, name: action.name, avatar: action.avatar,}
+        case 'UPDATE-USERS_DATA':
+            return {...state, name: action.name, avatar: action.avatar,}
+        case "CHANGE-USERS_NAME":
+            return {...state, name: action.name}
         default:
             return state
     }
 }
 
-export const getProfileAC = (_id: string, email: string, name: string, avatar: string) => ({
-    type: 'GET-PROFILE',
+export const setProfileAC = (_id: string, email: string, name: string, token: string, avatar: string) => ({
+    type: 'SET-PROFILE',
     _id,
     email,
     name,
+    token,
     avatar,
-}as const)
+} as const)
 
- const changeUsersDataAC = ( name: string, avatar: string) => ({
-    type: 'CHANGE-NAME',
+const updateUsersDataAC = (name: string, avatar: string) => ({
+    type: 'UPDATE-USERS_DATA',
     name,
     avatar,
-}as const)
+} as const)
+export const changeUsersNameAC = (name: string) => ({
+    type: 'CHANGE-USERS_NAME',
+    name,
+} as const)
 
-export const changeUsersDataTC = (name:string,avatar?:string): AppThunk=>(dispatch)=>{
-    axios.put('http://localhost:7542/2.0/auth/me',{name,avatar},
-        {withCredentials: true})
-        .then((res)=>{
-            const {name,avatar,...rest} = res.data.updatedUser
-            dispatch(changeUsersDataAC(name,avatar))
-        })
+export const updateUsersDataTC = (name: string, avatar?: string): AppThunk => (dispatch) => {
+    updateUserApi.updateUsersData(name, avatar)
+        .then((res) => {
+            const {name, avatar, ...rest} = res.data.updatedUser
+            dispatch(updateUsersDataAC(name, avatar))
+            dispatch(headerSetNameAC(name))
+        }).catch((e) => {
+        const error = e.response
+            ? e.response.data.error
+            : (e.message + ', more details in the console');
+        dispatch(setAppError(error))
+
+    })
 
 }
 
 
-//
-// export const fetchProfileTC =(name:string)=> async (dispatch:Dispatch)=>{
-//    const data = await profileApi.changeName(name)
-//
-// }
-// export const profileApi = {
-// changeName(name:string,avatar?:string){
-//     return instance.put('auth/me',{name,avatar})
-// }
-// }

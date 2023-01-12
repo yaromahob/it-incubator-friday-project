@@ -1,5 +1,5 @@
 import React from 'react'
-import {AppRootStateType, useAppDispatch} from "../../App/store";
+import {AppRootStateType, useAppDispatch, useAppSelector} from "../../App/store";
 import {useSelector} from "react-redux";
 import {useFormik} from "formik";
 import style from './login.module.css'
@@ -26,6 +26,7 @@ export type FormikErrorType = {
 }
 
 export const Login = () => {
+
     const dispatch = useAppDispatch()
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
     const formik = useFormik({
@@ -53,7 +54,6 @@ export const Login = () => {
             formik.resetForm()//зачистить поле
         },
     })
-
     if (isLoggedIn) {
         return <Navigate to={'/profile'}/>
     }

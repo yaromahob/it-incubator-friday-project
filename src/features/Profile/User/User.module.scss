@@ -1,5 +1,35 @@
+.avaContainer {
+  width: 96px;
+  position: relative;
 
+  .union {
+    position: absolute;
+    left: 66%;
+    top: 72%;
+    width: 32px;
+    height: 32px;
+    border: 1px solid #FFFFFF;
+    border-radius: 50%;
+    background-color: #808080;
+    text-align: center;
 
+    img {
+      margin-top: 10px;
+    }
+  }
+
+  .avatar {
+    margin-top: 30px;
+    border-radius: 50%;
+    max-width: 96px;
+    max-height: 96px;
+  }
+}
+
+.email {
+  margin-top: 14px;
+  font-size: 14px;
+}
   .nickName {
     margin-top: 15px;
     font-weight: 500;
@@ -27,6 +57,7 @@
         display: flex;
         justify-content: space-between;
         input{
+          width: 100%;
           border: none;
           font-weight: 500;
           font-size: 16px;
@@ -47,6 +78,9 @@
      border-bottom: 2px solid rgba(0, 0, 0, 0.27);;
       }
     }
+    .inputError{
+      font-size: 14px;
+      color: red;
+    }
 
   }
-

@@ -49,11 +49,22 @@ export const authAPI = {
     login(data:LoginParamsType) {
         return instance.post<ResponseType>(`auth/login`, data);
     },
-    recoveryPassword(data:recoveryPasswordType){
-return axios.post<ResponseTypeRecoveryPassword>(`https://neko-back.herokuapp.com/2.0/auth/forgot`,data)
+    recoveryPassword(data:recoveryPasswordType) {
+        return axios.post<ResponseTypeRecoveryPassword>(`https://neko-back.herokuapp.com/2.0/auth/forgot`, data)
     },
     newPassword(data:newPasswordType){
         return axios.post<ResponseNewPassword>(`https://neko-back.herokuapp.com/2.0/auth/set-new-password`,data)
-    }
+    },
+        logout (){
+            return instance.delete(`auth/me`,{});
+        },
 
+    me(){
+        return  instance.post(`auth/me`,{})
+    },
+}
+export const updateUserApi = {
+    updateUsersData(name:string,avatar?:string){
+        return instance.put('auth/me',{name,avatar})
+    }
 }

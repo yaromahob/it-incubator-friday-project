@@ -21,4 +21,4 @@ export type SignUpData = {
 //   created: string
 //   updated: string
 //   __v: number
-// }
+// }//todo
