@@ -1,12 +1,14 @@
 import {AppThunk} from "../../App/store";
 import {authAPI, LoginParamsType, newPasswordType, recoveryPasswordType} from "./auth-api";
+import axios from "axios";
+import {setAppError, setAppStatus, SetErrorType, SetStatusType} from "../../App/app-reducer";
 
 const initialState: AuthStateType = {
     isLoggedIn: false,
-    isRecoveryPassword:false,
-    isNewPassword:false
+    isRecoveryPassword: false,
+    isNewPassword: false
 }
-type AuthStateType = { isLoggedIn: boolean,isRecoveryPassword:boolean,isNewPassword:boolean }
+type AuthStateType = { isLoggedIn: boolean, isRecoveryPassword: boolean, isNewPassword: boolean }
 
 export const loginReducer = (state: AuthStateType = initialState, action: AuthActionType): AuthStateType => {
     switch (action.type) {
@@ -30,35 +32,55 @@ export const loginTC = (data: LoginParamsType): AppThunk => (dispatch) => {
         .then((res) => {
             if (!res.data.error) {
                 dispatch(setIsLoggedInAC(true))
+            } else {
+                if (res.data.error) {
+                    dispatch(setAppError(res.data.error))
+                }
             }
-            // dispatch(setAppStatusAC('succeeded'))
         })
-        .catch((e) => {
-            const error = e.response
-                ? e.response.data.error
-                : (e.message + ', more details in the console')
-            // dispatch(setAppError(error))
+        .catch(e => {
+            if (axios.isAxiosError(e)) {
+                const error = e.response ? e.response.data.error : e.message
+                dispatch(setAppError(error))
+            }
         })
 }
-export const recoveryPasswordTC = (data:recoveryPasswordType): AppThunk => (dispatch) => {
+export const recoveryPasswordTC = (data: recoveryPasswordType): AppThunk => (dispatch) => {
+    dispatch(setAppStatus('loading'))
     authAPI.recoveryPassword(data)
         .then((res) => {
-if(!res.data.error){
-   dispatch(setIsLoggedInRecoveryPasswordAC(true))
+            if (!res.data.error) {
+                dispatch(setIsLoggedInRecoveryPasswordAC(true))
+                dispatch(setAppStatus('succeeded'))
+            }else{
+                if(res.data.error)
+                dispatch(setAppError(res.data.error))
+            }
+        }).catch(e => {
+        if (axios.isAxiosError(e)) {
+            const error = e.response ? e.response.data.error : e.message
+            dispatch(setAppError(error))
+            dispatch(setAppStatus('succeeded'))
+        }
+    })
 }
-        })
-}
-export const newPasswordTC = (data:newPasswordType): AppThunk => (dispatch) => {
+export const newPasswordTC = (data: newPasswordType): AppThunk => (dispatch) => {
     authAPI.newPassword(data)
         .then((res) => {
-            if(!res.data.error){
+            if (!res.data.error) {
                 dispatch(newPasswordAC(true))
             }
-        })
+        }).catch(e => {
+        if (axios.isAxiosError(e)) {
+            const error = e.response ? e.response.data.error : e.message
+            dispatch(setAppError(error))
+        }
+    })
 }
 
 
 export type AuthActionType = ReturnType<typeof setIsLoggedInAC>
     | ReturnType<typeof setIsLoggedInRecoveryPasswordAC>
-| ReturnType<typeof newPasswordAC>
-
+    | ReturnType<typeof newPasswordAC>
+    | SetErrorType
+    | SetStatusType
