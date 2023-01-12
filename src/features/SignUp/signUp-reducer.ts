@@ -1,7 +1,6 @@
 import { signUpAPI, SignUpData } from '../../api/signUp-API'
 import axios from 'axios'
 import { setAppError } from '../../App/app-reducer'
-import {Dispatch} from "redux";
 import {AppDispatch, AppThunk} from "../../App/store";
 const initialState = {
   isSignUp: false as boolean,

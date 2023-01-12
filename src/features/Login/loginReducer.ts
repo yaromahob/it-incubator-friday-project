@@ -1,6 +1,7 @@
 import {AppThunk} from "../../App/store";
 import {authAPI, LoginParamsType} from "./auth-api";
-import {setAuthApi, setAuthApiTC} from "../../App/app-reducer";
+import {setAppError, setAuthApi, setAuthApiTC} from "../../App/app-reducer";
+import axios, {AxiosError} from "axios";
 
 const initialState: AuthStateType = {
     isLoggedIn: false
@@ -20,29 +21,38 @@ export const setIsLoggedInAC = (value: boolean) => ({type: 'login/SET-IS-LOGGED-
 
 //thunk
 export const loginTC = (data: LoginParamsType): AppThunk => (dispatch) => {
+
     authAPI.login(data)
         .then((res) => {
-                if (!res.data.error) {
-                     dispatch(setIsLoggedInAC(true))
-                    dispatch(setAuthApiTC())
-                }
-                // dispatch(setAppStatusAC('succeeded'))
+            if (!res.data.error) {
+                dispatch(setIsLoggedInAC(true))
+                dispatch(setAuthApiTC())
+            }
+            // dispatch(setAppStatusAC('succeeded'))
         })
-        .catch ((e)=> {
-                const error = e.response
-                    ? e.response.data.error
-                    : (e.message + ', more details in the console')
-           // dispatch(setAppError(error))
+        .catch((e) => {
+            const error = e.response
+                ? e.response.data.error
+                : (e.message + ', more details in the console')
+            // dispatch(setAppError(error))
         })
 }
 
-export const logoutTC = (): AppThunk => (dispatch) => {
-    authAPI.logout()
-        .then((res)=>{
-            if(res.status === 200)
-            dispatch(setIsLoggedInAC(false))
-            dispatch(setAuthApi(false))
-        })
+export const logoutTC = (): AppThunk => async (dispatch) => {
+    try{
+        const res = await authAPI.logout()
+                dispatch(setIsLoggedInAC(false))
+                dispatch(setAuthApi(false))
+    }catch(e) {
+        const err = e as Error | AxiosError<{ error: string }>
+        if (axios.isAxiosError(err)) {
+            const error = err.response?.data ? err.response.data.error : err.message
+            dispatch(setAppError(error))
+        } else {
+            dispatch(setAppError(`Native error ${err.message}`))
+        }
+
+    }
 }
 
 export type AuthActionType = ReturnType<typeof setIsLoggedInAC>

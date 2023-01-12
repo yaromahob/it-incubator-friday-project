@@ -13,11 +13,10 @@ import {SignUp} from '../features/SignUp/SignUp'
 import {Header} from '../features/Header/Header'
 import {ErrorSnackbar} from '../features/ErrorSnackbar/ErrorSnackbar'
 import {setAuthApiTC} from "./app-reducer";
-import {AppDispatch, useAppDispatch} from "./store";
- // for example
+import {useAppDispatch} from "./store";
+
 function App() {
     const dispatch = useAppDispatch()
-
     useEffect(() => {
         dispatch(setAuthApiTC())
     })

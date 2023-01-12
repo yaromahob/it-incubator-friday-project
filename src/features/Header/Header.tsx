@@ -8,7 +8,7 @@ import defaultPhoto from "../../assets/png/Lesson 1/images.jpeg";
 export const Header = () => {
     const isAuth = useAppSelector(state => state.app.isAuth)
     const avatar = useAppSelector(state => state.profile.avatar)
-    const nickName = useAppSelector(state => state.profile.name)
+    const nickName = useAppSelector(state => state.header.name)
     const photo = avatar ? avatar : defaultPhoto
 
     return (
