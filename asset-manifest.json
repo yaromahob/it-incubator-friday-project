@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/it-incubator-friday-project/static/css/main.0b9ea5be.css",
-    "main.js": "/it-incubator-friday-project/static/js/main.64e5ffb2.js",
+    "main.css": "/it-incubator-friday-project/static/css/main.5c8bf8fd.css",
+    "main.js": "/it-incubator-friday-project/static/js/main.236742f7.js",
     "static/js/787.fd7613c7.chunk.js": "/it-incubator-friday-project/static/js/787.fd7613c7.chunk.js",
     "static/media/checkEmail.svg": "/it-incubator-friday-project/static/media/checkEmail.2c9fd3a893050dac8b8696cfee43f3e5.svg",
     "static/media/logo.svg": "/it-incubator-friday-project/static/media/logo.26f79858862bec92ec0d7f3207d8c084.svg",
@@ -14,12 +14,12 @@
     "static/media/logout.svg": "/it-incubator-friday-project/static/media/logout.4631dbd136b384a8118857f16dae43d5.svg",
     "static/media/eye.svg": "/it-incubator-friday-project/static/media/eye.387504043ef26d142754ca0d8a3a059d.svg",
     "static/media/arrow.svg": "/it-incubator-friday-project/static/media/arrow.19c7bd8ee7d32ca8451f1de3f6803354.svg",
-    "main.0b9ea5be.css.map": "/it-incubator-friday-project/static/css/main.0b9ea5be.css.map",
-    "main.64e5ffb2.js.map": "/it-incubator-friday-project/static/js/main.64e5ffb2.js.map",
+    "main.5c8bf8fd.css.map": "/it-incubator-friday-project/static/css/main.5c8bf8fd.css.map",
+    "main.236742f7.js.map": "/it-incubator-friday-project/static/js/main.236742f7.js.map",
     "787.fd7613c7.chunk.js.map": "/it-incubator-friday-project/static/js/787.fd7613c7.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.0b9ea5be.css",
-    "static/js/main.64e5ffb2.js"
+    "static/css/main.5c8bf8fd.css",
+    "static/js/main.236742f7.js"
   ]
 }
