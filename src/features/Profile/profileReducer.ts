@@ -2,13 +2,13 @@ import {AppThunk} from "../../App/store";
 import {updateUser} from "../Login/auth-api";
 
 import {setAppError} from "../../App/app-reducer";
+import {headerSetNameAC} from "../Header/headerReducer";
 
 
 export type ProfileActionType =
     ReturnType<typeof setProfileAC> |
     ReturnType<typeof updateUsersDataAC> |
     ReturnType<typeof changeUsersNameAC>
-
 
 const initState = {
     _id: "",
@@ -55,6 +55,7 @@ export const updateUsersDataTC = (name: string, avatar?: string): AppThunk => (d
         .then((res) => {
             const {name, avatar, ...rest} = res.data.updatedUser
             dispatch(updateUsersDataAC(name, avatar))
+            dispatch(headerSetNameAC(name))
         }).catch((e) => {
         const error = e.response
             ? e.response.data.error

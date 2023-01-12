@@ -50,7 +50,6 @@ export const setAuthApiTC = () => async (dispatch: AppDispatch) => {
     try {
         const res = await authAPI.me()
         const {_id, email, name, token, avatar, ...rest} = res.data
-        dispatch(headerSetNameAC(name))
         dispatch(setProfileAC(_id, email, name, token, avatar))
         dispatch(setAuthApi(true))
     } catch (e) {

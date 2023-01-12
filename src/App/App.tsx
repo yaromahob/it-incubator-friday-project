@@ -17,6 +17,7 @@ import {useAppDispatch} from "./store";
 
 function App() {
     const dispatch = useAppDispatch()
+
     useEffect(() => {
         dispatch(setAuthApiTC())
     })
