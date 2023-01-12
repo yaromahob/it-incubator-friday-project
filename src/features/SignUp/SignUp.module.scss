@@ -16,7 +16,7 @@
   form {
     display: flex;
     flex-direction: column;
-    width: 65%;
+    width: 80%;
 
     label{
       position: relative;
@@ -26,69 +26,39 @@
       @include entryFieldTitle();
       border-bottom: 1.5px solid rgba(0, 0, 0, 0.16);
       margin-bottom: 24px;
-
-
       input {
-      @include entryFieldText();
+        @include entryFieldText();
         border: none;
         outline: none;
       }
 
-      .showPass {
-        position: absolute;
-        right: 10px;
-        top: 20px;
-
-        img{
-          width: 24px;
-        }
-
-        &:after{
-          content: '';
-          position: absolute;
-          width: 26px;
-          height: 2px;
-          top: 7px;
-          right: -2px;
-          background: #000;
-          border-radius: 25px;
-          border: 1px solid #fff;
-          transform: rotate(150deg);
-        }
-
-
-      }
-      .active {
-        position: absolute;
-        right: 10px;
-        top: 20px;
-
-        img{
-          width: 24px;
-        }
-
-        &:after {
-          display: none;
-        }
-      }
-
       .error{
         position: absolute;
-        top: 50px;
+        top: 45px;
         color: #cc1439;
       }
 
 
 
     }
+
+    .description {
+      padding: inherit;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 24px;
+      margin-bottom: 65px;
+    }
+
     .errorField{
       border-bottom: 1.5px solid #cc1439;
     }
     .sendBtn{
       margin-top: 60px;
-      
+
       button {
         @include entryFieldText();
+        letter-spacing: 0.01em;
       }
     }
   }
@@ -98,8 +68,14 @@
     opacity: 0.5;
     padding: 30px 0 11px 0;
   }
+
   a{
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
     margin-bottom: 42px;
     color: $mainColor;
+    text-align: center;
+    text-decoration-line: underline;
   }
 }

@@ -1,29 +1,28 @@
-import React, {useEffect, useState} from 'react'
-import {AppRootStateType, useAppDispatch} from "../../App/store";
-import {useFormik} from "formik";
-import { newPasswordTC} from "../Login/loginReducer";
-import SuperButton from "../../common/SuperButton/SuperButton";
-import styles from "../SignUp/SignUp.module.scss";
-import SuperInputText from "../../common/SuperInputText/SuperInputText";
-import {Navigate} from "react-router-dom";
-import {useSelector} from "react-redux";
+import React, { useEffect, useState } from 'react'
+import { AppRootStateType, useAppDispatch } from '../../App/store'
+import { useFormik } from 'formik'
+import { newPasswordTC } from '../Login/loginReducer'
+import SuperButton from '../../common/SuperButton/SuperButton'
+import styles from './NewPassword.module.scss'
+import { Navigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { PasswordContainer } from '../SignUp/PasswordContainer'
 
 export type FormikErrorType = {
   password?: string
 }
 
-const NewPassword= () => {
-
+export const NewPassword = () => {
   const dispatch = useAppDispatch()
   const isNewPassword = useSelector<AppRootStateType, boolean>(state => state.login.isNewPassword)
   console.log(window.location.href.split('#')[1])
-  const [token,seToken]=useState('')
-  useEffect(()=>{
+  const [token, seToken] = useState('')
+  useEffect(() => {
     const currentToken = window.location.href.split('#')[1]
-    if(currentToken){
+    if (currentToken) {
       seToken(currentToken)
     }
-  },[])
+  }, [])
   const formik = useFormik({
     initialValues: {
       password: '',
@@ -36,42 +35,42 @@ const NewPassword= () => {
       return errors
     },
     onSubmit: values => {
-      const data ={
+      const data = {
         password: values.password,
-        resetPasswordToken: token
-    }
+        resetPasswordToken: token,
+      }
       dispatch(newPasswordTC(data))
-      formik.resetForm()//зачистить поле
+      formik.resetForm() //зачистить поле
     },
   })
-  
+
   if (isNewPassword) {
-    return <Navigate to={'/login'}/>
+    return <Navigate to={'/login'} />
   }
 
   return (
-      <div className={styles.signUp}>
+    <div className={styles.signUp}>
+      <h3>Create new password</h3>
 
-        <h3>Create new password</h3>
+      <form onSubmit={formik.handleSubmit}>
+        <label
+          className={formik.touched.password && formik.errors.password ? styles.errorField : ''}
+        >
+          <PasswordContainer {...formik.getFieldProps('password')} placeholder="Password" />
 
-        <form onSubmit={formik.handleSubmit}>
-          <label className={formik.touched.password && formik.errors.password ? styles.errorField : ''}>
-            Password
-            <SuperInputText type={'text'} {...formik.getFieldProps('password')} />
-
-            <div className={styles.error}>
-              {formik.touched.password && formik.errors.password && formik.errors.password}
-            </div>
-
-          </label>
-          <p>Create new password and we will send you further instructions to email</p>
-          <div className={styles.sendBtn}>
-            <SuperButton xType={'default'} type="submit" >
-              Create new password
-            </SuperButton>
+          <div className={styles.error}>
+            {formik.touched.password && formik.errors.password && formik.errors.password}
           </div>
-        </form>
-      </div>
+        </label>
+        <p className={styles.description}>
+          Create new password and we will send you further instructions to email
+        </p>
+        <div className={styles.sendBtn}>
+          <SuperButton xType={'default'} type="submit">
+            Create new password
+          </SuperButton>
+        </div>
+      </form>
+    </div>
   )
 }
-export default NewPassword

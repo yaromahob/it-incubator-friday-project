@@ -1,0 +1,17 @@
+@import "./src/styles/mixins";
+@import "./src/features/SignUp/SignUp.module";
+.signUp{
+  p{
+    text-align: center;
+  }
+
+  .sendBtn{
+    width: 84%;
+    margin-top: 41px;
+    margin-bottom: 48px;
+    button {
+      @include entryFieldText();
+      letter-spacing: 0.01em;
+    }
+  }
+}
