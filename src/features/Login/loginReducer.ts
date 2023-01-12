@@ -12,7 +12,7 @@ const initialState: AuthStateType = {
 }
 type AuthStateType = { isLoggedIn: boolean, isRecoveryPassword: boolean, isNewPassword: boolean }
 
-export const loginReducer = (state: AuthStateType = initialState, action: AppActionType): AuthStateType => {
+export const loginReducer = (state: AuthStateType = initialState, action: AuthActionType): AuthStateType => {
     switch (action.type) {
         case "login/SET-IS-LOGGED-IN":
             return {...state, isLoggedIn: action.value}
@@ -52,6 +52,7 @@ export const loginTC = (data: LoginParamsType): AppThunk => (dispatch) => {
                 dispatch(setAppError(error))
             }
         })
+}
     export const recoveryPasswordTC = (data: recoveryPasswordType): AppThunk => (dispatch) => {
         dispatch(setAppStatus('loading'))
         authAPI.recoveryPassword(data)
@@ -83,8 +84,9 @@ export const loginTC = (data: LoginParamsType): AppThunk => (dispatch) => {
                 dispatch(setAppError(error))
             }
         })
+    }
 
-        export const logoutTC = (): AppThunk => async (dispatch) => {
+    export const logoutTC = (): AppThunk => async (dispatch) => {
             try {
                 const res = await authAPI.logout()
                 dispatch(setIsLoggedInAC(false))
@@ -97,14 +99,17 @@ export const loginTC = (data: LoginParamsType): AppThunk => (dispatch) => {
                 } else {
                     dispatch(setAppError(`Native error ${err.message}`))
                 }
-
             }
         }
 
+export type AuthActionType =
+    | ReturnType<typeof setIsLoggedInAC>
+    | ReturnType<typeof setIsLoggedInRecoveryPasswordAC>
+    | ReturnType<typeof newPasswordAC>
+    | SetErrorType
+    | SetStatusType
 
-        export type AuthActionType =
-            | ReturnType<typeof setIsLoggedInAC>
-            | ReturnType<typeof setIsLoggedInRecoveryPasswordAC>
-            | ReturnType<typeof newPasswordAC>
-            | SetErrorType
-            | SetStatusType
+
+
+
+

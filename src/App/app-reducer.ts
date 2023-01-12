@@ -43,7 +43,7 @@ export const setAppStatus = (status: RequestStatusType) =>
     ({type: 'APP/SET-STATUS', status} as const)
 
 export const setAppError = (error: null | string) => ({type: 'APP/SET-ERROR', error} as const)
-export const setAuthApi = (value: boolean) => ({type: 'APP/SET-IsAUTH'} as const)
+export const setAuthApi = (value: boolean) => ({type: 'APP/SET-IsAUTH',value} as const)
 
 export const setAuthApiTC = () => async (dispatch: AppDispatch) => {
     dispatch(setIsLoggedInAC(true))
@@ -59,12 +59,8 @@ export const setAuthApiTC = () => async (dispatch: AppDispatch) => {
             const error = err.response?.data ? err.response.data.error : err.message
             dispatch(setAppError(error))
             dispatch(setIsLoggedInAC(false))
-        } else {
-            dispatch(setIsLoggedInAC(false))
-            dispatch(setAppError(`Native error ${err.message}`))
         }
     }
-
 }
 
 export type SetStatusType = ReturnType<typeof setAppStatus>
