@@ -51,6 +51,7 @@ export const setAuthApiTC = () => async (dispatch: AppDispatch) => {
         const res = await authAPI.me()
         const {_id, email, name, token, avatar, ...rest} = res.data
         dispatch(setProfileAC(_id, email, name, token, avatar))
+        dispatch(headerSetNameAC(name))
         dispatch(setAuthApi(true))
     } catch (e) {
         const err = e as Error | AxiosError<{ error: string }>

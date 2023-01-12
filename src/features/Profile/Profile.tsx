@@ -25,7 +25,7 @@ const Profile = () => {
     })
 
     if (!isAuth) {
-        return <div>loading...</div>
+        return <div className={style.loading}>loading...</div>
     }
     const logOut = () => {
         dispatch(logoutTC())

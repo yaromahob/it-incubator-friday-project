@@ -39,7 +39,7 @@ export const authAPI = {
         return  instance.post(`auth/me`,{})
     },
 }
-export const updateUser = {
+export const updateUserApi = {
     updateUsersData(name:string,avatar?:string){
         return instance.put('auth/me',{name,avatar})
     }
