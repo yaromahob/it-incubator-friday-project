@@ -25,7 +25,7 @@ const CheckEmail = () => {
       </p>
       <div className={styles.sendBtn}>
         <SuperButton xType={'default'} type="submit">
-          Back to login
+          <NavLink to={'/login'}>Back to login</NavLink>
         </SuperButton>
       </div>
     </div>

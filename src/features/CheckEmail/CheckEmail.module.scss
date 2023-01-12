@@ -12,6 +12,11 @@
     button {
       @include entryFieldText();
       letter-spacing: 0.01em;
+
+      a{
+        color: #fff;
+        text-decoration: none;
+      }
     }
   }
 }

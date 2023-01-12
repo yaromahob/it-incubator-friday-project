@@ -1,17 +1,21 @@
+.profileWrapper{
+  max-width: 1280px;
+  margin: 0 auto;
+  .arrow {
+    margin-top: 24px;
+    margin-bottom: 12px;
+    padding-left: 10px;
+    font-size: 14px;
 
-.arrow {
-  margin-top: 24px;
-  margin-left: 142px;
-  margin-bottom: 12px;
-  font-size: 14px;
-
-  img {
-    margin-right: 12px;
+    img {
+      margin-right: 12px;
+    }
   }
 }
 
+
 .container {
-  width: 413px;
+  max-width: 413px;
   height: 360px;
   display: flex;
   flex-direction: column;
