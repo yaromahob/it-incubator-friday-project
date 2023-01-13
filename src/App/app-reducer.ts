@@ -29,7 +29,7 @@ export const appReducer = (state: InitialStateType = initialState, action: AppAc
             return {...state, isInitialized: action.value}
         }
         case "APP/SET-IsAUTH": {
-            return {...state, isAuth: true}
+            return {...state, isAuth: action.value}
         }
         default: {
             return state

@@ -12,8 +12,8 @@ export type ProfileActionType =
 
 const initState = {
     _id: "",
-    email: "test email",
-    name: "set your name",
+    email: "",
+    name: "",
     token: "",
     avatar: "",
 }
