@@ -12,12 +12,10 @@ import reportWebVitals from './reportWebVitals'
 const root = createRoot(document.getElementById('root') as HTMLElement)
 
 root.render(
-  <React.StrictMode>
-    <BrowserRouter basename={process.env.PUBLIC_URL}>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </BrowserRouter>
-  </React.StrictMode>
+  <BrowserRouter basename={process.env.PUBLIC_URL}>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </BrowserRouter>
 )
 reportWebVitals()
