@@ -6,19 +6,13 @@ import TableRow from '@mui/material/TableRow'
 import TableCell from '@mui/material/TableCell'
 import TableBody from '@mui/material/TableBody'
 import TableContainer from '@mui/material/TableContainer'
-import { CardType, PackType } from '../../features/PackList/packList-reducer'
 import { HeaderCell } from './HeaderCell/HeaderCell'
+import { PackType } from '../../features/Pack'
 
 export const ASC = '0'
 export const DESC = '1'
 
-export const SuperTable: React.FC<SuperTableType> = ({
-  columns,
-  data,
-  onClick,
-  sortField,
-  sortBy,
-}) => {
+export const SuperTable: React.FC<SuperTableType> = ({ columns, data, onClick, sortField, sortBy }) => {
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -39,10 +33,7 @@ export const SuperTable: React.FC<SuperTableType> = ({
         </TableHead>
         <TableBody>
           {data.map((card: { [index: string]: string | number | boolean }, i) => (
-            <TableRow
-              key={`${data}-${i}`}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
+            <TableRow key={`${data}-${i}`} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
               {columns.map((col, i) => {
                 if (col.render) {
                   return (
@@ -75,7 +66,7 @@ type DataType = {
 
 type SuperTableType = {
   columns: Array<DataType>
-  data: PackType[] | CardType[]
+  data: PackType[]
   onClick: (field: string) => void
   sortField: string | null
   sortBy: string | null

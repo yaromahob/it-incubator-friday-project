@@ -1,7 +1,7 @@
 import React from 'react'
 import { CardPackType } from '../api/api-packsList'
 import { useAppDispatch } from '../App/store'
-import { deletePackTC } from './PacksList/PackList-reducer'
+import { deletePackTC } from './PackList/PackList-reducer'
 
 export type PackType = {
   pack: CardPackType

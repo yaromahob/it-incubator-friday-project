@@ -7,9 +7,10 @@ import clearFilterIcon from '../../assets/svg/clearFilters.svg'
 import searchIcon from '../../assets/svg/search.svg'
 import SuperButton from '../../common/SuperButton/SuperButton'
 import { useAppDispatch, useAppSelector } from '../../App/store'
-import { PackType, getPacksTC } from './packList-reducer'
 import { SuperTable } from '../../common/SuperTable/SuperTable'
 import { ActionButtonsContainer } from '../../common/ActionButtonsContainer/ActionButtonsContainer'
+import { setPackTC } from './PackList-reducer'
+import { PackType } from '../Pack'
 
 const columns = [
   { key: 'name', name: 'Name' },
@@ -20,13 +21,7 @@ const columns = [
     key: 'actions',
     name: 'Actions',
     render: (card: PackType) => {
-      return (
-        <ActionButtonsContainer
-          educationsAction={() => alert()}
-          editAction={() => alert()}
-          deleteAction={() => alert()}
-        />
-      )
+      return <ActionButtonsContainer educationsAction={() => alert()} editAction={() => alert()} deleteAction={() => alert()} />
     },
   },
 ]
@@ -36,14 +31,9 @@ const DESC = '1'
 
 export const PackList = () => {
   const dispatch = useAppDispatch()
-  const data = useAppSelector(state => state.packsList)
-  const cardPacks = useAppSelector(state => state.packsList.cardPacks)
-  const cardPacksTotalCount = useAppSelector(state => state.packsList.cardPacksTotalCount)
-  const maxCardsCount = useAppSelector(state => state.packsList.maxCardsCount)
-  const minCardsCount = useAppSelector(state => state.packsList.minCardsCount)
-  const page = useAppSelector(state => state.packsList.page)
-  const pageCount = useAppSelector(state => state.packsList.pageCount)
+  const packCards = useAppSelector(state => state.packList.cardPacks)
   const [allActive, setAllActive] = useState(true)
+  const userId = useAppSelector(state => state.profile._id)
   const [sortInfo, setSortInfo] = useState<SortInfoType>({
     field: null,
     sortBy: null,
@@ -51,12 +41,11 @@ export const PackList = () => {
   const [rangeValue1, setRangeValue1] = useState(1)
   const [rangeValue2, setRangeValue2] = useState(10)
   useEffect(() => {
-    dispatch(getPacksTC())
-  }, [])
+    dispatch(setPackTC({ user_id: userId, block: false }))
+  }, [userId])
 
   const allActiveHandler = (value: boolean) => {
     setAllActive(value)
-    console.log(data)
   }
   const changeItemOnPageHandler = (event: Event, value: number | number[]) => {
     if (typeof value === 'object') {
@@ -91,20 +80,8 @@ export const PackList = () => {
         <div className={styles.showPacks}>
           <span>Show packs cards</span>
           <div className={styles.selectOne}>
-            <input
-              type="text"
-              value="My"
-              readOnly
-              className={!allActive ? styles.active : ''}
-              onClick={() => allActiveHandler(false)}
-            />
-            <input
-              type="text"
-              value="All"
-              readOnly
-              className={allActive ? styles.active : ''}
-              onClick={() => allActiveHandler(true)}
-            />
+            <input type="text" value="My" readOnly className={!allActive ? styles.active : ''} onClick={() => allActiveHandler(false)} />
+            <input type="text" value="All" readOnly className={allActive ? styles.active : ''} onClick={() => allActiveHandler(true)} />
           </div>
         </div>
         <div className={styles.cardsView}>
@@ -116,13 +93,7 @@ export const PackList = () => {
               </div>
             </div>
             <div className={styles.rangeWrapper}>
-              <SuperRange
-                value={[rangeValue1, rangeValue2]}
-                min={1}
-                max={10}
-                step={1}
-                onChange={changeItemOnPageHandler}
-              />
+              <SuperRange value={[rangeValue1, rangeValue2]} min={1} max={10} step={1} onChange={changeItemOnPageHandler} />
             </div>
             <div className={styles.showNumber}>
               <div>
@@ -138,23 +109,11 @@ export const PackList = () => {
           </button>
         </div>
       </div>
-      <SuperTable
-        columns={columns}
-        data={cardPacks}
-        onClick={onClickHandler}
-        sortField={sortInfo.field}
-        sortBy={sortInfo.sortBy}
-      />
-      <SuperPagination
-        page={1}
-        itemsCountForPage={10}
-        totalCount={100}
-        onChange={() => console.log('')}
-      />
+      <SuperTable columns={columns} data={packCards} onClick={onClickHandler} sortField={sortInfo.field} sortBy={sortInfo.sortBy} />
+      <SuperPagination page={1} itemsCountForPage={10} totalCount={100} onChange={() => console.log('')} />
     </div>
   )
 }
-
 
 // types
 

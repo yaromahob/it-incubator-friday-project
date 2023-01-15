@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { SuperTable } from '../../common/SuperTable/SuperTable'
-import { getPacksTC, PackType } from '../PackList/packList-reducer'
 import { SortInfoType } from '../PackList/PackList'
 import { useAppDispatch, useAppSelector } from '../../App/store'
 import styles from './CardList.module.scss'
@@ -8,6 +7,8 @@ import SuperButton from '../../common/SuperButton/SuperButton'
 import searchIcon from '../../assets/svg/search.svg'
 import SuperDebouncedInput from '../../common/SuperDebouncedInput/SuperDebouncedInput'
 import { Grade } from '../../common/Grade/Grade'
+import { PackType } from '../Pack'
+import { setPackTC } from '../PackList/PackList-reducer'
 
 const columns2 = [
   { key: 'question', name: 'Question' },
@@ -27,14 +28,14 @@ const DESC = '1'
 
 export const CardList = () => {
   const dispatch = useAppDispatch()
-  const cardPacks = useAppSelector(state => state.packsList.cardPacks)
+  const cardPacks = useAppSelector(state => state.packList.cardPacks)
   const [sortInfo, setSortInfo] = useState<SortInfoType>({
     field: null,
     sortBy: null,
   })
 
   useEffect(() => {
-    dispatch(getPacksTC())
+    dispatch(setPackTC())
   }, [])
 
   const onClickHandler = (field: string) => {
@@ -62,14 +63,7 @@ export const CardList = () => {
         </div>
       </div>
 
-      <SuperTable
-        columns={columns2}
-        data={cardPacks}
-        onClick={onClickHandler}
-        sortField={sortInfo.field}
-        sortBy={sortInfo.sortBy}
-      />
+      <SuperTable columns={columns2} data={cardPacks} onClick={onClickHandler} sortField={sortInfo.field} sortBy={sortInfo.sortBy} />
     </div>
   )
 }
-
