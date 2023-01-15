@@ -1,0 +1,16 @@
+.buttonWrapper {
+  display: flex;
+
+  div {
+    button {
+      background: transparent;
+      border: none;
+    }
+
+    button:disabled {
+      img {
+        opacity: 0.5;
+      }
+    }
+  }
+}

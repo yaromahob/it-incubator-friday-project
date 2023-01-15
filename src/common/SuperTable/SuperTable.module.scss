@@ -1,0 +1,43 @@
+@import "./src/styles/mixins";
+
+thead {
+
+  background-color: #EFEFEF;
+
+  //.Name {
+  //  width: 280px;
+  //  padding-left: 36px;
+  //}
+  //
+  //.col2 {
+  //  width: 280px;
+  //}
+  //
+  //.col3 {
+  //  width: 280px;
+  //}
+  //
+  //.col3 {
+  //  width: 280px;
+  //}
+
+  tr {
+
+    th {
+      padding-left: 36px;
+      @include minorTitle();
+      cursor: pointer;
+
+
+      img {
+        margin-left: 10px;
+        width: 13px;
+      }
+
+      .active {
+        transform: rotate(180deg);
+      }
+    }
+  }
+}
+

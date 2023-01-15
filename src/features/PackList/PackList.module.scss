@@ -1,0 +1,158 @@
+@import "./src/styles/mixins";
+
+.packListWrapper {
+  max-width: 1280px;
+  margin: 40px auto;
+
+  span {
+    @include minorTitle();
+  }
+
+  .folder {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    h2 {
+      @include sectionTitle();
+    }
+
+    button {
+      @include buttonTitle();
+      width: 175px;
+    }
+  }
+
+  .interfaceField {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+
+    .search {
+
+      div {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        border: 1px solid #D9D9D9;
+        border-radius: 2px;
+        max-width: 413px;
+        height: 34px;
+        overflow: hidden;
+
+        img {
+          position: absolute;
+          top: 10px;
+          left: 10px;
+          opacity: 0.5;
+        }
+
+        div {
+          border: none;
+
+
+          input {
+            @include customFont(400, 14px, 24px);
+            margin-left: 30px;
+            width: 380px;
+            border: none;
+          }
+        }
+      }
+    }
+
+    .showPacks {
+
+
+      .selectOne {
+        background: #FFFFFF;
+        border: 1px solid #D9D9D9;
+        border-radius: 2px;
+
+
+        input {
+          width: 96px;
+          height: 36px;
+          @include customFont(400, 14px, 17px);
+          text-align: center;
+          color: #000;
+          border: none;
+          outline: none;
+          cursor: pointer;
+        }
+
+        .active {
+          background-color: $mainColor;
+          color: #fff;
+          border: 1px solid $mainColor;
+        }
+      }
+    }
+
+    .cardsView {
+      max-width: 225px;
+      width: 100%;
+
+      .inputWrapper {
+        display: flex;
+        align-items: center;
+
+        .showNumber {
+
+          border: 1px solid #D9D9D9;
+          border-radius: 2px;
+
+          div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 34px;
+            height: 34px;
+
+            input {
+              width: 100%;
+              height: 20px;
+              border: none;
+              text-align: center;
+              outline: none;
+              cursor: default;
+              user-select: none;
+            }
+          }
+        }
+
+        .rangeWrapper {
+          width: 155px;
+          padding: 0 12px;
+
+        }
+      }
+    }
+
+    .clearFilters {
+      display: flex;
+      flex-direction: column;
+
+
+      span {
+        height: 18px;
+        width: inherit;
+      }
+
+      button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 40px;
+        height: 36px;
+        border: 1px solid #E8E8E8;
+        border-radius: 2px;
+        background: transparent;
+      }
+    }
+  }
+
+
+}
+
