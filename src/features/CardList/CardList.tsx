@@ -7,8 +7,8 @@ import SuperButton from '../../common/SuperButton/SuperButton'
 import searchIcon from '../../assets/svg/search.svg'
 import SuperDebouncedInput from '../../common/SuperDebouncedInput/SuperDebouncedInput'
 import { Grade } from '../../common/Grade/Grade'
-import { PackType } from '../Pack'
 import { setPackTC } from '../PackList/PackList-reducer'
+import { CardPackType } from '../../api/api-packsList'
 
 const columns2 = [
   { key: 'question', name: 'Question' },
@@ -17,7 +17,7 @@ const columns2 = [
   {
     key: 'grade',
     name: 'Grade',
-    render: (card: PackType) => {
+    render: (card: CardPackType) => {
       return <Grade />
     },
   },

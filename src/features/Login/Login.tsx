@@ -1,14 +1,13 @@
 import { AppRootStateType, useAppDispatch } from '../../App/store'
 import { useFormik } from 'formik'
 import { Navigate, NavLink } from 'react-router-dom'
-import styles from './Login2.module.scss'
+import styles from './Login.module.scss'
 import SuperInputText from '../../common/SuperInputText/SuperInputText'
 import { PasswordContainer } from '../SignUp/PasswordContainer'
 import SuperButton from '../../common/SuperButton/SuperButton'
 import React from 'react'
 import { loginTC } from './loginReducer'
 import { useSelector } from 'react-redux'
-import { FormControl, FormControlLabel } from '@mui/material'
 import SuperCheckbox from '../../common/SuperCheckbox/SuperCheckbox'
 
 type FormikErrorType = {
@@ -16,7 +15,7 @@ type FormikErrorType = {
   password?: string
   rememberMe?: boolean
 }
-const Login2 = () => {
+const Login = () => {
   const dispatch = useAppDispatch()
   const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
 
@@ -56,19 +55,13 @@ const Login2 = () => {
         <label className={formik.touched.email && formik.errors.email ? styles.errorField : ''}>
           Email
           <SuperInputText type={'text'} {...formik.getFieldProps('email')} />
-          <div className={styles.error}>
-            {formik.touched.email && formik.errors.email && formik.errors.email}
-          </div>
+          <div className={styles.error}>{formik.touched.email && formik.errors.email && formik.errors.email}</div>
         </label>
-        <label
-          className={formik.touched.password && formik.errors.password ? styles.errorField : ''}
-        >
+        <label className={formik.touched.password && formik.errors.password ? styles.errorField : ''}>
           Password
           {/*<input type="password" name="password" />*/}
           <PasswordContainer {...formik.getFieldProps('password')} />
-          <div className={styles.error}>
-            {formik.touched.password && formik.errors.password && formik.errors.password}
-          </div>
+          <div className={styles.error}>{formik.touched.password && formik.errors.password && formik.errors.password}</div>
         </label>
 
         <div className={styles.checkboxField}>
@@ -89,4 +82,4 @@ const Login2 = () => {
     </div>
   )
 }
-export default Login2
+export default Login;

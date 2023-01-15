@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import './App.css'
-import { Navigate, Route, Routes } from 'react-router-dom'
+import { Navigate, NavLink, Route, Routes } from 'react-router-dom'
 import NotFound from '../features/NotFound/NotFound'
 import Profile from '../features/Profile/Profile'
 import RecoveryPassword from '../features/RecoveryPassword/RecoveryPassword'
@@ -9,7 +9,7 @@ import { SignUp } from '../features/SignUp/SignUp'
 import { Header } from '../features/Header/Header'
 import { ErrorSnackbar } from '../features/ErrorSnackbar/ErrorSnackbar'
 import CheckEmail from '../features/CheckEmail/CheckEmail'
-import Login2 from '../features/Login/Login2'
+import Login from '../features/Login/Login'
 import { NewPassword } from '../features/NewPassword/NewPassword'
 import { setAuthApiTC } from './app-reducer'
 import { useAppDispatch } from './store'
@@ -29,9 +29,9 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Navigate to="/profile" />} />
-        <Route path="/login" element={<Login2 />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/CheckEmail" element={<CheckEmail />} />
+        <Route path="/checkEmail" element={<CheckEmail />} />
         <Route path="/newPassword" element={<NewPassword />} />
         <Route path="/packList" element={<PackList />} />
         <Route path="/cardList" element={<CardList />} />
@@ -40,8 +40,19 @@ function App() {
         <Route path="/signUp" element={<SignUp />} />
         <Route path="/superComponents" element={<SuperComponents />} />
       </Routes>
+      <footer>
+        <NavLink to={'/'}>Home</NavLink>
+        <NavLink to={'/login'}>Login</NavLink>
+        <NavLink to={'/profile'}>Profile</NavLink>
+        <NavLink to={'/checkEmail'}>checkEmail</NavLink>
+        <NavLink to={'/newPassword'}>newPassword</NavLink>
+        <NavLink to={'/packList'}>packList</NavLink>
+        <NavLink to={'/cardList'}>cardList</NavLink>
+        <NavLink to={'/recoveryPassword'}>recoveryPassword</NavLink>
+        <NavLink to={'/signUp'}>signUp</NavLink>
+      </footer>
     </div>
   )
 }
 
-export default App
+export default App;

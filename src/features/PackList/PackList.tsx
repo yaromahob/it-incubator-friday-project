@@ -10,7 +10,7 @@ import { useAppDispatch, useAppSelector } from '../../App/store'
 import { SuperTable } from '../../common/SuperTable/SuperTable'
 import { ActionButtonsContainer } from '../../common/ActionButtonsContainer/ActionButtonsContainer'
 import { setPackTC } from './PackList-reducer'
-import { PackType } from '../Pack'
+import { CardPackType } from '../../api/api-packsList'
 
 const columns = [
   { key: 'name', name: 'Name' },
@@ -20,7 +20,7 @@ const columns = [
   {
     key: 'actions',
     name: 'Actions',
-    render: (card: PackType) => {
+    render: (card: CardPackType) => {
       return <ActionButtonsContainer educationsAction={() => alert()} editAction={() => alert()} deleteAction={() => alert()} />
     },
   },
@@ -31,18 +31,18 @@ const DESC = '1'
 
 export const PackList = () => {
   const dispatch = useAppDispatch()
-  const packCards = useAppSelector(state => state.packList.cardPacks)
-  const [allActive, setAllActive] = useState(true)
   const userId = useAppSelector(state => state.profile._id)
+
+  const [allActive, setAllActive] = useState(true)
   const [sortInfo, setSortInfo] = useState<SortInfoType>({
     field: null,
     sortBy: null,
   })
   const [rangeValue1, setRangeValue1] = useState(1)
   const [rangeValue2, setRangeValue2] = useState(10)
-  useEffect(() => {
-    dispatch(setPackTC({ user_id: userId, block: false }))
-  }, [userId])
+
+  const packCards = useAppSelector(state => state.packList.cardPacks)
+  console.log(packCards)
 
   const allActiveHandler = (value: boolean) => {
     setAllActive(value)
@@ -62,6 +62,10 @@ export const PackList = () => {
       setSortInfo(prev => ({ field, sortBy: prev.sortBy === null ? ASC : DESC }))
     }
   }
+
+  useEffect(() => {
+    dispatch(setPackTC())
+  }, [])
 
   return (
     <div className={styles.listWrapper}>

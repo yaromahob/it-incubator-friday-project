@@ -7,7 +7,7 @@ import TableCell from '@mui/material/TableCell'
 import TableBody from '@mui/material/TableBody'
 import TableContainer from '@mui/material/TableContainer'
 import { HeaderCell } from './HeaderCell/HeaderCell'
-import { PackType } from '../../features/Pack'
+import { CardPackType } from '../../api/api-packsList'
 
 export const ASC = '0'
 export const DESC = '1'
@@ -66,7 +66,7 @@ type DataType = {
 
 type SuperTableType = {
   columns: Array<DataType>
-  data: PackType[]
+  data: CardPackType[]
   onClick: (field: string) => void
   sortField: string | null
   sortBy: string | null
