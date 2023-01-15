@@ -1,0 +1,34 @@
+@import "./src/styles/mixins";
+
+thead {
+
+  background-color: #EFEFEF;
+
+  tr {
+
+    th {
+      display: flex;
+      position: relative;
+      padding-left: 36px;
+      @include minorTitle();
+      cursor: pointer;
+
+
+      img {
+        position: absolute;
+        margin-left: 10px;
+        width: 15px;
+        top: 40%;
+      }
+
+      &:last-child {
+        img {
+          display: none;
+        }
+      }
+    }
+
+
+  }
+}
+

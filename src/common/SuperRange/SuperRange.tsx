@@ -7,21 +7,15 @@ const SuperRange: React.FC<SliderProps> = props => {
     <Slider
       sx={{
         // стили для слайдера // пишет студент
-        color: '#00CC22',
+        color: '#366EFF',
         '& .MuiSlider-rail': {
-          color: '#8B8B8B',
+          color: '#99b5fc',
         },
         '& .MuiSlider-thumb': {
           color: '#fff',
-
-          border: '2px solid #00CC22',
-        },
-        '& .MuiSlider-thumb:after': {
-          width: '6px',
-          height: '6px',
-          top: '50%',
-          left: '50%',
-          backgroundColor: '#00CC22',
+          width: '14px',
+          height: '14px',
+          border: '3px solid #366EFF',
         },
       }}
       step={1}
@@ -33,4 +27,4 @@ const SuperRange: React.FC<SliderProps> = props => {
   )
 }
 
-export default SuperRange
+export default SuperRange;

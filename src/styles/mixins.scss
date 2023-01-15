@@ -6,7 +6,7 @@
   align-items: center;
 }
 
-@mixin fontFamily(){
+@mixin fontFamily() {
   font-family: 'Montserrat', sans-serif;
   font-style: normal;
 }
@@ -32,14 +32,14 @@
   line-height: 24px;
 }
 
-@mixin minorTitle() {
+@mixin minorTitle {
   @include fontFamily();
   font-weight: 500;
   font-size: 14px;
   line-height: 17px;
 }
 
-@mixin buttonTitle(){
+@mixin buttonTitle() {
   @include fontFamily();
   font-weight: 500;
   font-size: 16px;
@@ -47,4 +47,11 @@
   text-align: center;
   letter-spacing: 0.01em;
   color: #FFFFFF;
+}
+
+@mixin customFont($FW, $FS, $LH) {
+  @include fontFamily();
+  font-weight: $FW;
+  font-size: $FS;
+  line-height: $LH;
 }
