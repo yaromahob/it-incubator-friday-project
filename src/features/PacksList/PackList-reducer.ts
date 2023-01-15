@@ -35,7 +35,7 @@ export const PackListReducer = (state: InitialStateType = initialState, action: 
 export const setPacksAC = (data: ResponseTypePacksList) => ({ type: 'PACKS/SET-PACKS', data } as const)
 export const addPackAC = (newCardsPack: CardPackType) => ({ type: 'PACKS/ADD-PACKS', newCardsPack } as const)
 export const deletePackAC = (idPack: string) => ({ type: 'PACKS/DELETE-PACKS', idPack } as const)
-//thunk
+// thunk
 export const setPackTC =
   (data?: PacksListType): AppThunk =>
   (dispatch, getState) => {
