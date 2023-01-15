@@ -1,11 +1,10 @@
-import React, { ChangeEvent, SyntheticEvent } from 'react'
+import React from 'react'
 import Box from '@mui/material/Box'
 import Rating from '@mui/material/Rating'
 import styles from './Grade.module.scss'
 
 export const Grade = () => {
   const [value, setValue] = React.useState<number | null>(2)
-  console.log(value)
   return (
     <div className={styles.gradeWrapper}>
       <div className={styles.grade}>
