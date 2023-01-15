@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactElement } from 'react'
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
 import TableHead from '@mui/material/TableHead'
@@ -6,67 +6,57 @@ import TableRow from '@mui/material/TableRow'
 import TableCell from '@mui/material/TableCell'
 import TableBody from '@mui/material/TableBody'
 import TableContainer from '@mui/material/TableContainer'
-import { ActionButtonsContainer } from '../ActionButtonsContainer/ActionButtonsContainer'
-import { CardType } from '../../features/PackList/packList-reducer'
-import styles from './SuperTable.module.scss'
+import { CardType, PackType } from '../../features/PackList/packList-reducer'
+import { HeaderCell } from './HeaderCell/HeaderCell'
 
-type SuperTableType = {
-  titles: string[]
-  data: CardType[]
-  isAscSort: boolean
-  ascActiveHandler: (askActive: boolean) => void
-}
+export const ASC = '0'
+export const DESC = '1'
 
 export const SuperTable: React.FC<SuperTableType> = ({
-  titles,
+  columns,
   data,
-  isAscSort,
-  ascActiveHandler,
+  onClick,
+  sortField,
+  sortBy,
 }) => {
-  const sortHandler = () => {
-    // true - asc \ false - desc
-    ascActiveHandler(!isAscSort)
-  }
-
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            {titles.map(title => {
+            {columns.map((title, i) => {
               return (
-                <TableCell
-                  key={title}
-                  className={styles.sortActive}
-                  onClick={sortHandler}
-                  align="left"
-                >
-                  {title}
-                </TableCell>
-                // <SuperSort sort={} value={} onChange={}/>
+                <HeaderCell
+                  key={`${title.key}-${i}`}
+                  onClickHandler={onClick}
+                  sortField={sortField}
+                  sortBy={sortBy}
+                  title={title.name}
+                ></HeaderCell>
               )
             })}
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.map((card, i) => (
+          {data.map((card: { [index: string]: string | number | boolean }, i) => (
             <TableRow
-              key={card.name + i}
+              key={`${data}-${i}`}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <TableCell component="th" scope="row">
-                {card.name}
-              </TableCell>
-              <TableCell align="left">{card.cardsCount}</TableCell>
-              <TableCell align="left">{card.updated}</TableCell>
-              <TableCell align="left">{card.user_name}</TableCell>
-              <TableCell align="left">
-                <ActionButtonsContainer
-                  educationsAction={() => alert()}
-                  editAction={() => alert()}
-                  deleteAction={() => alert()}
-                />
-              </TableCell>
+              {columns.map((col, i) => {
+                if (col.render) {
+                  return (
+                    <TableCell key={`${col}-${i}`} component="th" scope="row">
+                      {col.render(card)}
+                    </TableCell>
+                  )
+                }
+                return (
+                  <TableCell key={`${col}_${i}`} component="th" scope="row">
+                    {card[col.key]}
+                  </TableCell>
+                )
+              })}
             </TableRow>
           ))}
         </TableBody>
@@ -75,3 +65,18 @@ export const SuperTable: React.FC<SuperTableType> = ({
   )
 }
 
+// types
+
+type DataType = {
+  key: string
+  name: string
+  render?: (card: any) => ReactElement
+}
+
+type SuperTableType = {
+  columns: Array<DataType>
+  data: PackType[] | CardType[]
+  onClick: (field: string) => void
+  sortField: string | null
+  sortBy: string | null
+}

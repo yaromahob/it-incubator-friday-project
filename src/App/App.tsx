@@ -18,6 +18,7 @@ import { NewPassword } from '../features/NewPassword/NewPassword'
 import { setAuthApiTC } from './app-reducer'
 import { useAppDispatch } from './store'
 import { PackList } from '../features/PackList/PackList'
+import { CardList } from '../features/CardList/CardList'
 
 function App() {
   const dispatch = useAppDispatch()
@@ -35,6 +36,7 @@ function App() {
         <Route path="/login" element={<Login2 />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/packList" element={<PackList />} />
+        <Route path="/cardList" element={<CardList />} />
         <Route path="/CheckEmail" element={<CheckEmail />} />
         <Route path="/newPassword" element={<NewPassword />} />
         <Route path="/404" element={<NotFound />} />

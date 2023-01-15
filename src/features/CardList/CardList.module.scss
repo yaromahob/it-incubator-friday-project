@@ -1,0 +1,23 @@
+@import "./src/styles/mixins";
+@import "./src/features/PackList/PackList.module";
+
+.listWrapper {
+  .interfaceField {
+    .search {
+      width: 100%;
+
+      div {
+        width: 100%;
+        max-width: 100%;
+
+        div {
+          //width: 100%;
+
+          input {
+            //width: 100%;
+          }
+        }
+      }
+    }
+  }
+}

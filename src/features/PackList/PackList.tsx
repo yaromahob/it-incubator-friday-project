@@ -7,10 +7,32 @@ import clearFilterIcon from '../../assets/svg/clearFilters.svg'
 import searchIcon from '../../assets/svg/search.svg'
 import SuperButton from '../../common/SuperButton/SuperButton'
 import { useAppDispatch, useAppSelector } from '../../App/store'
-import { getPacksTC } from './packList-reducer'
+import { PackType, getPacksTC } from './packList-reducer'
 import { SuperTable } from '../../common/SuperTable/SuperTable'
+import { ActionButtonsContainer } from '../../common/ActionButtonsContainer/ActionButtonsContainer'
 
-const titles = ['Name', 'Cards', 'Last Updated', 'Created by', 'Actions']
+const columns = [
+  { key: 'name', name: 'Name' },
+  { key: 'cardsCount', name: 'Cards' },
+  { key: 'updated', name: 'Last Updated' },
+  { key: 'user_name', name: 'Created by' },
+  {
+    key: 'actions',
+    name: 'Actions',
+    render: (card: PackType) => {
+      return (
+        <ActionButtonsContainer
+          educationsAction={() => alert()}
+          editAction={() => alert()}
+          deleteAction={() => alert()}
+        />
+      )
+    },
+  },
+]
+
+const ASC = '0'
+const DESC = '1'
 
 export const PackList = () => {
   const dispatch = useAppDispatch()
@@ -22,10 +44,12 @@ export const PackList = () => {
   const page = useAppSelector(state => state.packsList.page)
   const pageCount = useAppSelector(state => state.packsList.pageCount)
   const [allActive, setAllActive] = useState(true)
-  const [ascActive, setAscActive] = useState(true)
+  const [sortInfo, setSortInfo] = useState<SortInfoType>({
+    field: null,
+    sortBy: null,
+  })
   const [rangeValue1, setRangeValue1] = useState(1)
   const [rangeValue2, setRangeValue2] = useState(10)
-  console.log(data)
   useEffect(() => {
     dispatch(getPacksTC())
   }, [])
@@ -34,17 +58,24 @@ export const PackList = () => {
     setAllActive(value)
     console.log(data)
   }
-  const askActiveHandler = (value: boolean) => {
-    setAscActive(value)
-  }
   const changeItemOnPageHandler = (event: Event, value: number | number[]) => {
     if (typeof value === 'object') {
       setRangeValue2(value[1])
       setRangeValue1(value[0])
     }
   }
+
+  const onClickHandler = (field: string) => {
+    console.log(field)
+    if (sortInfo.sortBy === DESC) {
+      setSortInfo({ field, sortBy: null })
+    } else {
+      setSortInfo(prev => ({ field, sortBy: prev.sortBy === null ? ASC : DESC }))
+    }
+  }
+
   return (
-    <div className={styles.packListWrapper}>
+    <div className={styles.listWrapper}>
       <div className={styles.folder}>
         <h2>Packs list</h2>
         <SuperButton>Add new pack</SuperButton>
@@ -108,10 +139,11 @@ export const PackList = () => {
         </div>
       </div>
       <SuperTable
-        titles={titles}
+        columns={columns}
         data={cardPacks}
-        isAscSort={ascActive}
-        ascActiveHandler={askActiveHandler}
+        onClick={onClickHandler}
+        sortField={sortInfo.field}
+        sortBy={sortInfo.sortBy}
       />
       <SuperPagination
         page={1}
@@ -124,3 +156,6 @@ export const PackList = () => {
 }
 
 
+// types
+
+export type SortInfoType = { field: null | string; sortBy: null | string }

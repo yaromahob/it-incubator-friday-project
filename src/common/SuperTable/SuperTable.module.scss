@@ -4,40 +4,31 @@ thead {
 
   background-color: #EFEFEF;
 
-  //.Name {
-  //  width: 280px;
-  //  padding-left: 36px;
-  //}
-  //
-  //.col2 {
-  //  width: 280px;
-  //}
-  //
-  //.col3 {
-  //  width: 280px;
-  //}
-  //
-  //.col3 {
-  //  width: 280px;
-  //}
-
   tr {
 
     th {
+      display: flex;
+      position: relative;
       padding-left: 36px;
       @include minorTitle();
       cursor: pointer;
 
 
       img {
+        position: absolute;
         margin-left: 10px;
-        width: 13px;
+        width: 15px;
+        top: 40%;
       }
 
-      .active {
-        transform: rotate(180deg);
+      &:last-child {
+        img {
+          display: none;
+        }
       }
     }
+
+
   }
 }
 

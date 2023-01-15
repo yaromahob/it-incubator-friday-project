@@ -56,7 +56,7 @@ export const getPacksTC = (): AppThunk => dispatch => {
 export type PacksListActionsType = ReturnType<typeof getPacksAC>
 
 export type CardPackDataType = {
-  cardPacks: CardType[]
+  cardPacks: PackType[]
   cardPacksTotalCount: number
   maxCardsCount: number
   minCardsCount: number
@@ -66,7 +66,7 @@ export type CardPackDataType = {
   tokenDeathTime: number
 }
 
-export type CardType = {
+export type PackType = {
   cardsCount: number
   created: string
   deckCover: string
@@ -84,3 +84,5 @@ export type CardType = {
   __v: number
   _id: string
 }
+
+export type CardType = {}
