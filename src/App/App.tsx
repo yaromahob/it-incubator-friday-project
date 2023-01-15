@@ -3,8 +3,6 @@ import React, { useEffect } from 'react'
 import './App.css'
 import { Navigate, Route, Routes } from 'react-router-dom'
 
-import Login from '../features/Login/Login'
-
 import NotFound from '../features/NotFound/NotFound'
 import Profile from '../features/Profile/Profile'
 import RecoveryPassword from '../features/RecoveryPassword/RecoveryPassword'
@@ -17,6 +15,7 @@ import Login2 from '../features/Login/Login2'
 import { NewPassword } from '../features/NewPassword/NewPassword'
 import { setAuthApiTC } from './app-reducer'
 import { useAppDispatch } from './store'
+import PacksList from '../features/PacksList/PacksList'
 import { PackList } from '../features/PackList/PackList'
 import { CardList } from '../features/CardList/CardList'
 
@@ -25,7 +24,7 @@ function App() {
 
   useEffect(() => {
     dispatch(setAuthApiTC())
-  })
+  }, [])
 
   return (
     <div className="App">
@@ -35,10 +34,11 @@ function App() {
         <Route path="/" element={<Navigate to="/profile" />} />
         <Route path="/login" element={<Login2 />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/packList" element={<PackList />} />
-        <Route path="/cardList" element={<CardList />} />
         <Route path="/CheckEmail" element={<CheckEmail />} />
         <Route path="/newPassword" element={<NewPassword />} />
+        <Route path="/packs-list" element={<PacksList />} />
+        <Route path="/packList" element={<PackList />} />
+        <Route path="/cardList" element={<CardList />} />
         <Route path="/404" element={<NotFound />} />
         <Route path="/recoveryPassword" element={<RecoveryPassword />} />
         <Route path="/signUp" element={<SignUp />} />
@@ -48,4 +48,4 @@ function App() {
   )
 }
 
-export default App;
+export default App
