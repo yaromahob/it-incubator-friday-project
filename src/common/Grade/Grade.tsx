@@ -3,7 +3,7 @@ import Box from '@mui/material/Box'
 import Rating from '@mui/material/Rating'
 import styles from './Grade.module.scss'
 
-export const Grade = () => {
+export const Grade: React.FC<GradeType> = ({ id }) => {
   const [value, setValue] = React.useState<number | null>(2)
   console.log(value)
   return (
@@ -23,3 +23,6 @@ export const Grade = () => {
   )
 }
 
+type GradeType = {
+  id: string
+}

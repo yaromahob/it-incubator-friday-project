@@ -10,7 +10,7 @@ const instance = axios.create({
 export type ParamsCardsListType = {
   cardAnswer?: string
   cardQuestion?: string
-  cardsPack_id: number
+  cardsPack_id: string
   min: number
   max: number
   sortCards: any
@@ -79,6 +79,7 @@ export type ResponseUpdateCardType = {
 }
 export const cardsAPI = {
   setCards(params?: ParamsCardsListType) {
+    console.log(params)
     return instance.get<ResponseSetCardTyp>(`/cards/card`, {
       params,
     })

@@ -4,14 +4,12 @@ import editIcon from '../../assets/svg/edit.svg'
 import deleteIcon from '../../assets/svg/delete.svg'
 import styles from './ActionButtonsContainer.module.scss'
 
-export const ActionButtonsContainer: React.FC<ActionButtonsContainerType> = ({
-  educationsAction,
-  editAction,
-  deleteAction,
-}) => {
+export const ActionButtonsContainer: React.FC<ActionButtonsContainerType> = ({ id, educationsAction, editAction, deleteAction }) => {
   const educationCallback = () => {}
   const editCallback = () => {}
-  const deleteCallback = () => {}
+  const deleteCallback = () => {
+    deleteAction && deleteAction(id)
+  }
   return (
     <div className={styles.buttonWrapper}>
       <div>
@@ -40,7 +38,8 @@ export const ActionButtonsContainer: React.FC<ActionButtonsContainerType> = ({
 // types
 
 export type ActionButtonsContainerType = {
+  id: string
   educationsAction: () => void
   editAction?: () => void
-  deleteAction?: () => void
+  deleteAction?: (id: string) => void
 }

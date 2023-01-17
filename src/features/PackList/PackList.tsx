@@ -7,30 +7,32 @@ import SuperButton from '../../common/SuperButton/SuperButton'
 import { useAppDispatch, useAppSelector } from '../../App/store'
 import { SuperTable } from '../../common/SuperTable/SuperTable'
 import { ActionButtonsContainer } from '../../common/ActionButtonsContainer/ActionButtonsContainer'
-import { setPackTC } from './PackList-reducer'
+import { addPackTC, deletePackTC, setPackTC } from './PackList-reducer'
 import { PackType } from '../../api/api-packsList'
 import { CardsCount } from './CardsCount/CardsCount'
 import { AllCards } from './AllCards/AllCards'
 import { SuperPagination } from '../../common/SuperPagination/SuperPagination'
 
-const columns = [
-  { key: 'name', name: 'Name' },
-  { key: 'cardsCount', name: 'Cards' },
-  { key: 'updated', name: 'Last Updated' },
-  { key: 'user_name', name: 'Created by' },
-  {
-    key: 'actions',
-    name: 'Actions',
-    render: (card: PackType) => {
-      return <ActionButtonsContainer educationsAction={() => alert()} editAction={() => alert()} deleteAction={() => alert()} />
-    },
-  },
-]
-
 const ASC = '0'
 const DESC = '1'
 
 export const PackList = () => {
+  const columns = [
+    { key: 'name', name: 'Name' },
+    { key: 'cardsCount', name: 'Cards' },
+    { key: 'updated', name: 'Last Updated' },
+    { key: 'user_name', name: 'Created by' },
+    {
+      key: 'actions',
+      name: 'Actions',
+      render: (card: PackType) => {
+        return (
+          <ActionButtonsContainer id={card._id} educationsAction={() => alert()} editAction={() => alert()} deleteAction={deletePack} />
+        )
+      },
+    },
+  ]
+
   const dispatch = useAppDispatch()
   const page = useAppSelector(state => state.packList.page)
   const pageCount = useAppSelector(state => state.packList.pageCount)
@@ -56,6 +58,15 @@ export const PackList = () => {
       setSortInfo(prev => ({ field, sortBy: prev.sortBy === null ? ASC : DESC }))
     }
   }
+
+  const addPack = () => {
+    dispatch(addPackTC({ cardsPack: { name: 'h1 my name is', private: false } }))
+  }
+
+  const deletePack = (id: string) => {
+    dispatch(deletePackTC(id))
+  }
+
   useEffect(() => {
     if (isAuth) dispatch(setPackTC())
   }, [isAuth])
@@ -64,7 +75,7 @@ export const PackList = () => {
     <div className={styles.listWrapper}>
       <div className={styles.folder}>
         <h2>Packs list</h2>
-        <SuperButton>Add new pack</SuperButton>
+        <SuperButton onClick={addPack}>Add new pack</SuperButton>
       </div>
       <div className={styles.interfaceField}>
         <div className={styles.search}>

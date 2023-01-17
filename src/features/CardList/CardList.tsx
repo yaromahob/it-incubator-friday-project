@@ -18,7 +18,7 @@ const columns2 = [
     key: 'grade',
     name: 'Grade',
     render: (card: PackType) => {
-      return <Grade />
+      return <Grade id={card._id} />
     },
   },
 ]
@@ -30,6 +30,7 @@ export const CardList = () => {
   const dispatch = useAppDispatch()
   const isAuth = useAppSelector(state => state.app.isAuth)
   const cardPacks = useAppSelector(state => state.cardList.cards)
+  const profileID = useAppSelector(state => state.profile._id)
   const [sortInfo, setSortInfo] = useState<SortInfoType>({
     field: null,
     sortBy: null,
