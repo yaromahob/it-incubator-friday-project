@@ -32,11 +32,10 @@ const DESC = '1'
 
 export const PackList = () => {
   const dispatch = useAppDispatch()
-
   const page = useAppSelector(state => state.packList.page)
   const pageCount = useAppSelector(state => state.packList.pageCount)
   const totalCount = useAppSelector(state => state.packList.cardPacksTotalCount)
-
+  const isAuth = useAppSelector(state => state.app.isAuth)
   const packCards = useAppSelector(state => state.packList.cardPacks)
   const isDisable = useAppSelector(state => state.packList.isDisabled)
 
@@ -50,16 +49,16 @@ export const PackList = () => {
   }
 
   const onClickHandler = (field: string) => {
-    console.log(field)
     if (sortInfo.sortBy === DESC) {
+      console.log(sortInfo.sortBy)
       setSortInfo({ field, sortBy: null })
     } else {
       setSortInfo(prev => ({ field, sortBy: prev.sortBy === null ? ASC : DESC }))
     }
   }
   useEffect(() => {
-    dispatch(setPackTC())
-  }, [])
+    if (isAuth) dispatch(setPackTC())
+  }, [isAuth])
 
   return (
     <div className={styles.listWrapper}>

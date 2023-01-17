@@ -2,27 +2,29 @@ import React, { useEffect, useState } from 'react'
 import styles from '../PackList.module.scss'
 import SuperRange from '../../../common/SuperRange/SuperRange'
 import { useAppDispatch, useAppSelector } from '../../../App/store'
-import { setPackTC } from '../PackList-reducer'
+import { setCardsCountAC, setPackTC } from '../PackList-reducer'
 import { useDebounce } from '../../../common/utils/debounce'
 
 export const CardsCount = () => {
   const dispatch = useAppDispatch()
   const minCardsCount = useAppSelector(state => state.packList.minCardsCount)
   const maxCardsCount = useAppSelector(state => state.packList.maxCardsCount)
+  const cardsCount = useAppSelector(state => state.packList.cardsCount)
   const isDisable = useAppSelector(state => state.packList.isDisabled)
-  const [minValue, setMinValue] = useState(0)
-  const [maxValue, setMaxValue] = useState(30)
-  const minDebounceValue = useDebounce(minValue, 800)
-  const maxDebounceValue = useDebounce(maxValue, 800)
+  const isAuth = useAppSelector(state => state.app.isAuth)
   const changeItemOnPageHandler = (event: Event, value: number | number[]) => {
-    if (typeof value === 'object') {
-      setMinValue(value[0])
-      setMaxValue(value[1])
+    if (Array.isArray(value)) {
+      dispatch(setCardsCountAC(value))
     }
   }
   useEffect(() => {
-    if (minDebounceValue | maxDebounceValue) dispatch(setPackTC({ min: minDebounceValue, max: maxDebounceValue }))
-  }, [minDebounceValue, maxDebounceValue])
+    if (isAuth) {
+      const getData = setTimeout(() => {
+        dispatch(setPackTC({ min: cardsCount[0], max: cardsCount[1] }))
+      }, 500)
+      return () => clearTimeout(getData)
+    }
+  }, [cardsCount])
 
   return (
     <div className={styles.cardsView}>
@@ -30,12 +32,12 @@ export const CardsCount = () => {
       <div className={styles.inputWrapper}>
         <div className={styles.showNumber}>
           <div>
-            <input type="text" value={minValue} readOnly />
+            <input type="text" value={cardsCount[0]} readOnly />
           </div>
         </div>
         <div className={styles.rangeWrapper}>
           <SuperRange
-            value={[minValue, maxValue]}
+            value={[cardsCount[0], cardsCount[1]]}
             min={minCardsCount}
             max={maxCardsCount}
             step={1}
@@ -45,7 +47,7 @@ export const CardsCount = () => {
         </div>
         <div className={styles.showNumber}>
           <div>
-            <input type="text" value={maxValue} readOnly />
+            <input type="text" value={cardsCount[1]} readOnly />
           </div>
         </div>
       </div>
