@@ -1,6 +1,5 @@
-import { LoginParamsType } from '../../api/auth-api'
 import { AppActionType, AppThunk } from '../../App/store'
-import { AddCardsPack, CardPackType, packsAPI, PacksListType, ResponseTypePacksList } from '../../api/api-packsList'
+import { AddCardsPack, CardPackType, packsAPI, ParamsListPacksType, ResponseTypePacksList, UpdatePackType } from '../../api/api-packsList'
 
 export type InitialStateType = {
   cardPacks: CardPackType[]
@@ -27,6 +26,8 @@ export const PackListReducer = (state: InitialStateType = initialState, action: 
       return { ...state, cardPacks: [...state.cardPacks, action.newCardsPack] }
     case 'PACKS/DELETE-PACKS':
       return { ...state, cardPacks: [...state.cardPacks].filter(e => e._id !== action.idPack) }
+    case 'PACKS/UPDATE-PACKS':
+      return { ...state, cardPacks: [...state.cardPacks].map(e => (e._id === action.data._id ? { ...e, name: action.data.name } : e)) }
     default:
       return state
   }
@@ -35,16 +36,18 @@ export const PackListReducer = (state: InitialStateType = initialState, action: 
 export const setPacksAC = (data: ResponseTypePacksList) => ({ type: 'PACKS/SET-PACKS', data } as const)
 export const addPackAC = (newCardsPack: CardPackType) => ({ type: 'PACKS/ADD-PACKS', newCardsPack } as const)
 export const deletePackAC = (idPack: string) => ({ type: 'PACKS/DELETE-PACKS', idPack } as const)
+export const updatePackAC = (data: CardPackType) => ({ type: 'PACKS/UPDATE-PACKS', data } as const)
+
 // thunk
 export const setPackTC =
-  (data?: PacksListType): AppThunk =>
+  (data?: ParamsListPacksType): AppThunk =>
   (dispatch, getState) => {
     /*  const data = getState().packList
-  const userId = getState().profile._id
-  const params = {
-    ...data,
-    user_id: XXX ? id : ''
-  }*/
+          const userId = getState().profile._id
+          const params = {
+            ...data,
+            user_id: XXX ? id : ''
+          }*/
     packsAPI.setPacks(data).then(res => {
       dispatch(setPacksAC(res.data))
     })
@@ -63,4 +66,18 @@ export const deletePackTC =
       dispatch(deletePackAC(res.data.deletedCardsPack._id))
     })
   }
-export type PacksActionType = ReturnType<typeof setPacksAC> | ReturnType<typeof addPackAC> | ReturnType<typeof deletePackAC>
+
+export const updatePackTC =
+  (data: UpdatePackType): AppThunk =>
+  dispatch => {
+    packsAPI.createPack(data).then(res => {
+      dispatch(updatePackAC(res.data.updatedCardsPack))
+    })
+  }
+
+export type addPackType = ReturnType<typeof addPackAC>
+export type PacksActionType =
+  | ReturnType<typeof setPacksAC>
+  | addPackType
+  | ReturnType<typeof deletePackAC>
+  | ReturnType<typeof updatePackAC>

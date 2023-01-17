@@ -6,7 +6,7 @@ const instance = axios.create({
   baseURL: process.env.NODE_ENV === 'development' ? 'http://localhost:7542/2.0/' : 'https://neko-back.herokuapp.com/2.0/',
   withCredentials: true,
 })
-export type PacksListType = {
+export type ParamsListPacksType = {
   packName?: string // не обязательно
   min?: number // не обязательно
   max?: number // не обязательно
@@ -24,11 +24,6 @@ export type ResponseTypePacksList = {
   cardPacksTotalCount: number
   minCardsCount: number
   maxCardsCount: number
-}
-export type ResponseTypeNewCardsPack = {
-  newCardsPack: CardPackType
-  token: string
-  tokenDeathTime: number
 }
 export type CardPackType = {
   user_id: string
@@ -61,12 +56,6 @@ export type UpdatePackType = {
     name?: string
   }
 }
-export type ResponseUpdateType = {
-  updatedCardsPack: CardPackType
-  token: string
-  tokenDeathTime: number
-}
-
 export type DeletePackType = {
   _id: string
   user_id: string
@@ -86,13 +75,24 @@ export type DeletePackType = {
   __v: number
 }
 
+export type ResponseUpdateType = {
+  updatedCardsPack: CardPackType
+  token: string
+  tokenDeathTime: number
+}
+export type ResponseTypeNewCardsPack = {
+  newCardsPack: CardPackType
+  token: string
+  tokenDeathTime: number
+}
+
 export type ResponseDeletedCardsPackType = {
   deletedCardsPack: DeletePackType
   token: string
   tokenDeathTime: number
 }
 export const packsAPI = {
-  setPacks(params?: PacksListType) {
+  setPacks(params?: ParamsListPacksType) {
     return instance.get<ResponseTypePacksList>(`cards/pack`, {
       params,
     })
