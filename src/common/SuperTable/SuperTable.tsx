@@ -8,6 +8,7 @@ import TableBody from '@mui/material/TableBody'
 import TableContainer from '@mui/material/TableContainer'
 import { HeaderCell } from './HeaderCell/HeaderCell'
 import { PackType } from '../../features/Pack'
+import {CardPackType} from "../../api/api-packsList";
 
 export const ASC = '0'
 export const DESC = '1'
@@ -32,7 +33,7 @@ export const SuperTable: React.FC<SuperTableType> = ({ columns, data, onClick, s
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.map((card: { [index: string]: string | number | boolean }, i) => (
+          {/*     {data.map((card: { [index: string]: string | number | boolean }, i) => (
             <TableRow key={`${data}-${i}`} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
               {columns.map((col, i) => {
                 if (col.render) {
@@ -49,7 +50,7 @@ export const SuperTable: React.FC<SuperTableType> = ({ columns, data, onClick, s
                 )
               })}
             </TableRow>
-          ))}
+          ))}*/}
         </TableBody>
       </Table>
     </TableContainer>
@@ -66,7 +67,7 @@ type DataType = {
 
 type SuperTableType = {
   columns: Array<DataType>
-  data: PackType[]
+  data: CardPackType[]
   onClick: (field: string) => void
   sortField: string | null
   sortBy: string | null
