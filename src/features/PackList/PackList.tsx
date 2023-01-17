@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import SuperPagination from '../../common/SuperPagination/SuperPagination'
 import SuperDebouncedInput from '../../common/SuperDebouncedInput/SuperDebouncedInput'
 import styles from './PackList.module.scss'
-import SuperRange from '../../common/SuperRange/SuperRange'
 import clearFilterIcon from '../../assets/svg/clearFilters.svg'
 import searchIcon from '../../assets/svg/search.svg'
 import SuperButton from '../../common/SuperButton/SuperButton'
@@ -11,6 +10,8 @@ import { SuperTable } from '../../common/SuperTable/SuperTable'
 import { ActionButtonsContainer } from '../../common/ActionButtonsContainer/ActionButtonsContainer'
 import { setPackTC } from './PackList-reducer'
 import { CardPackType } from '../../api/api-packsList'
+import { CardsCount } from './CardsCount/CardsCount'
+import { AllCards } from './AllCards/AllCards'
 
 const columns = [
   { key: 'name', name: 'Name' },
@@ -31,41 +32,33 @@ const DESC = '1'
 
 export const PackList = () => {
   const dispatch = useAppDispatch()
-  const userId = useAppSelector(state => state.profile._id)
+  const page = useAppSelector(state => state.packList.page)
+  const pageCount = useAppSelector(state => state.packList.pageCount)
+  const totalCount = useAppSelector(state => state.packList.cardPacksTotalCount)
+  const isAuth = useAppSelector(state => state.app.isAuth)
+  const packCards = useAppSelector(state => state.packList.cardPacks)
+  const isDisable = useAppSelector(state => state.packList.isDisabled)
 
-  const [allActive, setAllActive] = useState(true)
   const [sortInfo, setSortInfo] = useState<SortInfoType>({
     field: null,
     sortBy: null,
   })
-  const [rangeValue1, setRangeValue1] = useState(1)
-  const [rangeValue2, setRangeValue2] = useState(10)
 
-  const packCards = useAppSelector(state => state.packList.cardPacks)
-  console.log(packCards)
-
-  const allActiveHandler = (value: boolean) => {
-    setAllActive(value)
-  }
-  const changeItemOnPageHandler = (event: Event, value: number | number[]) => {
-    if (typeof value === 'object') {
-      setRangeValue2(value[1])
-      setRangeValue1(value[0])
-    }
+  const showCurrentPage = (currentPage: number, itemsCount: number) => {
+    dispatch(setPackTC({ page: currentPage, pageCount: itemsCount }))
   }
 
   const onClickHandler = (field: string) => {
-    console.log(field)
     if (sortInfo.sortBy === DESC) {
-      setSortInfo({ field, sortBy: null })
+      dispatch(setPackTC({ sortPacks: '1updated' }))
+      setSortInfo({ field, sortBy: ASC })
     } else {
       setSortInfo(prev => ({ field, sortBy: prev.sortBy === null ? ASC : DESC }))
     }
   }
-
   useEffect(() => {
-    dispatch(setPackTC())
-  }, [])
+    if (isAuth) dispatch(setPackTC())
+  }, [isAuth])
 
   return (
     <div className={styles.listWrapper}>
@@ -81,31 +74,8 @@ export const PackList = () => {
             <SuperDebouncedInput placeholder="Provide your text" />
           </div>
         </div>
-        <div className={styles.showPacks}>
-          <span>Show packs cards</span>
-          <div className={styles.selectOne}>
-            <input type="text" value="My" readOnly className={!allActive ? styles.active : ''} onClick={() => allActiveHandler(false)} />
-            <input type="text" value="All" readOnly className={allActive ? styles.active : ''} onClick={() => allActiveHandler(true)} />
-          </div>
-        </div>
-        <div className={styles.cardsView}>
-          <span>Number of cards</span>
-          <div className={styles.inputWrapper}>
-            <div className={styles.showNumber}>
-              <div>
-                <input type="text" value={rangeValue1} readOnly />
-              </div>
-            </div>
-            <div className={styles.rangeWrapper}>
-              <SuperRange value={[rangeValue1, rangeValue2]} min={1} max={10} step={1} onChange={changeItemOnPageHandler} />
-            </div>
-            <div className={styles.showNumber}>
-              <div>
-                <input type="text" value={rangeValue2} readOnly />
-              </div>
-            </div>
-          </div>
-        </div>
+        <AllCards />
+        <CardsCount />
         <div className={styles.clearFilters}>
           <span></span>
           <button>
@@ -114,7 +84,7 @@ export const PackList = () => {
         </div>
       </div>
       <SuperTable columns={columns} data={packCards} onClick={onClickHandler} sortField={sortInfo.field} sortBy={sortInfo.sortBy} />
-      <SuperPagination page={1} itemsCountForPage={10} totalCount={100} onChange={() => console.log('')} />
+      <SuperPagination page={page} itemsCountForPage={pageCount} totalCount={totalCount} onChange={showCurrentPage} disabled={isDisable} />
     </div>
   )
 }

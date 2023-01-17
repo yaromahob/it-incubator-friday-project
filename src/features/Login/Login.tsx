@@ -51,6 +51,7 @@ const Login = () => {
   return (
     <div className={styles.signUp}>
       <h3>Sign in</h3>
+      qwertyqwerty
       <form onSubmit={formik.handleSubmit}>
         <label className={formik.touched.email && formik.errors.email ? styles.errorField : ''}>
           Email
@@ -82,4 +83,4 @@ const Login = () => {
     </div>
   )
 }
-export default Login;
+export default Login

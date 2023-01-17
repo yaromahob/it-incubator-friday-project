@@ -15,7 +15,7 @@ export type ParamsListPacksType = {
   pageCount?: number // не обязательно
 
   user_id?: string // чьи колоды не обязательно, или придут все
-  block: boolean
+  block?: boolean
 }
 export type ResponseTypePacksList = {
   cardPacks: CardPackType[]
@@ -94,7 +94,15 @@ export type ResponseDeletedCardsPackType = {
 export const packsAPI = {
   setPacks(params?: ParamsListPacksType) {
     return instance.get<ResponseTypePacksList>(`cards/pack`, {
-      params,
+      params: {
+        packName: params?.packName,
+        min: params?.min,
+        max: params?.max,
+        sortPacks: params?.sortPacks,
+        page: params?.page,
+        pageCount: params?.pageCount,
+        user_id: params?.user_id,
+      },
     })
   },
   addPack(data: AddCardsPack) {

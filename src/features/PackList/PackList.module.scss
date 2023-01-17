@@ -80,12 +80,16 @@
           border: none;
           outline: none;
           cursor: pointer;
+
         }
 
         .active {
           background-color: $mainColor;
           color: #fff;
           border: 1px solid $mainColor;
+        }
+        .active:disabled{
+          opacity: 0.5;
         }
       }
     }

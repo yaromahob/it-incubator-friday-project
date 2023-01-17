@@ -1,5 +1,6 @@
 import { AppActionType, AppThunk } from '../../App/store'
 import { AddCardsPack, CardPackType, packsAPI, ParamsListPacksType, ResponseTypePacksList, UpdatePackType } from '../../api/api-packsList'
+//import {   PacksListType } from '../../api/api-packsList'
 
 export type InitialStateType = {
   cardPacks: CardPackType[]
@@ -8,17 +9,21 @@ export type InitialStateType = {
   cardPacksTotalCount: number
   minCardsCount: number
   maxCardsCount: number
+  isDisabled: boolean
+  cardsCount: Array<number>
 }
-export const initialState: InitialStateType = {
+export const initialState = {
   cardPacks: [],
   page: 1, //выбранная стр
-  pageCount: 6, //ко-во стр
+  pageCount: 4, //ко-во стр
   cardPacksTotalCount: 2, // количество колод
   minCardsCount: 0,
   maxCardsCount: 4,
+  isDisabled: false,
+  cardsCount: [1, 30],
 }
 
-export const PackListReducer = (state: InitialStateType = initialState, action: AppActionType): InitialStateType => {
+export const PackListReducer = (state: InitialStateType = initialState, action: PacksActionType): InitialStateType => {
   switch (action.type) {
     case 'PACKS/SET-PACKS':
       return { ...state, ...action.data }
@@ -26,6 +31,10 @@ export const PackListReducer = (state: InitialStateType = initialState, action: 
       return { ...state, cardPacks: [...state.cardPacks, action.newCardsPack] }
     case 'PACKS/DELETE-PACKS':
       return { ...state, cardPacks: [...state.cardPacks].filter(e => e._id !== action.idPack) }
+    case 'PACKS/DISABLE-BUTTON':
+      return { ...state, isDisabled: action.isDisabled }
+    case 'PACKS/SET-CARDS-COUNT':
+      return { ...state, cardsCount: [...action.cardsCount] }
     case 'PACKS/UPDATE-PACKS':
       return { ...state, cardPacks: [...state.cardPacks].map(e => (e._id === action.data._id ? { ...e, name: action.data.name } : e)) }
     default:
@@ -36,20 +45,18 @@ export const PackListReducer = (state: InitialStateType = initialState, action: 
 export const setPacksAC = (data: ResponseTypePacksList) => ({ type: 'PACKS/SET-PACKS', data } as const)
 export const addPackAC = (newCardsPack: CardPackType) => ({ type: 'PACKS/ADD-PACKS', newCardsPack } as const)
 export const deletePackAC = (idPack: string) => ({ type: 'PACKS/DELETE-PACKS', idPack } as const)
+export const disableButtonAC = (isDisabled: boolean) => ({ type: 'PACKS/DISABLE-BUTTON', isDisabled } as const)
+export const setCardsCountAC = (cardsCount: number[]) => ({ type: 'PACKS/SET-CARDS-COUNT', cardsCount } as const)
 export const updatePackAC = (data: CardPackType) => ({ type: 'PACKS/UPDATE-PACKS', data } as const)
 
 // thunk
 export const setPackTC =
-  (data?: ParamsListPacksType): AppThunk =>
-  (dispatch, getState) => {
-    /*  const data = getState().packList
-          const userId = getState().profile._id
-          const params = {
-            ...data,
-            user_id: XXX ? id : ''
-          }*/
+  (data?: PacksListType): AppThunk =>
+  dispatch => {
+    dispatch(disableButtonAC(true))
     packsAPI.setPacks(data).then(res => {
       dispatch(setPacksAC(res.data))
+      dispatch(disableButtonAC(false))
     })
   }
 export const addPackTC =
@@ -81,3 +88,5 @@ export type PacksActionType =
   | addPackType
   | ReturnType<typeof deletePackAC>
   | ReturnType<typeof updatePackAC>
+|  ReturnType<typeof disableButtonAC>
+    | ReturnType<typeof setCardsCountAC>
