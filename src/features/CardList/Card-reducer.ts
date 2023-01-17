@@ -18,6 +18,8 @@ export const CardListReducer = (state: InitialStateType = initialState, action: 
       return { ...state, cards: [...state.cards!, action.newCard] }
     case 'CARD/DELETE-CARDS':
       return { ...state, cards: [...state.cards!].filter(c => c._id !== action.id) }
+    case 'CARD/UPDATE-CARDS':
+      return { ...state, cards: [...state.cards!].filter(c => (c._id === action.id ? { ...action.updatedCard } : c)) }
     default:
       return state
   }
@@ -26,7 +28,7 @@ export const CardListReducer = (state: InitialStateType = initialState, action: 
 export const setCardsAC = (cards: CardType[]) => ({ type: 'CARD/SET-CARDS', cards } as const)
 export const addCardsAC = (newCard: CardType) => ({ type: 'CARD/ADD-CARDS', newCard } as const)
 export const deleteCardsAC = (id: string) => ({ type: 'CARD/DELETE-CARDS', id } as const)
-export const updateCardsAC = () => ({ type: 'CARD/UPDATE-CARDS' } as const)
+export const updateCardsAC = (updatedCard: CardType, id: string) => ({ type: 'CARD/UPDATE-CARDS', updatedCard, id } as const)
 // thunk
 export const setPackTC =
   (data?: ParamsCardsListType): AppThunk =>
@@ -69,8 +71,12 @@ export const updatePackTC =
   (card: CardType): AppThunk =>
   dispatch => {
     cardsAPI.createCard(card as updateCardType).then(res => {
-      dispatch(updateCardsAC)
+      dispatch(updateCardsAC(res.data.updatedCard, res.data.updatedCard._id))
     })
   }
 
-export type CardsActionType = ReturnType<typeof setCardsAC> | ReturnType<typeof addCardsAC> | ReturnType<typeof deleteCardsAC>
+export type CardsActionType =
+  | ReturnType<typeof setCardsAC>
+  | ReturnType<typeof addCardsAC>
+  | ReturnType<typeof deleteCardsAC>
+  | ReturnType<typeof updateCardsAC>
