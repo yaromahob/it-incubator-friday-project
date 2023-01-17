@@ -50,8 +50,8 @@ export const PackList = () => {
 
   const onClickHandler = (field: string) => {
     if (sortInfo.sortBy === DESC) {
-      console.log(sortInfo.sortBy)
-      setSortInfo({ field, sortBy: null })
+      dispatch(setPackTC({ sortPacks: '1updated' }))
+      setSortInfo({ field, sortBy: ASC })
     } else {
       setSortInfo(prev => ({ field, sortBy: prev.sortBy === null ? ASC : DESC }))
     }

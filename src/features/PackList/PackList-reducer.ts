@@ -9,9 +9,9 @@ export type InitialStateType = {
   minCardsCount: number
   maxCardsCount: number
   isDisabled: boolean
-  cardsCount: Array<any> //todo
+  cardsCount: Array<number>
 }
-export const initialState: InitialStateType = {
+export const initialState = {
   cardPacks: [],
   page: 1, //выбранная стр
   pageCount: 4, //ко-во стр

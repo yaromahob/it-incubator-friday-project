@@ -3,7 +3,6 @@ import styles from '../PackList.module.scss'
 import SuperRange from '../../../common/SuperRange/SuperRange'
 import { useAppDispatch, useAppSelector } from '../../../App/store'
 import { setCardsCountAC, setPackTC } from '../PackList-reducer'
-import { useDebounce } from '../../../common/utils/debounce'
 
 export const CardsCount = () => {
   const dispatch = useAppDispatch()
