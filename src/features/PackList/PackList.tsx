@@ -11,6 +11,7 @@ import { ActionButtonsContainer } from '../../common/ActionButtonsContainer/Acti
 import { setPackTC } from './PackList-reducer'
 import { CardPackType } from '../../api/api-packsList'
 import { CardsCount } from './CardsCount/CardsCount'
+import { AllCards } from './AllCards/AllCards'
 
 const columns = [
   { key: 'name', name: 'Name' },
@@ -31,7 +32,6 @@ const DESC = '1'
 
 export const PackList = () => {
   const dispatch = useAppDispatch()
-  const profileId = useAppSelector(state => state.profile._id)
 
   const page = useAppSelector(state => state.packList.page)
   const pageCount = useAppSelector(state => state.packList.pageCount)
@@ -40,17 +40,11 @@ export const PackList = () => {
   const packCards = useAppSelector(state => state.packList.cardPacks)
   const isDisable = useAppSelector(state => state.packList.isDisabled)
 
-  const [allActive, setAllActive] = useState(true)
   const [sortInfo, setSortInfo] = useState<SortInfoType>({
     field: null,
     sortBy: null,
   })
-  const [userId, setUserId] = useState('')
 
-  const allActiveHandler = (value: boolean) => {
-    value ? setUserId('') : setUserId(profileId)
-    setAllActive(value)
-  }
   const showCurrentPage = (currentPage: number, itemsCount: number) => {
     dispatch(setPackTC({ page: currentPage, pageCount: itemsCount }))
   }
@@ -81,13 +75,7 @@ export const PackList = () => {
             <SuperDebouncedInput placeholder="Provide your text" />
           </div>
         </div>
-        <div className={styles.showPacks}>
-          <span>Show packs cards</span>
-          <div className={styles.selectOne}>
-            <input type="text" value="My" readOnly className={!allActive ? styles.active : ''} onClick={() => allActiveHandler(false)} />
-            <input type="text" value="All" readOnly className={allActive ? styles.active : ''} onClick={() => allActiveHandler(true)} />
-          </div>
-        </div>
+        <AllCards />
         <CardsCount />
         <div className={styles.clearFilters}>
           <span></span>
