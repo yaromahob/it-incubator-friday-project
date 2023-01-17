@@ -12,18 +12,18 @@ export type SuperPaginationPropsType = {
   itemsCountForPage: number
   totalCount: number
   onChange: (page: number, count: number) => void
+  disabled: boolean
 }
 
-const SuperPagination: React.FC<SuperPaginationPropsType> = ({ page, itemsCountForPage, totalCount, onChange, id = 'hw15' }) => {
+const SuperPagination: React.FC<SuperPaginationPropsType> = ({ page, itemsCountForPage, totalCount, onChange, id = 'hw15', disabled }) => {
   const lastPage = Math.ceil(totalCount / itemsCountForPage)
-  const onChangeCallback = (event: any, page: number) => {
+  const onChangeCallback = (event: ChangeEvent<unknown>, page: number) => {
     // пишет студент
     onChange(page, itemsCountForPage)
   }
 
   const onChangeSelect = (event: ChangeEvent<HTMLSelectElement>) => {
-    console.log(event.currentTarget.value)
-    onChange(lastPage, +event.currentTarget.value)
+    onChange(page, +event.currentTarget.value)
   }
 
   return (
@@ -40,6 +40,7 @@ const SuperPagination: React.FC<SuperPaginationPropsType> = ({ page, itemsCountF
         onChange={onChangeCallback}
         hideNextButton
         hidePrevButton
+        disabled={disabled}
       />
 
       <span className={s.text1}>Show</span>
@@ -53,6 +54,7 @@ const SuperPagination: React.FC<SuperPaginationPropsType> = ({ page, itemsCountF
           { id: 10, value: 10 },
         ]}
         onChange={onChangeSelect}
+        disabled={disabled}
       />
 
       <span className={s.text2}>Cards per Page</span>

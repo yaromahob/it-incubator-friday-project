@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import SuperPagination from '../../common/SuperPagination/SuperPagination'
 import SuperDebouncedInput from '../../common/SuperDebouncedInput/SuperDebouncedInput'
 import styles from './PackList.module.scss'
-import SuperRange from '../../common/SuperRange/SuperRange'
 import clearFilterIcon from '../../assets/svg/clearFilters.svg'
 import searchIcon from '../../assets/svg/search.svg'
 import SuperButton from '../../common/SuperButton/SuperButton'
@@ -11,7 +10,6 @@ import { SuperTable } from '../../common/SuperTable/SuperTable'
 import { ActionButtonsContainer } from '../../common/ActionButtonsContainer/ActionButtonsContainer'
 import { setPackTC } from './PackList-reducer'
 import { CardPackType } from '../../api/api-packsList'
-import { useDebounce } from '../../common/utils/debounce'
 import { CardsCount } from './CardsCount/CardsCount'
 
 const columns = [
@@ -38,7 +36,9 @@ export const PackList = () => {
   const page = useAppSelector(state => state.packList.page)
   const pageCount = useAppSelector(state => state.packList.pageCount)
   const totalCount = useAppSelector(state => state.packList.cardPacksTotalCount)
+
   const packCards = useAppSelector(state => state.packList.cardPacks)
+  const isDisable = useAppSelector(state => state.packList.isDisabled)
 
   const [allActive, setAllActive] = useState(true)
   const [sortInfo, setSortInfo] = useState<SortInfoType>({
@@ -47,11 +47,12 @@ export const PackList = () => {
   })
   const [userId, setUserId] = useState('')
 
-  const [currentPage, setCurrentPage] = useState(1)
-
   const allActiveHandler = (value: boolean) => {
     value ? setUserId('') : setUserId(profileId)
     setAllActive(value)
+  }
+  const showCurrentPage = (currentPage: number, itemsCount: number) => {
+    dispatch(setPackTC({ page: currentPage, pageCount: itemsCount }))
   }
 
   const onClickHandler = (field: string) => {
@@ -96,7 +97,7 @@ export const PackList = () => {
         </div>
       </div>
       <SuperTable columns={columns} data={packCards} onClick={onClickHandler} sortField={sortInfo.field} sortBy={sortInfo.sortBy} />
-      <SuperPagination page={1} itemsCountForPage={10} totalCount={100} onChange={e => setCurrentPage(e)} />
+      <SuperPagination page={page} itemsCountForPage={pageCount} totalCount={totalCount} onChange={showCurrentPage} disabled={isDisable} />
     </div>
   )
 }
