@@ -7,8 +7,8 @@ import SuperButton from '../../common/SuperButton/SuperButton'
 import searchIcon from '../../assets/svg/search.svg'
 import SuperDebouncedInput from '../../common/SuperDebouncedInput/SuperDebouncedInput'
 import { Grade } from '../../common/Grade/Grade'
-import { setPackTC } from '../PackList/PackList-reducer'
-import { CardPackType } from '../../api/api-packsList'
+import { PackType } from '../../api/api-packsList'
+import { setCardTC } from './Card-reducer'
 
 const columns2 = [
   { key: 'question', name: 'Question' },
@@ -17,7 +17,7 @@ const columns2 = [
   {
     key: 'grade',
     name: 'Grade',
-    render: (card: CardPackType) => {
+    render: (card: PackType) => {
       return <Grade />
     },
   },
@@ -28,15 +28,16 @@ const DESC = '1'
 
 export const CardList = () => {
   const dispatch = useAppDispatch()
-  const cardPacks = useAppSelector(state => state.packList.cardPacks)
+  const isAuth = useAppSelector(state => state.app.isAuth)
+  const cardPacks = useAppSelector(state => state.cardList.cards)
   const [sortInfo, setSortInfo] = useState<SortInfoType>({
     field: null,
     sortBy: null,
   })
 
   useEffect(() => {
-    // dispatch(setPackTC())
-  }, [])
+    if (isAuth) dispatch(setCardTC())
+  }, [isAuth])
 
   const onClickHandler = (field: string) => {
     console.log(field)

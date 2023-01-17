@@ -1,9 +1,8 @@
 import { AppActionType, AppThunk } from '../../App/store'
-import { AddCardsPack, CardPackType, packsAPI, ParamsListPacksType, ResponseTypePacksList, UpdatePackType } from '../../api/api-packsList'
-//import {   PacksListType } from '../../api/api-packsList'
+import { AddCardsPack, PackType, packsAPI, ParamsListPacksType, ResponseTypePacksList, UpdatePackType } from '../../api/api-packsList'
 
 export type InitialStateType = {
-  cardPacks: CardPackType[]
+  cardPacks: PackType[]
   page: number
   pageCount: number
   cardPacksTotalCount: number
@@ -43,15 +42,15 @@ export const PackListReducer = (state: InitialStateType = initialState, action: 
 }
 //action
 export const setPacksAC = (data: ResponseTypePacksList) => ({ type: 'PACKS/SET-PACKS', data } as const)
-export const addPackAC = (newCardsPack: CardPackType) => ({ type: 'PACKS/ADD-PACKS', newCardsPack } as const)
+export const addPackAC = (newCardsPack: PackType) => ({ type: 'PACKS/ADD-PACKS', newCardsPack } as const)
 export const deletePackAC = (idPack: string) => ({ type: 'PACKS/DELETE-PACKS', idPack } as const)
 export const disableButtonAC = (isDisabled: boolean) => ({ type: 'PACKS/DISABLE-BUTTON', isDisabled } as const)
 export const setCardsCountAC = (cardsCount: number[]) => ({ type: 'PACKS/SET-CARDS-COUNT', cardsCount } as const)
-export const updatePackAC = (data: CardPackType) => ({ type: 'PACKS/UPDATE-PACKS', data } as const)
+export const updatePackAC = (data: PackType) => ({ type: 'PACKS/UPDATE-PACKS', data } as const)
 
 // thunk
 export const setPackTC =
-  (data?: PacksListType): AppThunk =>
+  (data?: ParamsListPacksType): AppThunk =>
   dispatch => {
     dispatch(disableButtonAC(true))
     packsAPI.setPacks(data).then(res => {
@@ -88,5 +87,5 @@ export type PacksActionType =
   | addPackType
   | ReturnType<typeof deletePackAC>
   | ReturnType<typeof updatePackAC>
-|  ReturnType<typeof disableButtonAC>
-    | ReturnType<typeof setCardsCountAC>
+  | ReturnType<typeof disableButtonAC>
+  | ReturnType<typeof setCardsCountAC>

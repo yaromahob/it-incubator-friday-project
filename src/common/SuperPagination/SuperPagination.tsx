@@ -15,7 +15,14 @@ export type SuperPaginationPropsType = {
   disabled: boolean
 }
 
-const SuperPagination: React.FC<SuperPaginationPropsType> = ({ page, itemsCountForPage, totalCount, onChange, id = 'hw15', disabled }) => {
+export const SuperPagination: React.FC<SuperPaginationPropsType> = ({
+  page,
+  itemsCountForPage,
+  totalCount,
+  onChange,
+  id = 'hw15',
+  disabled,
+}) => {
   const lastPage = Math.ceil(totalCount / itemsCountForPage)
   const onChangeCallback = (event: ChangeEvent<unknown>, page: number) => {
     // пишет студент
@@ -62,4 +69,3 @@ const SuperPagination: React.FC<SuperPaginationPropsType> = ({ page, itemsCountF
   )
 }
 
-export default SuperPagination

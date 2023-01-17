@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import SuperPagination from '../../common/SuperPagination/SuperPagination'
 import SuperDebouncedInput from '../../common/SuperDebouncedInput/SuperDebouncedInput'
 import styles from './PackList.module.scss'
 import clearFilterIcon from '../../assets/svg/clearFilters.svg'
@@ -9,9 +8,10 @@ import { useAppDispatch, useAppSelector } from '../../App/store'
 import { SuperTable } from '../../common/SuperTable/SuperTable'
 import { ActionButtonsContainer } from '../../common/ActionButtonsContainer/ActionButtonsContainer'
 import { setPackTC } from './PackList-reducer'
-import { CardPackType } from '../../api/api-packsList'
+import { PackType } from '../../api/api-packsList'
 import { CardsCount } from './CardsCount/CardsCount'
 import { AllCards } from './AllCards/AllCards'
+import { SuperPagination } from '../../common/SuperPagination/SuperPagination'
 
 const columns = [
   { key: 'name', name: 'Name' },
@@ -21,7 +21,7 @@ const columns = [
   {
     key: 'actions',
     name: 'Actions',
-    render: (card: CardPackType) => {
+    render: (card: PackType) => {
       return <ActionButtonsContainer educationsAction={() => alert()} editAction={() => alert()} deleteAction={() => alert()} />
     },
   },

@@ -18,14 +18,14 @@ export type ParamsListPacksType = {
   block?: boolean
 }
 export type ResponseTypePacksList = {
-  cardPacks: CardPackType[]
+  cardPacks: PackType[]
   page: number
   pageCount: number
   cardPacksTotalCount: number
   minCardsCount: number
   maxCardsCount: number
 }
-export type CardPackType = {
+export type PackType = {
   user_id: string
   user_name: string
   name: string
@@ -76,12 +76,12 @@ export type DeletePackType = {
 }
 
 export type ResponseUpdateType = {
-  updatedCardsPack: CardPackType
+  updatedCardsPack: PackType
   token: string
   tokenDeathTime: number
 }
 export type ResponseTypeNewCardsPack = {
-  newCardsPack: CardPackType
+  newCardsPack: PackType
   token: string
   tokenDeathTime: number
 }

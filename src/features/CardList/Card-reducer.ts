@@ -1,5 +1,5 @@
 import { AppActionType, AppRootStateType, AppThunk } from '../../App/store'
-import { AddCardsPack, CardPackType, packsAPI, ParamsListPacksType, ResponseTypePacksList, UpdatePackType } from '../../api/api-packsList'
+import { AddCardsPack, PackType, packsAPI, ParamsListPacksType, ResponseTypePacksList, UpdatePackType } from '../../api/api-packsList'
 import { addPackType } from '../PackList/PackList-reducer'
 import { AddCardType, cardsAPI, CardType, ParamsCardsListType } from '../../api/api-cardsList'
 
@@ -30,21 +30,21 @@ export const addCardsAC = (newCard: CardType) => ({ type: 'CARD/ADD-CARDS', newC
 export const deleteCardsAC = (id: string) => ({ type: 'CARD/DELETE-CARDS', id } as const)
 export const updateCardsAC = (updatedCard: CardType, id: string) => ({ type: 'CARD/UPDATE-CARDS', updatedCard, id } as const)
 // thunk
-export const setPackTC =
+export const setCardTC =
   (data?: ParamsCardsListType): AppThunk =>
   dispatch => {
     cardsAPI.setCards(data).then(res => {
       dispatch(setCardsAC(res.data.cards))
     })
   }
-export const addPackTC =
+export const addCardTC =
   (data: AddCardType): AppThunk =>
   dispatch => {
     cardsAPI.addCard(data).then(res => {
       dispatch(addCardsAC(res.data.newCard))
     })
   }
-export const deletePackTC =
+export const deleteCardTC =
   (id?: string): AppThunk =>
   dispatch => {
     cardsAPI.deleteCard(id).then(res => {
@@ -67,7 +67,7 @@ export type updateCardType = Partial<{
   updated?: string
   __v?: number
 }>
-export const updatePackTC =
+export const updateCardTC =
   (card: CardType): AppThunk =>
   dispatch => {
     cardsAPI.createCard(card as updateCardType).then(res => {

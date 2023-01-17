@@ -12,12 +12,15 @@ import CheckEmail from '../features/CheckEmail/CheckEmail'
 import Login from '../features/Login/Login'
 import { NewPassword } from '../features/NewPassword/NewPassword'
 import { setAuthApiTC } from './app-reducer'
-import { useAppDispatch } from './store'
+import { useAppDispatch, useAppSelector } from './store'
 import { PackList } from '../features/PackList/PackList'
 import { CardList } from '../features/CardList/CardList'
+import { setPackTC } from '../features/PackList/PackList-reducer'
+import { setCardTC } from '../features/CardList/Card-reducer'
 
 function App() {
   const dispatch = useAppDispatch()
+  const isAuth = useAppSelector(state => state.app.isAuth)
 
   useEffect(() => {
     dispatch(setAuthApiTC())
@@ -55,4 +58,4 @@ function App() {
   )
 }
 
-export default App;
+export default App

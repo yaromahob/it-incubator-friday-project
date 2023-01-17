@@ -7,7 +7,8 @@ import TableCell from '@mui/material/TableCell'
 import TableBody from '@mui/material/TableBody'
 import TableContainer from '@mui/material/TableContainer'
 import { HeaderCell } from './HeaderCell/HeaderCell'
-import { CardPackType } from '../../api/api-packsList'
+import { PackType } from '../../api/api-packsList'
+import { CardType } from '../../api/api-cardsList'
 
 export const ASC = '0'
 export const DESC = '1'
@@ -32,24 +33,25 @@ export const SuperTable: React.FC<SuperTableType> = ({ columns, data, onClick, s
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.map((card: { [index: string]: string | number | boolean }, i) => (
-            <TableRow key={`${data}-${i}`} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-              {columns.map((col, i) => {
-                if (col.render) {
+          {data &&
+            data.map((card: { [index: string]: string | number | boolean }, i) => (
+              <TableRow key={`${data}-${i}`} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                {columns.map((col, i) => {
+                  if (col.render) {
+                    return (
+                      <TableCell key={`${col}-${i}`} component="th" scope="row">
+                        {col.render(card)}
+                      </TableCell>
+                    )
+                  }
                   return (
-                    <TableCell key={`${col}-${i}`} component="th" scope="row">
-                      {col.render(card)}
+                    <TableCell key={`${col}_${i}`} component="th" scope="row">
+                      {card[col.key]}
                     </TableCell>
                   )
-                }
-                return (
-                  <TableCell key={`${col}_${i}`} component="th" scope="row">
-                    {card[col.key]}
-                  </TableCell>
-                )
-              })}
-            </TableRow>
-          ))}
+                })}
+              </TableRow>
+            ))}
         </TableBody>
       </Table>
     </TableContainer>
@@ -66,7 +68,7 @@ type DataType = {
 
 type SuperTableType = {
   columns: Array<DataType>
-  data: CardPackType[]
+  data: PackType[] | CardType[] | undefined
   onClick: (field: string) => void
   sortField: string | null
   sortBy: string | null
