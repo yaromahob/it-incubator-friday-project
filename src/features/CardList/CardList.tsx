@@ -35,7 +35,7 @@ export const CardList = () => {
   })
 
   useEffect(() => {
-    dispatch(setPackTC())
+    // dispatch(setPackTC())
   }, [])
 
   const onClickHandler = (field: string) => {

@@ -1,5 +1,4 @@
-import { LoginParamsType } from '../../api/auth-api'
-import { AppActionType, AppThunk } from '../../App/store'
+import { AppThunk } from '../../App/store'
 import { AddCardsPack, CardPackType, packsAPI, PacksListType, ResponseTypePacksList } from '../../api/api-packsList'
 
 export type InitialStateType = {
@@ -9,6 +8,7 @@ export type InitialStateType = {
   cardPacksTotalCount: number
   minCardsCount: number
   maxCardsCount: number
+  isDisabled: boolean
 }
 export const initialState: InitialStateType = {
   cardPacks: [],
@@ -17,9 +17,10 @@ export const initialState: InitialStateType = {
   cardPacksTotalCount: 2, // количество колод
   minCardsCount: 0,
   maxCardsCount: 4,
+  isDisabled: false,
 }
 
-export const PackListReducer = (state: InitialStateType = initialState, action: AppActionType): InitialStateType => {
+export const PackListReducer = (state: InitialStateType = initialState, action: PacksActionType): InitialStateType => {
   switch (action.type) {
     case 'PACKS/SET-PACKS':
       return { ...state, ...action.data }
@@ -27,6 +28,8 @@ export const PackListReducer = (state: InitialStateType = initialState, action: 
       return { ...state, cardPacks: [...state.cardPacks, action.newCardsPack] }
     case 'PACKS/DELETE-PACKS':
       return { ...state, cardPacks: [...state.cardPacks].filter(e => e._id !== action.idPack) }
+    case 'PACKS/DISABLE-BUTTON':
+      return { ...state, isDisabled: action.isDisabled }
     default:
       return state
   }
@@ -35,18 +38,15 @@ export const PackListReducer = (state: InitialStateType = initialState, action: 
 export const setPacksAC = (data: ResponseTypePacksList) => ({ type: 'PACKS/SET-PACKS', data } as const)
 export const addPackAC = (newCardsPack: CardPackType) => ({ type: 'PACKS/ADD-PACKS', newCardsPack } as const)
 export const deletePackAC = (idPack: string) => ({ type: 'PACKS/DELETE-PACKS', idPack } as const)
+export const disableButtonAC = (isDisabled: boolean) => ({ type: 'PACKS/DISABLE-BUTTON', isDisabled } as const)
 // thunk
 export const setPackTC =
   (data?: PacksListType): AppThunk =>
-  (dispatch, getState) => {
-    /*  const data = getState().packList
-  const userId = getState().profile._id
-  const params = {
-    ...data,
-    user_id: XXX ? id : ''
-  }*/
+  dispatch => {
+    dispatch(disableButtonAC(true))
     packsAPI.setPacks(data).then(res => {
       dispatch(setPacksAC(res.data))
+      dispatch(disableButtonAC(false))
     })
   }
 export const addPackTC =
@@ -63,4 +63,8 @@ export const deletePackTC =
       dispatch(deletePackAC(res.data.deletedCardsPack._id))
     })
   }
-export type PacksActionType = ReturnType<typeof setPacksAC> | ReturnType<typeof addPackAC> | ReturnType<typeof deletePackAC>
+export type PacksActionType =
+  | ReturnType<typeof setPacksAC>
+  | ReturnType<typeof addPackAC>
+  | ReturnType<typeof deletePackAC>
+  | ReturnType<typeof disableButtonAC>
