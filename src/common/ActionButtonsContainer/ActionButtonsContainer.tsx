@@ -17,7 +17,6 @@ export const ActionButtonsContainer: React.FC<ActionButtonsContainerType> = ({
 }) => {
   const profileId = useAppSelector(state => state.profile._id)
 
-  console.log(cardsCount)
   const educationCallback = () => {
     educationsAction && educationsAction(id)
   }
@@ -30,11 +29,13 @@ export const ActionButtonsContainer: React.FC<ActionButtonsContainerType> = ({
 
   return (
     <div className={styles.buttonWrapper}>
-      <div>
-        <button onClick={educationCallback} disabled={cardsCount === 0}>
-          <img src={educationIcon} alt="education icon" />
-        </button>
-      </div>
+      {educationsAction && (
+        <div>
+          <button onClick={educationCallback} disabled={cardsCount === 0}>
+            <img src={educationIcon} alt="education icon" />
+          </button>
+        </div>
+      )}
       {userId === profileId && editAction && (
         <div>
           <button onClick={editCallback}>
@@ -59,7 +60,7 @@ export const ActionButtonsContainer: React.FC<ActionButtonsContainerType> = ({
 export type ActionButtonsContainerType = {
   id: string
   userId: string
-  educationsAction: (id: string) => void
+  educationsAction?: (id: string) => void
   editAction?: (data: UpdatePackType) => void
   deleteAction?: (id: string) => void
   cardsCount: number

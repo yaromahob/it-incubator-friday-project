@@ -8,7 +8,12 @@ import searchIcon from '../../assets/svg/search.svg'
 import SuperDebouncedInput from '../../common/SuperDebouncedInput/SuperDebouncedInput'
 import { Grade } from '../../common/Grade/Grade'
 import { PackType } from '../../api/api-packsList'
-import { setCardTC } from './Card-reducer'
+import { setCardTC, setIsLoggedInCardsAC } from './Card-reducer'
+import { Navigate, NavLink } from 'react-router-dom'
+import { setPackTC } from '../PackList/PackList-reducer'
+import style from '../Profile/Profile.module.scss'
+import arrow from '../../assets/svg/profile/arrow.svg'
+import { BackToPackList } from '../BackToPackList/BackToPackList'
 
 const columns2 = [
   { key: 'question', name: 'Question' },
@@ -28,8 +33,9 @@ const DESC = '1'
 
 export const CardList = () => {
   const dispatch = useAppDispatch()
-  const isAuth = useAppSelector(state => state.app.isAuth)
+  const setIsLoggedInCards = useAppSelector(state => state.cardList.setIsLoggedInCards)
   const cardPacks = useAppSelector(state => state.cardList.cards)
+
   const [sortInfo, setSortInfo] = useState<SortInfoType>({
     field: null,
     sortBy: null,
@@ -46,6 +52,7 @@ export const CardList = () => {
 
   return (
     <div className={styles.listWrapper}>
+      <BackToPackList />
       <div className={styles.folder}>
         <h2>Friend’s Pack</h2>
         <SuperButton>Learn to pack</SuperButton>

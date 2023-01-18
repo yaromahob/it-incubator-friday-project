@@ -12,7 +12,7 @@ import { PackType, UpdatePackType } from '../../api/api-packsList'
 import { CardsCount } from './CardsCount/CardsCount'
 import { AllCards } from './AllCards/AllCards'
 import { SuperPagination } from '../../common/SuperPagination/SuperPagination'
-import { setCardTC } from '../CardList/Card-reducer'
+import { setCardsAC, setCardTC, setIsLoggedInCardsAC } from '../CardList/Card-reducer'
 import { Navigate } from 'react-router-dom'
 
 const ASC = '0'
@@ -50,7 +50,6 @@ export const PackList = () => {
   const packCards = useAppSelector(state => state.packList.cardPacks)
   const isDisable = useAppSelector(state => state.packList.isDisabled)
   const setIsLoggedInCards = useAppSelector(state => state.cardList.setIsLoggedInCards)
-
   const [sortInfo, setSortInfo] = useState<SortInfoType>({
     field: null,
     sortBy: null,
@@ -81,11 +80,12 @@ export const PackList = () => {
     dispatch(deletePackTC(id))
   }
   const updatePack = (data: UpdatePackType) => {
-    console.log('pack', data)
     dispatch(updatePackTC(data))
   }
+
   useEffect(() => {
     if (isAuth) dispatch(setPackTC())
+    dispatch(setIsLoggedInCardsAC(false))
   }, [isAuth])
 
   if (setIsLoggedInCards) {
