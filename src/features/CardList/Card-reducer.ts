@@ -5,9 +5,11 @@ import { AddCardType, cardsAPI, CardType, ParamsCardsListType } from '../../api/
 
 export type InitialStateType = {
   cards?: CardType[]
+  setIsLoggedInCards: boolean
 }
 export const initialState: InitialStateType = {
   cards: undefined,
+  setIsLoggedInCards: false,
 }
 
 export const CardListReducer = (state: InitialStateType = initialState, action: AppActionType): InitialStateType => {
@@ -20,6 +22,8 @@ export const CardListReducer = (state: InitialStateType = initialState, action: 
       return { ...state, cards: [...state.cards!].filter(c => c._id !== action.id) }
     case 'CARD/UPDATE-CARDS':
       return { ...state, cards: [...state.cards!].filter(c => (c._id === action.id ? { ...action.updatedCard } : c)) }
+    case 'CARD/SET-IS-LOGGED-IN-CARDS':
+      return { ...state, setIsLoggedInCards: action.value }
     default:
       return state
   }
@@ -29,12 +33,16 @@ export const setCardsAC = (cards: CardType[]) => ({ type: 'CARD/SET-CARDS', card
 export const addCardsAC = (newCard: CardType) => ({ type: 'CARD/ADD-CARDS', newCard } as const)
 export const deleteCardsAC = (id: string) => ({ type: 'CARD/DELETE-CARDS', id } as const)
 export const updateCardsAC = (updatedCard: CardType, id: string) => ({ type: 'CARD/UPDATE-CARDS', updatedCard, id } as const)
+export const setIsLoggedInCardsAC = (value: boolean) => ({ type: 'CARD/SET-IS-LOGGED-IN-CARDS', value } as const)
 // thunk
 export const setCardTC =
-  (data?: ParamsCardsListType): AppThunk =>
+  (data: ParamsCardsListType): AppThunk =>
   dispatch => {
     cardsAPI.setCards(data).then(res => {
-      dispatch(setCardsAC(res.data.cards))
+      if (res.data) {
+        dispatch(setIsLoggedInCardsAC(true))
+        dispatch(setCardsAC(res.data.cards))
+      }
     })
   }
 export const addCardTC =
@@ -80,3 +88,4 @@ export type CardsActionType =
   | ReturnType<typeof addCardsAC>
   | ReturnType<typeof deleteCardsAC>
   | ReturnType<typeof updateCardsAC>
+  | ReturnType<typeof setIsLoggedInCardsAC>

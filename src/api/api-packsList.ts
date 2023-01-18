@@ -87,7 +87,7 @@ export type ResponseTypeNewCardsPack = {
 }
 
 export type ResponseDeletedCardsPackType = {
-  deletedCardsPack: DeletePackType
+  deletedCardsPack: PackType
   token: string
   tokenDeathTime: number
 }
@@ -112,6 +112,6 @@ export const packsAPI = {
     return instance.delete<ResponseDeletedCardsPackType>(`cards/pack?id=${id}`)
   },
   createPack(data: UpdatePackType) {
-    return instance.put<ResponseUpdateType>(`cards/pack`, { data })
+    return instance.put<ResponseUpdateType>(`cards/pack`, data)
   },
 }

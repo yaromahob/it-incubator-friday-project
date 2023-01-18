@@ -30,15 +30,10 @@ export const CardList = () => {
   const dispatch = useAppDispatch()
   const isAuth = useAppSelector(state => state.app.isAuth)
   const cardPacks = useAppSelector(state => state.cardList.cards)
-  const profileID = useAppSelector(state => state.profile._id)
   const [sortInfo, setSortInfo] = useState<SortInfoType>({
     field: null,
     sortBy: null,
   })
-
-  useEffect(() => {
-    if (isAuth) dispatch(setCardTC())
-  }, [isAuth])
 
   const onClickHandler = (field: string) => {
     console.log(field)

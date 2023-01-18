@@ -15,8 +15,6 @@ import { setAuthApiTC } from './app-reducer'
 import { useAppDispatch, useAppSelector } from './store'
 import { PackList } from '../features/PackList/PackList'
 import { CardList } from '../features/CardList/CardList'
-import { setPackTC } from '../features/PackList/PackList-reducer'
-import { setCardTC } from '../features/CardList/Card-reducer'
 
 function App() {
   const dispatch = useAppDispatch()

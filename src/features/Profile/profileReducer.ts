@@ -36,13 +36,7 @@ export const profileReducer = (state = initState, action: ProfileActionType): In
   }
 }
 
-export const setProfileAC = (
-  _id: string,
-  email: string,
-  name: string,
-  token: string,
-  avatar: string
-) =>
+export const setProfileAC = (_id: string, email: string, name: string, token: string, avatar: string) =>
   ({
     type: 'SET-PROFILE',
     _id,
@@ -75,9 +69,7 @@ export const updateUsersDataTC =
         dispatch(headerSetNameAC(name))
       })
       .catch(e => {
-        const error = e.response
-          ? e.response.data.error
-          : e.message + ', more details in the console'
+        const error = e.response ? e.response.data.error : e.message + ', more details in the console'
         dispatch(setAppError(error))
       })
   }
