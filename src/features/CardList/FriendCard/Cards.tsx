@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react'
-import { SuperTable } from '../../common/SuperTable/SuperTable'
-import { SortInfoType } from '../PackList/PackList'
-import { useAppDispatch, useAppSelector } from '../../App/store'
-import styles from './CardList.module.scss'
-import SuperButton from '../../common/SuperButton/SuperButton'
-import searchIcon from '../../assets/svg/search.svg'
-import SuperDebouncedInput from '../../common/SuperDebouncedInput/SuperDebouncedInput'
-import { Grade } from '../../common/Grade/Grade'
-import { PackType } from '../../api/api-packsList'
-import { setCardTC } from './Card-reducer'
-import { setPackTC } from '../PackList/PackList-reducer'
+import { SuperTable } from '../../../common/SuperTable/SuperTable'
+import { SortInfoType } from '../../PackList/PackList'
+import { useAppDispatch, useAppSelector } from '../../../App/store'
+import styles from './Cards.module.scss'
+import SuperButton from '../../../common/SuperButton/SuperButton'
+import searchIcon from '../../../assets/svg/search.svg'
+import SuperDebouncedInput from '../../../common/SuperDebouncedInput/SuperDebouncedInput'
+import { Grade } from '../../../common/Grade/Grade'
+import { PackType } from '../../../api/api-packsList'
+import { setCardTC } from '../Card-reducer'
+import { setPackTC } from '../../PackList/PackList-reducer'
 import { Navigate, NavLink } from 'react-router-dom'
-import style from '../Profile/Profile.module.scss'
-import arrow from '../../assets/svg/profile/arrow.svg'
-import { BackToPackList } from '../BackToPackList/BackToPackList'
+import style from '../../Profile/Profile.module.scss'
+import arrow from '../../../assets/svg/profile/arrow.svg'
+import { BackToPackList } from '../../BackToPackList/BackToPackList'
 
 const columns2 = [
   { key: 'question', name: 'Question' },
@@ -31,7 +31,7 @@ const columns2 = [
 const ASC = '0'
 const DESC = '1'
 
-export const CardList = () => {
+export const Cards = () => {
   const dispatch = useAppDispatch()
   const setIsLoggedInCards = useAppSelector(state => state.cardList.setIsLoggedInCards)
   const cardPacks = useAppSelector(state => state.cardList.cards)

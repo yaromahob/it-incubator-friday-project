@@ -1,5 +1,5 @@
-@import "./src/styles/mixins";
-@import "./src/features/PackList/PackList.module";
+@import "../../../styles/mixins";
+@import "../../PackList/PackList.module";
 
 .listWrapper {
   .interfaceField {

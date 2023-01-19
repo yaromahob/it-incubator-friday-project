@@ -4,17 +4,19 @@ import { addPackType } from '../PackList/PackList-reducer'
 import { AddCardType, cardsAPI, CardType, ParamsCardsListType } from '../../api/api-cardsList'
 
 export type InitialStateType = {
-  cards?: CardType[]
+  cards: CardType[]
   setIsLoggedInCards: boolean
 }
+
 export const initialState: InitialStateType = {
-  cards: undefined,
+  cards: [],
   setIsLoggedInCards: false,
 }
 
 export const CardListReducer = (state: InitialStateType = initialState, action: AppActionType): InitialStateType => {
   switch (action.type) {
     case 'CARD/SET-CARDS':
+      console.log(action.cards)
       return { ...state, cards: action.cards }
     case 'CARD/ADD-CARDS':
       return { ...state, cards: [...state.cards!, action.newCard] }

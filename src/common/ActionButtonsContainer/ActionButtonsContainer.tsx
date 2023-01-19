@@ -31,7 +31,7 @@ export const ActionButtonsContainer: React.FC<ActionButtonsContainerType> = ({
     <div className={styles.buttonWrapper}>
       {educationsAction && (
         <div>
-          <button onClick={educationCallback} disabled={cardsCount === 0}>
+          <button onClick={educationCallback} disabled={cardsCount === 0 && userId !== profileId}>
             <img src={educationIcon} alt="education icon" />
           </button>
         </div>

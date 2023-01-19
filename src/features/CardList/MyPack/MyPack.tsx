@@ -1,17 +1,17 @@
 import React, { useState } from 'react'
-import { SuperTable } from '../../common/SuperTable/SuperTable'
-import { SortInfoType } from '../PackList/PackList'
-import { useAppDispatch, useAppSelector } from '../../App/store'
+import { SuperTable } from '../../../common/SuperTable/SuperTable'
+import { SortInfoType } from '../../PackList/PackList'
+import { useAppDispatch, useAppSelector } from '../../../App/store'
 import styles from './MyPack.module.scss'
-import SuperButton from '../../common/SuperButton/SuperButton'
-import searchIcon from '../../assets/svg/search.svg'
-import SuperDebouncedInput from '../../common/SuperDebouncedInput/SuperDebouncedInput'
-import { Grade } from '../../common/Grade/Grade'
-import { PackType, UpdatePackType } from '../../api/api-packsList'
-import { ActionButtonsContainer } from '../../common/ActionButtonsContainer/ActionButtonsContainer'
-import { deletePackTC, setPackTC, updatePackTC } from '../PackList/PackList-reducer'
-import { BackToPackList } from '../BackToPackList/BackToPackList'
-import { setCardTC } from '../CardList/Card-reducer'
+import SuperButton from '../../../common/SuperButton/SuperButton'
+import searchIcon from '../../../assets/svg/search.svg'
+import SuperDebouncedInput from '../../../common/SuperDebouncedInput/SuperDebouncedInput'
+import { Grade } from '../../../common/Grade/Grade'
+import { PackType } from '../../../api/api-packsList'
+import { ActionButtonsContainer } from '../../../common/ActionButtonsContainer/ActionButtonsContainer'
+import { setPackTC } from '../../PackList/PackList-reducer'
+import { BackToPackList } from '../../BackToPackList/BackToPackList'
+import { setCardTC } from '../Card-reducer'
 
 const ASC = '0'
 const DESC = '1'
@@ -73,6 +73,11 @@ export const MyPack = () => {
     }
   }
 
+  const addCard = (id: string) => {
+    //cardsPack_id: "63c9a7e6a0c27045ecc13dc3"
+    // dispatch(addCardTC({ cardsPack_id: id }))
+  }
+
   return (
     <div className={styles.listWrapper}>
       <BackToPackList />
@@ -101,7 +106,7 @@ export const MyPack = () => {
             )}
           </div>
         </div>
-        <SuperButton>Add new card</SuperButton>
+        <SuperButton onClick={() => addCard('someID')}>Add new card</SuperButton>
       </div>
       <div className={styles.interfaceField}>
         <div className={styles.search}>

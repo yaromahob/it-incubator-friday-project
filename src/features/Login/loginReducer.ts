@@ -12,10 +12,7 @@ const initialState: AuthStateType = {
 }
 type AuthStateType = { isLoggedIn: boolean; isRecoveryPassword: boolean; isNewPassword: boolean }
 
-export const loginReducer = (
-  state: AuthStateType = initialState,
-  action: AuthActionType
-): AuthStateType => {
+export const loginReducer = (state: AuthStateType = initialState, action: AuthActionType): AuthStateType => {
   switch (action.type) {
     case 'login/SET-IS-LOGGED-IN':
       return { ...state, isLoggedIn: action.value }
@@ -28,36 +25,32 @@ export const loginReducer = (
   }
 }
 //action
-export const setIsLoggedInAC = (value: boolean) =>
-  ({ type: 'login/SET-IS-LOGGED-IN', value } as const)
-export const setIsLoggedInRecoveryPasswordAC = (value: boolean) =>
-  ({ type: 'login/SET-VALUE', value } as const)
+export const setIsLoggedInAC = (value: boolean) => ({ type: 'login/SET-IS-LOGGED-IN', value } as const)
+export const setIsLoggedInRecoveryPasswordAC = (value: boolean) => ({ type: 'login/SET-VALUE', value } as const)
 export const newPasswordAC = (value: boolean) => ({ type: 'login/NEW-PASSWORD', value } as const)
 //thunk
 export const loginTC =
   (data: LoginParamsType): AppThunk =>
   dispatch => {
-    authAPI
-      .login(data)
-      .then(res => {
-        if (!res.data.error) {
-          dispatch(setIsLoggedInAC(true))
-        } else {
-          if (res.data.error) {
-            dispatch(setAppError(res.data.error))
-          }
+    authAPI.login(data).then(res => {
+      if (!res.data.error) {
+        dispatch(setIsLoggedInAC(true))
+      } else {
+        if (res.data.error) {
+          dispatch(setAppError(res.data.error))
         }
-        if (!res.data.error) {
-          dispatch(setIsLoggedInAC(true))
-          dispatch(setAuthApiTC())
-        }
-      })
-      .catch(e => {
-        if (axios.isAxiosError(e)) {
-          const error = e.response ? e.response.data.error : e.message
-          dispatch(setAppError(error))
-        }
-      })
+      }
+      if (!res.data.error) {
+        dispatch(setIsLoggedInAC(true))
+        dispatch(setAuthApiTC())
+      }
+    })
+    // .catch(e => {
+    //   if (axios.isAxiosError(e)) {
+    //     const error = e.response ? e.response.data.error : e.message
+    //     dispatch(setAppError(error))
+    //   }
+    // })
   }
 export const recoveryPasswordTC =
   (data: recoveryPasswordType): AppThunk =>

@@ -14,8 +14,8 @@ import { NewPassword } from '../features/NewPassword/NewPassword'
 import { setAuthApiTC } from './app-reducer'
 import { useAppDispatch, useAppSelector } from './store'
 import { PackList } from '../features/PackList/PackList'
-import { CardList } from '../features/CardList/CardList'
-import { MyPack } from '../features/MyPack/MyPack'
+import { Cards } from '../features/CardList/FriendCard/Cards'
+import { MyPack } from '../features/CardList/MyPack/MyPack'
 
 function App() {
   const dispatch = useAppDispatch()
@@ -36,7 +36,7 @@ function App() {
         <Route path="/checkEmail" element={<CheckEmail />} />
         <Route path="/newPassword" element={<NewPassword />} />
         <Route path="/packList" element={<PackList />} />
-        <Route path="/cardList" element={<CardList />} />
+        <Route path="/cardList" element={<Cards />} />
         <Route path="/myPack" element={<MyPack />} />
         <Route path="/404" element={<NotFound />} />
         <Route path="/recoveryPassword" element={<RecoveryPassword />} />

@@ -37,6 +37,7 @@ export const PackListReducer = (state: InitialStateType = initialState, action: 
     case 'PACKS/DISABLE-BUTTON':
       return { ...state, isDisabled: action.isDisabled }
     case 'PACKS/SET-CARDS-COUNT':
+      console.log(action.cardsCount)
       return { ...state, cardsCount: [...action.cardsCount] }
     case 'PACKS/UPDATE-PACKS':
       return {
@@ -94,6 +95,7 @@ export const setPackTC =
   dispatch => {
     dispatch(disableButtonAC(true))
     packsAPI.setPacks(data).then(res => {
+      console.log(res)
       dispatch(setPacksAC(res.data))
       dispatch(disableButtonAC(false))
     })

@@ -13,7 +13,7 @@ import { CardsCount } from './CardsCount/CardsCount'
 import { AllCards } from './AllCards/AllCards'
 import { SuperPagination } from '../../common/SuperPagination/SuperPagination'
 import { setCardsAC, setCardTC, setIsLoggedInCardsAC } from '../CardList/Card-reducer'
-import { Navigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 
 const ASC = '0'
 const DESC = '1'
@@ -50,10 +50,9 @@ export const PackList = () => {
   const packCards = useAppSelector(state => state.packList.cardPacks)
   const isDisable = useAppSelector(state => state.packList.isDisabled)
   const sortBy = useAppSelector(state => state.packList.sortBy)
+  // const profileID = useAppSelector(state => state.profile._id)
+  // const packCardsID = useAppSelector(state => state.cardList.cards)
   const setIsLoggedInCards = useAppSelector(state => state.cardList.setIsLoggedInCards)
-  // const [sortInfo, setSortInfo] = useState<SortInfoType>({
-  //   sortBy: ASC,
-  // })
 
   const showCurrentPage = (currentPage: number, itemsCount: number) => {
     dispatch(setPackTC({ page: currentPage, pageCount: itemsCount }))
@@ -90,10 +89,13 @@ export const PackList = () => {
 
   useEffect(() => {
     if (isAuth) dispatch(setPackTC())
-    dispatch(setIsLoggedInCardsAC(false))
   }, [isAuth])
 
   if (setIsLoggedInCards) {
+    // if (profileID === packCardsID) {
+    //   return <Navigate to={'/myPack'} />
+    // }
+
     return <Navigate to={'/cardList'} />
   }
 
