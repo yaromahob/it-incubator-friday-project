@@ -10,6 +10,7 @@ import { AppRootStateType, useAppDispatch, useAppSelector } from '../../App/stor
 import { useSelector } from 'react-redux'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { logoutTC } from '../Login/loginReducer'
+import { BackToPackList } from '../BackToPackList/BackToPackList'
 
 const Profile = () => {
   const isAuth = useAppSelector(state => state.app.isAuth)
@@ -32,10 +33,7 @@ const Profile = () => {
 
   return (
     <div className={style.profileWrapper}>
-      <div className={style.arrow}>
-        <img src={arrow} alt="arrow icon" />
-        <span>Back to Packs List</span>
-      </div>
+      <BackToPackList />
       <div className={style.container}>
         <span className={style.info}>Personal Information</span>
         <User />

@@ -1,0 +1,93 @@
+@import "./src/features/CardList/CardList.module";
+
+.renderWrapper{
+  display: flex;
+  align-items: center;
+
+}
+
+.myPackWrapper{
+  display: flex;
+  align-items: center;
+  .editMyPack {
+    position: relative;
+    margin-left: 10px;
+    width: 22px;
+    height: 22px;
+    border: 1px solid #0D0C0B;
+    border-radius: 50%;
+    cursor: pointer;
+    .spanWrapper{
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      align-items: center;
+      height: 100%;
+      span {
+        display: flex;
+        background-color: #0D0C0B;
+        border-radius: 50%;
+        width: 3px;
+        height: 3px;
+      }
+
+
+    }
+
+    .actionButtons{
+      position: absolute;
+      width: 115px;
+      background-color: #fff;
+      border: 1px solid #CFCFCF;
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.06);
+      z-index: 1;
+      top: 30px;
+      left: -95px;
+      div {
+        display: flex;
+        flex-direction: column;
+        div {
+          position: relative;
+          background-color: #fff;
+          margin: 10px 10px;
+          transition: all 0.05s ease-in-out;
+          &:hover{
+            scale: 1.05;
+          }
+
+          button {
+            width: 25px;
+          }
+
+          &:first-child{
+            &:after{
+              position: absolute;
+              content: 'Educate';
+              color: #0D0C0B;
+              left: 25px;
+            }
+          }
+          &:nth-child(2){
+            &:after{
+              position: absolute;
+              content: 'Edit';
+              color: #0D0C0B;
+              left: 25px;
+            }
+          }
+          &:last-child{
+            &:after{
+              position: absolute;
+              content: 'Delete';
+              color: #0D0C0B;
+              left: 25px;
+            }
+          }
+        }
+      }
+
+
+    }
+  }
+}
+

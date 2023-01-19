@@ -11,11 +11,11 @@ export type ParamsCardsListType = {
   cardAnswer?: string
   cardQuestion?: string
   cardsPack_id: string
-  min: number
-  max: number
-  sortCards: any
-  page: number
-  pageCount: number
+  min?: number
+  max?: number
+  sortCards?: any
+  page?: number
+  pageCount?: number
 }
 export type AddCardType = {
   card: {
@@ -78,7 +78,7 @@ export type ResponseUpdateCardType = {
   tokenDeathTime: number
 }
 export const cardsAPI = {
-  setCards(params?: ParamsCardsListType) {
+  setCards(params: ParamsCardsListType) {
     console.log(params)
     return instance.get<ResponseSetCardTyp>(`/cards/card`, {
       params,

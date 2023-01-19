@@ -7,11 +7,13 @@ import SuperButton from '../../common/SuperButton/SuperButton'
 import { useAppDispatch, useAppSelector } from '../../App/store'
 import { SuperTable } from '../../common/SuperTable/SuperTable'
 import { ActionButtonsContainer } from '../../common/ActionButtonsContainer/ActionButtonsContainer'
-import { addPackTC, deletePackTC, setPackTC } from './PackList-reducer'
-import { PackType } from '../../api/api-packsList'
+import { addPackTC, deletePackTC, setPackTC, updatePackTC } from './PackList-reducer'
+import { PackType, UpdatePackType } from '../../api/api-packsList'
 import { CardsCount } from './CardsCount/CardsCount'
 import { AllCards } from './AllCards/AllCards'
 import { SuperPagination } from '../../common/SuperPagination/SuperPagination'
+import { setCardsAC, setCardTC, setIsLoggedInCardsAC } from '../CardList/Card-reducer'
+import { Navigate } from 'react-router-dom'
 
 const ASC = '0'
 const DESC = '1'
@@ -27,7 +29,14 @@ export const PackList = () => {
       name: 'Actions',
       render: (card: PackType) => {
         return (
-          <ActionButtonsContainer id={card._id} educationsAction={() => alert()} editAction={() => alert()} deleteAction={deletePack} />
+          <ActionButtonsContainer
+            cardsCount={card.cardsCount}
+            id={card._id}
+            userId={card.user_id}
+            educationsAction={setCards}
+            editAction={updatePack}
+            deleteAction={deletePack}
+          />
         )
       },
     },
@@ -40,7 +49,7 @@ export const PackList = () => {
   const isAuth = useAppSelector(state => state.app.isAuth)
   const packCards = useAppSelector(state => state.packList.cardPacks)
   const isDisable = useAppSelector(state => state.packList.isDisabled)
-
+  const setIsLoggedInCards = useAppSelector(state => state.cardList.setIsLoggedInCards)
   const [sortInfo, setSortInfo] = useState<SortInfoType>({
     sortBy: ASC,
   })
@@ -65,13 +74,25 @@ export const PackList = () => {
     dispatch(addPackTC({ cardsPack: { name: 'h1 my name is', private: false } }))
   }
 
+  const setCards = (id: string) => {
+    dispatch(setCardTC({ cardsPack_id: id }))
+  }
+
   const deletePack = (id: string) => {
     dispatch(deletePackTC(id))
+  }
+  const updatePack = (data: UpdatePackType) => {
+    dispatch(updatePackTC(data))
   }
 
   useEffect(() => {
     if (isAuth) dispatch(setPackTC())
+    dispatch(setIsLoggedInCardsAC(false))
   }, [isAuth])
+
+  if (setIsLoggedInCards) {
+    return <Navigate to={'/cardList'} />
+  }
 
   return (
     <div className={styles.listWrapper}>

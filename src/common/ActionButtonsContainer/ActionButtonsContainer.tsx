@@ -3,28 +3,48 @@ import educationIcon from '../../assets/svg/educating.svg'
 import editIcon from '../../assets/svg/edit.svg'
 import deleteIcon from '../../assets/svg/delete.svg'
 import styles from './ActionButtonsContainer.module.scss'
+import { UpdatePackType } from '../../api/api-packsList'
+import { useAppSelector } from '../../App/store'
+import { Navigate } from 'react-router-dom'
 
-export const ActionButtonsContainer: React.FC<ActionButtonsContainerType> = ({ id, educationsAction, editAction, deleteAction }) => {
-  const educationCallback = () => {}
-  const editCallback = () => {}
+export const ActionButtonsContainer: React.FC<ActionButtonsContainerType> = ({
+  id,
+  userId,
+  cardsCount,
+  educationsAction,
+  editAction,
+  deleteAction,
+}) => {
+  const profileId = useAppSelector(state => state.profile._id)
+
+  const educationCallback = () => {
+    educationsAction && educationsAction(id)
+  }
+  const editCallback = () => {
+    editAction && editAction({ cardsPack: { _id: id, name: 'new Card' } })
+  }
   const deleteCallback = () => {
     deleteAction && deleteAction(id)
   }
+
   return (
     <div className={styles.buttonWrapper}>
-      <div>
-        <button onClick={educationCallback}>
-          <img src={educationIcon} alt="education icon" />
-        </button>
-      </div>
-      {editAction && (
+      {educationsAction && (
+        <div>
+          <button onClick={educationCallback} disabled={cardsCount === 0}>
+            <img src={educationIcon} alt="education icon" />
+          </button>
+        </div>
+      )}
+      {userId === profileId && editAction && (
         <div>
           <button onClick={editCallback}>
             <img src={editIcon} alt="edit icon" />
           </button>
         </div>
       )}
-      {deleteAction && (
+
+      {userId === profileId && deleteAction && (
         <div>
           <button onClick={deleteCallback}>
             <img src={deleteIcon} alt="delete icon" />
@@ -39,7 +59,9 @@ export const ActionButtonsContainer: React.FC<ActionButtonsContainerType> = ({ i
 
 export type ActionButtonsContainerType = {
   id: string
-  educationsAction: () => void
-  editAction?: () => void
+  userId: string
+  educationsAction?: (id: string) => void
+  editAction?: (data: UpdatePackType) => void
   deleteAction?: (id: string) => void
+  cardsCount: number
 }
