@@ -7,7 +7,7 @@ import SuperButton from '../../common/SuperButton/SuperButton'
 import { useAppDispatch, useAppSelector } from '../../App/store'
 import { SuperTable } from '../../common/SuperTable/SuperTable'
 import { ActionButtonsContainer } from '../../common/ActionButtonsContainer/ActionButtonsContainer'
-import { addPackTC, deletePackTC, setPackTC, updatePackTC } from './PackList-reducer'
+import { addPackTC, clearFilterTC, deletePackTC, setPackTC, sortByDateAC, updatePackTC } from './PackList-reducer'
 import { PackType, UpdatePackType } from '../../api/api-packsList'
 import { CardsCount } from './CardsCount/CardsCount'
 import { AllCards } from './AllCards/AllCards'
@@ -49,24 +49,27 @@ export const PackList = () => {
   const isAuth = useAppSelector(state => state.app.isAuth)
   const packCards = useAppSelector(state => state.packList.cardPacks)
   const isDisable = useAppSelector(state => state.packList.isDisabled)
+  const sortBy = useAppSelector(state => state.packList.sortBy)
   const setIsLoggedInCards = useAppSelector(state => state.cardList.setIsLoggedInCards)
-  const [sortInfo, setSortInfo] = useState<SortInfoType>({
-    sortBy: ASC,
-  })
+  // const [sortInfo, setSortInfo] = useState<SortInfoType>({
+  //   sortBy: ASC,
+  // })
 
   const showCurrentPage = (currentPage: number, itemsCount: number) => {
     dispatch(setPackTC({ page: currentPage, pageCount: itemsCount }))
   }
-
+  const clearFilter = () => {
+    dispatch(clearFilterTC())
+  }
   const onClickHandler = () => {
-    console.log(sortInfo)
-    if (sortInfo.sortBy === DESC) {
+    console.log(sortBy)
+    if (sortBy === DESC) {
       dispatch(setPackTC({ sortPacks: '0updated' }))
-      setSortInfo({ sortBy: ASC })
+      dispatch(sortByDateAC(ASC))
     }
-    if (sortInfo.sortBy === ASC) {
+    if (sortBy === ASC) {
       dispatch(setPackTC({ sortPacks: '1updated' }))
-      setSortInfo({ sortBy: DESC })
+      dispatch(sortByDateAC(DESC))
     }
   }
 
@@ -112,12 +115,12 @@ export const PackList = () => {
         <CardsCount />
         <div className={styles.clearFilters}>
           <span></span>
-          <button>
+          <button onClick={clearFilter} disabled={isDisable}>
             <img src={clearFilterIcon} alt="button img" />
           </button>
         </div>
       </div>
-      <SuperTable columns={columns} data={packCards} onClick={onClickHandler} sortBy={sortInfo.sortBy} disabled={isDisable} />
+      <SuperTable columns={columns} data={packCards} onClick={onClickHandler} sortBy={sortBy} disabled={isDisable} />
       <SuperPagination page={page} itemsCountForPage={pageCount} totalCount={totalCount} onChange={showCurrentPage} disabled={isDisable} />
     </div>
   )

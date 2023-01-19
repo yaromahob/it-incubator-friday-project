@@ -1,5 +1,5 @@
-import { AppActionType, AppThunk } from '../../App/store'
-import { AddCardsPack, PackType, packsAPI, ParamsListPacksType, ResponseTypePacksList, UpdatePackType } from '../../api/api-packsList'
+import { AppThunk } from '../../App/store'
+import { AddCardsPack, packsAPI, PackType, ParamsListPacksType, ResponseTypePacksList, UpdatePackType } from '../../api/api-packsList'
 
 export type InitialStateType = {
   cardPacks: PackType[]
@@ -10,8 +10,10 @@ export type InitialStateType = {
   maxCardsCount: number
   isDisabled: boolean
   cardsCount: Array<number>
+  userId: string
+  sortBy: string
 }
-export const initialState = {
+export const initialState: InitialStateType = {
   cardPacks: [],
   page: 1, //выбранная стр
   pageCount: 4, //ко-во стр
@@ -20,6 +22,8 @@ export const initialState = {
   maxCardsCount: 4,
   isDisabled: false,
   cardsCount: [1, 30],
+  userId: '',
+  sortBy: '0',
 }
 
 export const PackListReducer = (state: InitialStateType = initialState, action: PacksActionType): InitialStateType => {
@@ -35,7 +39,21 @@ export const PackListReducer = (state: InitialStateType = initialState, action: 
     case 'PACKS/SET-CARDS-COUNT':
       return { ...state, cardsCount: [...action.cardsCount] }
     case 'PACKS/UPDATE-PACKS':
-      return { ...state, cardPacks: [...state.cardPacks].map(e => (e._id === action.data._id ? { ...e, name: action.data.name } : e)) }
+      return {
+        ...state,
+        cardPacks: [...state.cardPacks].map(e =>
+          e._id === action.data._id
+            ? {
+                ...e,
+                name: action.data.name,
+              }
+            : e
+        ),
+      }
+    case 'PACKS/SET_USERID':
+      return { ...state, userId: action.userId }
+    case 'PACKS/SORT_BY_DATE':
+      return { ...state, sortBy: action.sortBy }
     default:
       return state
   }
@@ -47,8 +65,30 @@ export const deletePackAC = (idPack: string) => ({ type: 'PACKS/DELETE-PACKS', i
 export const disableButtonAC = (isDisabled: boolean) => ({ type: 'PACKS/DISABLE-BUTTON', isDisabled } as const)
 export const setCardsCountAC = (cardsCount: number[]) => ({ type: 'PACKS/SET-CARDS-COUNT', cardsCount } as const)
 export const updatePackAC = (data: PackType) => ({ type: 'PACKS/UPDATE-PACKS', data } as const)
+export const setUserIdAC = (userId: string) => ({ type: 'PACKS/SET_USERID', userId } as const)
+export const sortByDateAC = (sortBy: string) => ({ type: 'PACKS/SORT_BY_DATE', sortBy } as const)
 
 // thunk
+export const clearFilterTC = (): AppThunk => dispatch => {
+  dispatch(disableButtonAC(true))
+  packsAPI
+    .setPacks({
+      min: 0,
+      max: 30,
+      sortPacks: '0updated',
+      page: 1,
+      pageCount: 4,
+      user_id: '',
+    })
+    .then(res => {
+      dispatch(setPacksAC(res.data))
+      dispatch(setUserIdAC(''))
+      dispatch(setCardsCountAC([1, 30]))
+      dispatch(sortByDateAC('0'))
+      dispatch(disableButtonAC(false))
+    })
+}
+
 export const setPackTC =
   (data?: ParamsListPacksType): AppThunk =>
   dispatch => {
@@ -89,3 +129,5 @@ export type PacksActionType =
   | ReturnType<typeof updatePackAC>
   | ReturnType<typeof disableButtonAC>
   | ReturnType<typeof setCardsCountAC>
+  | ReturnType<typeof setUserIdAC>
+  | ReturnType<typeof sortByDateAC>
