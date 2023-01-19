@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/it-incubator-friday-project/static/css/main.4e5fbd6b.css",
-    "main.js": "/it-incubator-friday-project/static/js/main.f67c205e.js",
+    "main.css": "/it-incubator-friday-project/static/css/main.fab51deb.css",
+    "main.js": "/it-incubator-friday-project/static/js/main.aa704bda.js",
     "static/js/787.fd7613c7.chunk.js": "/it-incubator-friday-project/static/js/787.fd7613c7.chunk.js",
     "static/media/checkEmail.svg": "/it-incubator-friday-project/static/media/checkEmail.2c9fd3a893050dac8b8696cfee43f3e5.svg",
     "static/media/logo.svg": "/it-incubator-friday-project/static/media/logo.26f79858862bec92ec0d7f3207d8c084.svg",
@@ -20,12 +20,12 @@
     "static/media/down.svg": "/it-incubator-friday-project/static/media/down.e48898c2c6bc76aba3e0ec01e84c5b9f.svg",
     "static/media/up.svg": "/it-incubator-friday-project/static/media/up.c9f949515da96209b785942f792b68b7.svg",
     "static/media/arrow.svg": "/it-incubator-friday-project/static/media/arrow.19c7bd8ee7d32ca8451f1de3f6803354.svg",
-    "main.4e5fbd6b.css.map": "/it-incubator-friday-project/static/css/main.4e5fbd6b.css.map",
-    "main.f67c205e.js.map": "/it-incubator-friday-project/static/js/main.f67c205e.js.map",
+    "main.fab51deb.css.map": "/it-incubator-friday-project/static/css/main.fab51deb.css.map",
+    "main.aa704bda.js.map": "/it-incubator-friday-project/static/js/main.aa704bda.js.map",
     "787.fd7613c7.chunk.js.map": "/it-incubator-friday-project/static/js/787.fd7613c7.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.4e5fbd6b.css",
-    "static/js/main.f67c205e.js"
+    "static/css/main.fab51deb.css",
+    "static/js/main.aa704bda.js"
   ]
 }
