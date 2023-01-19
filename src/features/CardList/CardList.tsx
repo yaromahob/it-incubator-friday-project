@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { SuperTable } from '../../common/SuperTable/SuperTable'
 import { SortInfoType } from '../PackList/PackList'
 import { useAppDispatch, useAppSelector } from '../../App/store'
@@ -9,6 +9,7 @@ import SuperDebouncedInput from '../../common/SuperDebouncedInput/SuperDebounced
 import { Grade } from '../../common/Grade/Grade'
 import { PackType } from '../../api/api-packsList'
 import { setCardTC } from './Card-reducer'
+import { setPackTC } from '../PackList/PackList-reducer'
 
 const columns2 = [
   { key: 'question', name: 'Question' },
@@ -31,21 +32,20 @@ export const CardList = () => {
   const isAuth = useAppSelector(state => state.app.isAuth)
   const cardPacks = useAppSelector(state => state.cardList.cards)
   const profileID = useAppSelector(state => state.profile._id)
+  const isDisable = useAppSelector(state => state.packList.isDisabled)
+
   const [sortInfo, setSortInfo] = useState<SortInfoType>({
-    field: null,
     sortBy: null,
   })
 
-  useEffect(() => {
-    if (isAuth) dispatch(setCardTC())
-  }, [isAuth])
-
-  const onClickHandler = (field: string) => {
-    console.log(field)
+  const onClickHandler = () => {
     if (sortInfo.sortBy === DESC) {
-      setSortInfo({ field, sortBy: null })
-    } else {
-      setSortInfo(prev => ({ field, sortBy: prev.sortBy === null ? ASC : DESC }))
+      dispatch(setPackTC({ sortPacks: '0updated' }))
+      setSortInfo({ sortBy: ASC })
+    }
+    if (sortInfo.sortBy === ASC) {
+      dispatch(setPackTC({ sortPacks: '1updated' }))
+      setSortInfo({ sortBy: DESC })
     }
   }
 
@@ -65,7 +65,7 @@ export const CardList = () => {
         </div>
       </div>
 
-      <SuperTable columns={columns2} data={cardPacks} onClick={onClickHandler} sortField={sortInfo.field} sortBy={sortInfo.sortBy} />
+      <SuperTable columns={columns2} data={cardPacks} onClick={onClickHandler} sortBy={sortInfo.sortBy} disabled={isDisable} />
     </div>
   )
 }

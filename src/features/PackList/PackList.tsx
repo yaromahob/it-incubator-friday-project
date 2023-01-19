@@ -42,20 +42,22 @@ export const PackList = () => {
   const isDisable = useAppSelector(state => state.packList.isDisabled)
 
   const [sortInfo, setSortInfo] = useState<SortInfoType>({
-    field: null,
-    sortBy: null,
+    sortBy: ASC,
   })
 
   const showCurrentPage = (currentPage: number, itemsCount: number) => {
     dispatch(setPackTC({ page: currentPage, pageCount: itemsCount }))
   }
 
-  const onClickHandler = (field: string) => {
+  const onClickHandler = () => {
+    console.log(sortInfo)
     if (sortInfo.sortBy === DESC) {
+      dispatch(setPackTC({ sortPacks: '0updated' }))
+      setSortInfo({ sortBy: ASC })
+    }
+    if (sortInfo.sortBy === ASC) {
       dispatch(setPackTC({ sortPacks: '1updated' }))
-      setSortInfo({ field, sortBy: ASC })
-    } else {
-      setSortInfo(prev => ({ field, sortBy: prev.sortBy === null ? ASC : DESC }))
+      setSortInfo({ sortBy: DESC })
     }
   }
 
@@ -94,7 +96,7 @@ export const PackList = () => {
           </button>
         </div>
       </div>
-      <SuperTable columns={columns} data={packCards} onClick={onClickHandler} sortField={sortInfo.field} sortBy={sortInfo.sortBy} />
+      <SuperTable columns={columns} data={packCards} onClick={onClickHandler} sortBy={sortInfo.sortBy} disabled={isDisable} />
       <SuperPagination page={page} itemsCountForPage={pageCount} totalCount={totalCount} onChange={showCurrentPage} disabled={isDisable} />
     </div>
   )
@@ -102,4 +104,4 @@ export const PackList = () => {
 
 // types
 
-export type SortInfoType = { field: null | string; sortBy: null | string }
+export type SortInfoType = { sortBy: null | string }

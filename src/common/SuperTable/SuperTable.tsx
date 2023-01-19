@@ -13,7 +13,7 @@ import { CardType } from '../../api/api-cardsList'
 export const ASC = '0'
 export const DESC = '1'
 
-export const SuperTable: React.FC<SuperTableType> = ({ columns, data, onClick, sortField, sortBy }) => {
+export const SuperTable: React.FC<SuperTableType> = ({ columns, data, onClick, sortBy, disabled }) => {
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -23,10 +23,10 @@ export const SuperTable: React.FC<SuperTableType> = ({ columns, data, onClick, s
               return (
                 <HeaderCell
                   key={`${title.key}-${i}`}
-                  onClickHandler={onClick}
-                  sortField={sortField}
                   sortBy={sortBy}
                   title={title.name}
+                  onClickHandler={onClick}
+                  disabled={disabled}
                 ></HeaderCell>
               )
             })}
@@ -69,7 +69,8 @@ type DataType = {
 type SuperTableType = {
   columns: Array<DataType>
   data: PackType[] | CardType[] | undefined
-  onClick: (field: string) => void
-  sortField: string | null
+  onClick: () => void
+  sortField?: string | null
   sortBy: string | null
+  disabled: boolean
 }

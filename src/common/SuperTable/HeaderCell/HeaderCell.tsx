@@ -7,25 +7,24 @@ import { ASC, DESC } from '../SuperTable'
 
 type HeaderCellType = {
   title: string
-  sortField: string | null
+  sortField?: string | null
   sortBy: string | null
-  onClickHandler: (field: string) => void
+  onClickHandler: () => void
+  disabled: boolean
 }
 
-export const HeaderCell: React.FC<HeaderCellType> = ({
-  title,
-  onClickHandler,
-  sortField,
-  sortBy,
-}) => {
-  const onClick = () => onClickHandler(title)
+export const HeaderCell: React.FC<HeaderCellType> = ({ title, sortField, onClickHandler, sortBy, disabled }) => {
+  const onClick = () => onClickHandler()
   return (
-    <TableCell key={title} className={styles.sortActive} align="left" onClick={onClick}>
+    <TableCell
+      key={title}
+      className={disabled ? `${styles.sortActive} ${styles.disabled}` : styles.sortActive}
+      align="left"
+      onClick={onClick}
+    >
       {title}
-      {title === sortField && sortBy === ASC && <img src={arrowUp} alt="icon" />}
-      {title === sortField && sortBy === DESC && <img src={arrowDown} alt="icon" />}
+      {title === 'Last Updated' && sortBy === ASC && <img src={arrowUp} alt="icon" />}
+      {title === 'Last Updated' && sortBy === DESC && <img src={arrowDown} alt="icon" />}
     </TableCell>
   )
 }
-
-
