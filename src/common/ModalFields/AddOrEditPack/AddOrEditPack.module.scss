@@ -1,0 +1,54 @@
+@import "./src/styles/mixins";
+@import "./src/styles/variables";
+
+.headerModal {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 35px;
+
+
+
+  h2{
+    @include customFont(500, 18px, 22px)
+
+  }
+
+  button {
+    border: none;
+    cursor: pointer;
+    background: transparent;
+  }
+}
+
+.inputsField{
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  margin-bottom: 35px;
+
+  .inputF {
+    position: relative;
+    @include entryFieldTitle();
+    color: #c1c1c1;
+
+    &:after{
+      @include lineAfterBlock();
+    }
+
+    input {
+      border: none;
+      padding: 5px 0;
+      color: #0D0C0B;
+
+    }
+  }
+
+  .checkboxF{
+    display: flex;
+    align-items: center;
+    input {
+      border: 1px solid $mainColor;
+    }
+  }
+
+}

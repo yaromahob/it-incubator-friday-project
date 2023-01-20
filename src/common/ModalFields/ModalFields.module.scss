@@ -1,0 +1,24 @@
+@import "./src/styles/mixins";
+@import "./src/styles/variables";
+
+.modalWrapper {
+  position: relative;
+  width: 395px;
+  height: 311px;
+  background: #FFFFFF;
+  border-radius: 2px;
+  padding: 0 24px;
+
+  &:before {
+    @include lineAfterBlock();
+    top: 50px;
+    left: 0;
+  }
+
+
+
+
+
+}
+
+
