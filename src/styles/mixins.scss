@@ -55,3 +55,15 @@
   font-size: $FS;
   line-height: $LH;
 }
+
+
+
+
+//////////////////////////////
+
+@mixin lineAfterBlock() {
+  content: '';
+  position: absolute;
+  width: 100%;
+  border: 1px solid #d9d9d9;
+}
