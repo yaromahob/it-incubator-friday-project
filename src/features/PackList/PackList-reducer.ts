@@ -12,6 +12,7 @@ export type InitialStateType = {
   cardsCount: Array<number>
   userId: string
   sortBy: string
+  searchedText: string
 }
 export const initialState: InitialStateType = {
   cardPacks: [],
@@ -24,6 +25,7 @@ export const initialState: InitialStateType = {
   cardsCount: [1, 30],
   userId: '',
   sortBy: '0',
+  searchedText: '',
 }
 
 export const PackListReducer = (state: InitialStateType = initialState, action: PacksActionType): InitialStateType => {
@@ -55,6 +57,8 @@ export const PackListReducer = (state: InitialStateType = initialState, action: 
       return { ...state, userId: action.userId }
     case 'PACKS/SORT_BY_DATE':
       return { ...state, sortBy: action.sortBy }
+    case 'PACKS/SEARCH-BY-TEXT':
+      return { ...state, searchedText: action.value }
     default:
       return state
   }
@@ -68,6 +72,7 @@ export const setCardsCountAC = (cardsCount: number[]) => ({ type: 'PACKS/SET-CAR
 export const updatePackAC = (data: PackType) => ({ type: 'PACKS/UPDATE-PACKS', data } as const)
 export const setUserIdAC = (userId: string) => ({ type: 'PACKS/SET_USERID', userId } as const)
 export const sortByDateAC = (sortBy: string) => ({ type: 'PACKS/SORT_BY_DATE', sortBy } as const)
+export const searchTextAC = (value: string) => ({ type: 'PACKS/SEARCH-BY-TEXT', value } as const)
 
 // thunk
 export const clearFilterTC = (): AppThunk => dispatch => {
@@ -133,3 +138,4 @@ export type PacksActionType =
   | ReturnType<typeof setCardsCountAC>
   | ReturnType<typeof setUserIdAC>
   | ReturnType<typeof sortByDateAC>
+  | ReturnType<typeof searchTextAC>

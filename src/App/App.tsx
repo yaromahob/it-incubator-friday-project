@@ -16,6 +16,7 @@ import { useAppDispatch, useAppSelector } from './store'
 import { PackList } from '../features/PackList/PackList'
 import { Cards } from '../features/CardList/FriendCard/Cards'
 import { MyPack } from '../features/CardList/MyPack/MyPack'
+import { EmptyPack } from '../features/PackList/EmptyPack/EmptyPack'
 
 function App() {
   const dispatch = useAppDispatch()
@@ -36,6 +37,7 @@ function App() {
         <Route path="/checkEmail" element={<CheckEmail />} />
         <Route path="/newPassword" element={<NewPassword />} />
         <Route path="/packList" element={<PackList />} />
+        <Route path="/emptyPack" element={<EmptyPack />} />
         <Route path="/cardList" element={<Cards />} />
         <Route path="/myPack" element={<MyPack />} />
         <Route path="/404" element={<NotFound />} />
