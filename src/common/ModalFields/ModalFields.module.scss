@@ -1,0 +1,23 @@
+@import "./src/styles/mixins";
+@import "./src/styles/variables";
+
+.modal {
+  position: relative;
+
+  background: #FFFFFF;
+  border-radius: 2px;
+  padding: 0 24px 39px 24px;
+
+  &:before {
+    @include lineAfterBlock();
+    top: 50px;
+    left: 0;
+  }
+
+
+
+
+
+}
+
+

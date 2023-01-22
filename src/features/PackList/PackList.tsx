@@ -13,14 +13,31 @@ import { CardsCount } from './CardsCount/CardsCount'
 import { AllCards } from './AllCards/AllCards'
 import { SuperPagination } from '../../common/SuperPagination/SuperPagination'
 import { setCardTC } from '../CardList/Card-reducer'
-import { Navigate } from 'react-router-dom'
+import { Navigate, NavLink } from 'react-router-dom'
+import { ModalFields } from '../../common/ModalFields/ModalFields'
+import { AddOrEditPack } from '../../common/ModalFields/AddOrEditPack/AddOrEditPack'
+import { SaveAndCancelField } from '../../common/ModalFields/SaveAndCancelField/SaveAndCancelField'
+import { DeletePackOrCard } from '../../common/ModalFields/DeletePackOrCard/DeletePackOrCard'
+import { HeaderModal } from '../../common/ModalFields/HeaderModal/HeaderModal'
+import { EditOrAddCard } from '../../common/ModalFields/EditOrAddCard/EditOrAddCard'
+import { EditPack } from '../PackCardCRUD/EditPack'
 
 const ASC = '0'
 const DESC = '1'
 
 export const PackList = () => {
   const columns = [
-    { key: 'name', name: 'Name' },
+    {
+      key: 'name',
+      name: 'Name',
+      render: (card: PackType) => {
+        console.log(card)
+        const profileID = useAppSelector(state => state.profile._id)
+
+        const cardLink = profileID === card.user_id ? `/myPack/${card._id}` : `/cardList/${card._id}`
+        return <NavLink to={cardLink}> {card.name}</NavLink>
+      },
+    },
     { key: 'cardsCount', name: 'Cards' },
     { key: 'updated', name: 'Last Updated' },
     { key: 'user_name', name: 'Created by' },
@@ -50,8 +67,6 @@ export const PackList = () => {
   const packCards = useAppSelector(state => state.packList.cardPacks)
   const isDisable = useAppSelector(state => state.packList.isDisabled)
   const sortBy = useAppSelector(state => state.packList.sortBy)
-  // const profileID = useAppSelector(state => state.profile._id)
-  // const packCardsID = useAppSelector(state => state.cardList.cards)
   const setIsLoggedInCards = useAppSelector(state => state.cardList.setIsLoggedInCards)
   const showCurrentPage = (currentPage: number, itemsCount: number) => {
     dispatch(setPackTC({ page: currentPage, pageCount: itemsCount }))
@@ -89,12 +104,6 @@ export const PackList = () => {
     if (isAuth) dispatch(setPackTC())
   }, [isAuth])
 
-  if (setIsLoggedInCards) {
-    // if (profileID === packCardsID) {
-    //   return <Navigate to={'/myPack'} />
-    // }
-    return <Navigate to={'/cardList'} />
-  }
   if (cardPacksTotalCount === 0) {
     dispatch(setPackTC({ packName: '' }))
     return <Navigate to={'/emptyPack'} />
@@ -130,6 +139,7 @@ export const PackList = () => {
         onChange={showCurrentPage}
         disabled={isDisable}
       />
+      <EditPack />
     </div>
   )
 }

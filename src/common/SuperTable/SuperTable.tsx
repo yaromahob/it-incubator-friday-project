@@ -10,11 +10,16 @@ import { HeaderCell } from './HeaderCell/HeaderCell'
 import { PackType } from '../../api/api-packsList'
 import { CardType } from '../../api/api-cardsList'
 import { setCardTC } from '../../features/CardList/Card-reducer'
+import { useAppDispatch } from '../../App/store'
 
 export const ASC = '0'
 export const DESC = '1'
 
 export const SuperTable: React.FC<SuperTableType> = ({ columns, data, onClick, sortBy, disabled }) => {
+  const dispatch = useAppDispatch()
+  const setCards = (id: string) => {
+    dispatch(setCardTC({ cardsPack_id: id }))
+  }
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -35,27 +40,27 @@ export const SuperTable: React.FC<SuperTableType> = ({ columns, data, onClick, s
         </TableHead>
         <TableBody>
           {data &&
-            data.map((card: { [index: string]: string | number | boolean }, i) => (
-              <TableRow key={`${data}-${i}`} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                {columns.map((col, i) => {
-                  if (col.render) {
+            data.map((card, i) => {
+              const cardItem = card as { [index: string]: string | number | boolean }
+              return (
+                <TableRow key={`${data}-${i}`} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                  {columns.map((col, i) => {
+                    if (col.render) {
+                      return (
+                        <TableCell key={`${col}-${i}`} component="th" scope="row">
+                          {col.render(card)}
+                        </TableCell>
+                      )
+                    }
                     return (
-                      <TableCell key={`${col}-${i}`} component="th" scope="row">
-                        {col.render(card)}
+                      <TableCell key={`${col}_${i}`} component="th" scope="row">
+                        {cardItem[col.key]}
                       </TableCell>
                     )
-                  }
-                  /* const setCards = (id: string) => {
-                    dispatch(setCardTC({ cardsPack_id: id }))
-                  }*/
-                  return (
-                    <TableCell key={`${col}_${i}`} component="th" scope="row">
-                      {card[col.key]}
-                    </TableCell>
-                  )
-                })}
-              </TableRow>
-            ))}
+                  })}
+                </TableRow>
+              )
+            })}
         </TableBody>
       </Table>
     </TableContainer>

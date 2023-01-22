@@ -1,0 +1,29 @@
+@import "../../../styles/mixins";
+@import "../../../styles/variables";
+
+.buttonsWrapper{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  button {
+    @include buttonTitle();
+    height: 36px;
+    width: 127px;
+    cursor: pointer;
+  }
+
+  .cancel{
+    width: 113px;
+    border: none;
+    color: #0D0C0B;
+  }
+
+
+  .delete {
+    background-color: #FF3636;
+
+    &:active {
+      background-color: #ff6161;
+    }
+  }
+}

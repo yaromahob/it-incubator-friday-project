@@ -1,0 +1,9 @@
+@import "./src/common/ModalFields/ModalFields.module";
+@import "./src/common/ModalFields/AddOrEditPack/AddOrEditPack.module";
+
+  .packOrCardField {
+    margin-bottom: 29px;
+    span{
+      @include customFont(400, 14px, 24px);
+    }
+  }
