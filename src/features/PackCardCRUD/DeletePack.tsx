@@ -7,11 +7,9 @@ import { SaveAndCancelField } from '../../common/ModalFields/SaveAndCancelField/
 export const DeletePack = () => {
   return (
     <div>
-      <ModalFields>
-        <HeaderModal titleModal={'Delete Pack'} />
-        <DeletePackOrCard nameItem={'ALAHAMORA'} />
-        <SaveAndCancelField type={'Delete'} />
-      </ModalFields>
+      <HeaderModal titleModal={'Delete Pack'} />
+      <DeletePackOrCard nameItem={'ALAHAMORA'} />
+      <SaveAndCancelField type={'Delete'} onAction={() => alert()} />
     </div>
   )
 }

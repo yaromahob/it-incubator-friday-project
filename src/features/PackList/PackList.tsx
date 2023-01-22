@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import SuperDebouncedInput from '../../common/SuperDebouncedInput/SuperDebouncedInput'
 import styles from './PackList.module.scss'
 import clearFilterIcon from '../../assets/svg/clearFilters.svg'
@@ -21,11 +21,13 @@ import { DeletePackOrCard } from '../../common/ModalFields/DeletePackOrCard/Dele
 import { HeaderModal } from '../../common/ModalFields/HeaderModal/HeaderModal'
 import { EditOrAddCard } from '../../common/ModalFields/EditOrAddCard/EditOrAddCard'
 import { EditPack } from '../PackCardCRUD/EditPack'
+import { AddNewPack } from '../PackCardCRUD/AddNewPack'
 
 const ASC = '0'
 const DESC = '1'
 
 export const PackList = () => {
+  const [open, setOpen] = useState(false)
   const columns = [
     { key: 'name', name: 'Name' },
     { key: 'cardsCount', name: 'Cards' },
@@ -78,7 +80,8 @@ export const PackList = () => {
   }
 
   const addPack = () => {
-    dispatch(addPackTC({ cardsPack: { name: 'h1 my name is', private: false } }))
+    setOpen(!open)
+    // dispatch(addPackTC({ cardsPack: { name: 'h1 my name is', private: false } }))
   }
 
   const setCards = (id: string) => {
@@ -141,7 +144,9 @@ export const PackList = () => {
         onChange={showCurrentPage}
         disabled={isDisable}
       />
-      <EditPack />
+      <ModalFields open={open} callback={setOpen}>
+        <AddNewPack open={open} callback={setOpen} />
+      </ModalFields>
     </div>
   )
 }

@@ -16,10 +16,8 @@ const style = {
   boxShadow: 24,
 }
 
-export const ModalFields: React.FC<ModalFieldsType> = ({ children }) => {
-  const [open, setOpen] = React.useState(true)
-  const handleOpen = () => setOpen(true)
-  const handleClose = () => setOpen(false)
+export const ModalFields: React.FC<ModalFieldsType> = ({ open, callback, children }) => {
+  const handleClose = () => callback(false)
   return (
     <Modal open={open} onClose={handleClose}>
       <Box sx={style}>
@@ -32,5 +30,7 @@ export const ModalFields: React.FC<ModalFieldsType> = ({ children }) => {
 // types
 
 type ModalFieldsType = {
+  open: boolean
+  callback: (value: boolean) => void
   children: React.ReactNode
 }
