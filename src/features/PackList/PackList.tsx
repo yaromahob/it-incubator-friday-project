@@ -12,14 +12,7 @@ import { PackType, UpdatePackType } from '../../api/api-packsList'
 import { CardsCount } from './CardsCount/CardsCount'
 import { AllCards } from './AllCards/AllCards'
 import { SuperPagination } from '../../common/SuperPagination/SuperPagination'
-import { setCardTC } from '../CardList/Card-reducer'
 import { Navigate, NavLink } from 'react-router-dom'
-import { ModalFields } from '../../common/ModalFields/ModalFields'
-import { AddOrEditPack } from '../../common/ModalFields/AddOrEditPack/AddOrEditPack'
-import { SaveAndCancelField } from '../../common/ModalFields/SaveAndCancelField/SaveAndCancelField'
-import { DeletePackOrCard } from '../../common/ModalFields/DeletePackOrCard/DeletePackOrCard'
-import { HeaderModal } from '../../common/ModalFields/HeaderModal/HeaderModal'
-import { EditOrAddCard } from '../../common/ModalFields/EditOrAddCard/EditOrAddCard'
 import { EditPack } from '../PackCardCRUD/EditPack'
 
 const ASC = '0'
@@ -31,11 +24,7 @@ export const PackList = () => {
       key: 'name',
       name: 'Name',
       render: (card: PackType) => {
-        console.log(card)
-        const profileID = useAppSelector(state => state.profile._id)
-
-        const cardLink = profileID === card.user_id ? `/myPack/${card._id}` : `/cardList/${card._id}`
-        return <NavLink to={cardLink}> {card.name}</NavLink>
+        return <NavLink to={`/cardList/${card._id}`}> {card.name} </NavLink>
       },
     },
     { key: 'cardsCount', name: 'Cards' },
@@ -92,6 +81,7 @@ export const PackList = () => {
   const deletePack = (id: string) => {
     dispatch(deletePackTC(id))
   }
+
   const updatePack = (data: UpdatePackType) => {
     dispatch(updatePackTC(data))
   }
@@ -100,6 +90,7 @@ export const PackList = () => {
     dispatch(searchTextAC(value))
     dispatch(setPackTC({ packName: value }))
   }
+
   useEffect(() => {
     if (isAuth) dispatch(setPackTC())
   }, [isAuth])

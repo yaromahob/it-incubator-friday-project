@@ -16,10 +16,10 @@ export const ASC = '0'
 export const DESC = '1'
 
 export const SuperTable: React.FC<SuperTableType> = ({ columns, data, onClick, sortBy, disabled }) => {
-  const dispatch = useAppDispatch()
-  const setCards = (id: string) => {
-    dispatch(setCardTC({ cardsPack_id: id }))
-  }
+  // const dispatch = useAppDispatch()
+  // const setCards = (id: string) => {
+  //   dispatch(setCardTC({ cardsPack_id: id }))
+  // }
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">

@@ -14,8 +14,7 @@ import { NewPassword } from '../features/NewPassword/NewPassword'
 import { setAuthApiTC } from './app-reducer'
 import { useAppDispatch, useAppSelector } from './store'
 import { PackList } from '../features/PackList/PackList'
-import { Cards } from '../features/CardList/FriendCard/Cards'
-import { MyPack } from '../features/CardList/MyPack/MyPack'
+import { Cards } from '../features/CardList/Cards'
 import { EmptyPack } from '../features/PackList/EmptyPack/EmptyPack'
 import { Learn } from '../features/Learn/Learn'
 
@@ -41,7 +40,6 @@ function App() {
         <Route path="/packList" element={<PackList />} />
         <Route path="/emptyPack" element={<EmptyPack />} />
         <Route path="/cardList/:packId" element={<Cards />} />
-        <Route path="/myPack/:packId" element={<MyPack />} />
         <Route path="/404" element={<NotFound />} />
         <Route path="/recoveryPassword" element={<RecoveryPassword />} />
         <Route path="/signUp" element={<SignUp />} />

@@ -43,6 +43,7 @@ export type PackType = {
   updated: string
   __v: number
 }
+
 export type AddCardsPack = {
   cardsPack: {
     name?: string // если не отправить будет таким
