@@ -6,10 +6,8 @@ import { EditOrAddCard } from '../../common/ModalFields/EditOrAddCard/EditOrAddC
 export const AddNewCard = () => {
   return (
     <div>
-      <ModalFields>
-        <HeaderModal titleModal={'Add new card'} />
-        <EditOrAddCard />
-      </ModalFields>
+      <HeaderModal titleModal={'Add new card'} />
+      <EditOrAddCard />
     </div>
   )
 }

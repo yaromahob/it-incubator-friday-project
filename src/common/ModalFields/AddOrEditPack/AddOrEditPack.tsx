@@ -1,17 +1,15 @@
-import React from 'react'
+import React, { ChangeEvent } from 'react'
 import styles from './AddOrEditPack.module.scss'
-import cross from '../../../assets/svg/cross.svg'
 import SuperInputText from '../../SuperInputText/SuperInputText'
 import SuperCheckbox from '../../SuperCheckbox/SuperCheckbox'
-import { HeaderModal } from '../HeaderModal/HeaderModal'
 
-export const AddOrEditPack: React.FC<AddOrEditPack> = () => {
+export const AddOrEditPack: React.FC<AddOrEditPack> = ({ newPackName, onChange }) => {
   return (
     <>
       <div className={styles.inputsField}>
         <label className={styles.inputF}>
           Name Pack
-          <SuperInputText type={'text'} />
+          <SuperInputText type={'text'} value={newPackName} onChange={onChange} />
         </label>
         <label className={styles.checkboxF}>
           <SuperCheckbox />
@@ -23,5 +21,8 @@ export const AddOrEditPack: React.FC<AddOrEditPack> = () => {
 }
 
 type AddOrEditPack = {
-  //Entry otherTypes
+  newPackName: string
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void
+  private: boolean
+  onChangePrivate: (e: ChangeEvent<HTMLInputElement>) => void
 }

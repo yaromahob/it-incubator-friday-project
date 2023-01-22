@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import SuperDebouncedInput from '../../common/SuperDebouncedInput/SuperDebouncedInput'
 import styles from './PackList.module.scss'
 import clearFilterIcon from '../../assets/svg/clearFilters.svg'
@@ -14,11 +14,13 @@ import { AllCards } from './AllCards/AllCards'
 import { SuperPagination } from '../../common/SuperPagination/SuperPagination'
 import { Navigate, NavLink } from 'react-router-dom'
 import { EditPack } from '../PackCardCRUD/EditPack'
+import { AddNewPack } from '../PackCardCRUD/AddNewPack'
 
 const ASC = '0'
 const DESC = '1'
 
 export const PackList = () => {
+  const [open, setOpen] = useState(false)
   const columns = [
     {
       key: 'name',
@@ -75,7 +77,8 @@ export const PackList = () => {
   }
 
   const addPack = () => {
-    dispatch(addPackTC({ cardsPack: { name: 'h1 my name is', private: false } }))
+    setOpen(!open)
+    // dispatch(addPackTC({ cardsPack: { name: 'h1 my name is', private: false } }))
   }
 
   const deletePack = (id: string) => {
@@ -130,7 +133,9 @@ export const PackList = () => {
         onChange={showCurrentPage}
         disabled={isDisable}
       />
-      <EditPack />
+      <ModalFields open={open} callback={setOpen}>
+        <AddNewPack open={open} callback={setOpen} />
+      </ModalFields>
     </div>
   )
 }

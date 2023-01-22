@@ -8,11 +8,9 @@ import { SaveAndCancelField } from '../../common/ModalFields/SaveAndCancelField/
 export const EditPack = () => {
   return (
     <div>
-      <ModalFields>
-        <HeaderModal titleModal={'Edit pack'} />
-        <AddOrEditPack />
-        <SaveAndCancelField type={'Save'} />
-      </ModalFields>
+      <HeaderModal titleModal={'Edit pack'} />
+      <AddOrEditPack newPackName={'asd'} onChange={() => alert()} private={false} onChangePrivate={() => alert()} />
+      <SaveAndCancelField type={'Save'} onAction={() => alert()} />
     </div>
   )
 }
