@@ -9,11 +9,17 @@ import TableContainer from '@mui/material/TableContainer'
 import { HeaderCell } from './HeaderCell/HeaderCell'
 import { PackType } from '../../api/api-packsList'
 import { CardType } from '../../api/api-cardsList'
+import { setCardTC } from '../../features/CardList/Card-reducer'
+import { useAppDispatch } from '../../App/store'
 
 export const ASC = '0'
 export const DESC = '1'
 
 export const SuperTable: React.FC<SuperTableType> = ({ columns, data, onClick, sortBy, disabled }) => {
+  const dispatch = useAppDispatch()
+  const setCards = (id: string) => {
+    dispatch(setCardTC({ cardsPack_id: id }))
+  }
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -47,7 +53,7 @@ export const SuperTable: React.FC<SuperTableType> = ({ columns, data, onClick, s
                       )
                     }
                     return (
-                      <TableCell key={`${col}_${i}`} component="th" scope="row" onClick={() => console.log(card._id)}>
+                      <TableCell key={`${col}_${i}`} component="th" scope="row">
                         {cardItem[col.key]}
                       </TableCell>
                     )

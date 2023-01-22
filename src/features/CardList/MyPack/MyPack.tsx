@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { SuperTable } from '../../../common/SuperTable/SuperTable'
 import { SortInfoType } from '../../PackList/PackList'
 import { useAppDispatch, useAppSelector } from '../../../App/store'
@@ -11,7 +11,8 @@ import { PackType } from '../../../api/api-packsList'
 import { ActionButtonsContainer } from '../../../common/ActionButtonsContainer/ActionButtonsContainer'
 import { setPackTC } from '../../PackList/PackList-reducer'
 import { BackToPackList } from '../../BackToPackList/BackToPackList'
-import { setCardTC } from '../Card-reducer'
+import { addCardTC, setCardTC } from '../Card-reducer'
+import { useParams } from 'react-router-dom'
 
 const ASC = '0'
 const DESC = '1'
@@ -44,8 +45,16 @@ export const MyPack = () => {
   const dispatch = useAppDispatch()
   const isAuth = useAppSelector(state => state.app.isAuth)
   const cardPacks = useAppSelector(state => state.cardList.cards)
+  const userID = useAppSelector(state => state.profile._id)
   const [showAction, setShowAction] = useState(false)
   const isDisable = useAppSelector(state => state.packList.isDisabled)
+
+  const { packId } = useParams()
+  console.log(packId)
+  useEffect(() => {
+    if (!packId) return
+    dispatch(setCardTC({ cardsPack_id: packId }))
+  }, [packId])
 
   const [sortInfo, setSortInfo] = useState<SortInfoType>({
     sortBy: null,
@@ -73,9 +82,8 @@ export const MyPack = () => {
     }
   }
 
-  const addCard = (id: string) => {
-    //cardsPack_id: "63c9a7e6a0c27045ecc13dc3"
-    // dispatch(addCardTC({ cardsPack_id: id }))
+  const addCard = () => {
+    dispatch(addCardTC({ card: { cardsPack_id: packId!, question: '123' } }))
   }
 
   return (
@@ -95,8 +103,8 @@ export const MyPack = () => {
             {showAction && (
               <div className={styles.actionButtons}>
                 <ActionButtonsContainer
-                  id={''}
-                  userId={''}
+                  id={packId!}
+                  userId={userID}
                   cardsCount={5}
                   deleteAction={deleteCard}
                   editAction={updateCard}
@@ -106,7 +114,7 @@ export const MyPack = () => {
             )}
           </div>
         </div>
-        <SuperButton onClick={() => addCard('someID')}>Add new card</SuperButton>
+        <SuperButton onClick={addCard}>Add new card</SuperButton>
       </div>
       <div className={styles.interfaceField}>
         <div className={styles.search}>

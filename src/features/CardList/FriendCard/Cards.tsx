@@ -10,7 +10,7 @@ import { Grade } from '../../../common/Grade/Grade'
 import { PackType } from '../../../api/api-packsList'
 import { setCardTC } from '../Card-reducer'
 import { setPackTC } from '../../PackList/PackList-reducer'
-import { Navigate, NavLink } from 'react-router-dom'
+import { Navigate, NavLink, useParams } from 'react-router-dom'
 import style from '../../Profile/Profile.module.scss'
 import arrow from '../../../assets/svg/profile/arrow.svg'
 import { BackToPackList } from '../../BackToPackList/BackToPackList'
@@ -52,7 +52,11 @@ export const Cards = () => {
       setSortInfo({ sortBy: DESC })
     }
   }
-
+  const { packId } = useParams()
+  useEffect(() => {
+    if (!packId) return
+    dispatch(setCardTC({ cardsPack_id: packId }))
+  }, [packId])
   return (
     <div className={styles.listWrapper}>
       <BackToPackList />

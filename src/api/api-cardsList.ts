@@ -85,7 +85,7 @@ export const cardsAPI = {
     })
   },
   addCard(data: AddCardType) {
-    return instance.post<ResponseAddCardType>(`/cards/card`)
+    return instance.post<ResponseAddCardType>(`/cards/card`, data)
   },
   deleteCard(id?: string) {
     return instance.delete<ResponseDeleteCardType>(`/cards/card${id}`)
