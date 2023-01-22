@@ -34,24 +34,27 @@ export const SuperTable: React.FC<SuperTableType> = ({ columns, data, onClick, s
         </TableHead>
         <TableBody>
           {data &&
-            data.map((card: { [index: string]: string | number | boolean }, i) => (
-              <TableRow key={`${data}-${i}`} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                {columns.map((col, i) => {
-                  if (col.render) {
+            data.map((card, i) => {
+              const cardItem = card as { [index: string]: string | number | boolean }
+              return (
+                <TableRow key={`${data}-${i}`} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                  {columns.map((col, i) => {
+                    if (col.render) {
+                      return (
+                        <TableCell key={`${col}-${i}`} component="th" scope="row">
+                          {col.render(card)}
+                        </TableCell>
+                      )
+                    }
                     return (
-                      <TableCell key={`${col}-${i}`} component="th" scope="row">
-                        {col.render(card)}
+                      <TableCell key={`${col}_${i}`} component="th" scope="row" onClick={() => console.log(card._id)}>
+                        {cardItem[col.key]}
                       </TableCell>
                     )
-                  }
-                  return (
-                    <TableCell key={`${col}_${i}`} component="th" scope="row">
-                      {card[col.key]}
-                    </TableCell>
-                  )
-                })}
-              </TableRow>
-            ))}
+                  })}
+                </TableRow>
+              )
+            })}
         </TableBody>
       </Table>
     </TableContainer>
@@ -74,3 +77,5 @@ type SuperTableType = {
   sortBy: string | null
   disabled: boolean
 }
+
+type TEST = PackType[] | CardType[] | { [index: string]: string | number | boolean }
