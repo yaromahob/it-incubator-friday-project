@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './SaveAndCancelField.module.scss'
-import SuperButton from '../../../SuperButton/SuperButton'
+import SuperButton from '../../SuperButton/SuperButton'
 
 export const SaveAndCancelField: React.FC<SaveAndCancelFieldType> = ({ type }) => {
   const finalClassName = type === 'Save' ? styles.save : styles.delete

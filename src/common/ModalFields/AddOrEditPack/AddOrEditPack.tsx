@@ -3,7 +3,7 @@ import styles from './AddOrEditPack.module.scss'
 import cross from '../../../assets/svg/cross.svg'
 import SuperInputText from '../../SuperInputText/SuperInputText'
 import SuperCheckbox from '../../SuperCheckbox/SuperCheckbox'
-import { HeaderModal } from '../common/HeaderModal/HeaderModal'
+import { HeaderModal } from '../HeaderModal/HeaderModal'
 
 export const AddOrEditPack: React.FC<AddOrEditPack> = () => {
   return (

@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from './ModalFields.module.scss'
 import { AddOrEditPack } from './AddOrEditPack/AddOrEditPack'
-import { SaveAndCancelField } from './common/ButtonsField/SaveAndCancelField'
+import { SaveAndCancelField } from './SaveAndCancelField/SaveAndCancelField'
 import Modal from '@mui/material/Modal'
 import Box from '@mui/material/Box'
 

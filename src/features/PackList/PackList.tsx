@@ -16,9 +16,11 @@ import { setCardTC } from '../CardList/Card-reducer'
 import { Navigate } from 'react-router-dom'
 import { ModalFields } from '../../common/ModalFields/ModalFields'
 import { AddOrEditPack } from '../../common/ModalFields/AddOrEditPack/AddOrEditPack'
-import { SaveAndCancelField } from '../../common/ModalFields/common/ButtonsField/SaveAndCancelField'
+import { SaveAndCancelField } from '../../common/ModalFields/SaveAndCancelField/SaveAndCancelField'
 import { DeletePackOrCard } from '../../common/ModalFields/DeletePackOrCard/DeletePackOrCard'
-import { HeaderModal } from '../../common/ModalFields/common/HeaderModal/HeaderModal'
+import { HeaderModal } from '../../common/ModalFields/HeaderModal/HeaderModal'
+import { EditOrAddCard } from '../../common/ModalFields/EditOrAddCard/EditOrAddCard'
+import { EditPack } from '../PackCardCRUD/EditPack'
 
 const ASC = '0'
 const DESC = '1'
@@ -139,6 +141,7 @@ export const PackList = () => {
         onChange={showCurrentPage}
         disabled={isDisable}
       />
+      <EditPack />
     </div>
   )
 }

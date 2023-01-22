@@ -1,5 +1,5 @@
 import React from 'react'
-import cross from '../../../../assets/svg/cross.svg'
+import cross from '../../../assets/svg/cross.svg'
 import styles from './HeaderModal.module.scss'
 
 export const HeaderModal: React.FC<HeaderModalType> = ({ titleModal }) => {
@@ -15,5 +15,5 @@ export const HeaderModal: React.FC<HeaderModalType> = ({ titleModal }) => {
 }
 
 type HeaderModalType = {
-  titleModal: 'Add new Pack' | 'Edit pack' | 'Delete Pack' | 'Delete Card'
+  titleModal: 'Add new card' | 'Add new pack' | 'Edit pack' | 'Edit card' | 'Delete Pack' | 'Delete Card'
 }

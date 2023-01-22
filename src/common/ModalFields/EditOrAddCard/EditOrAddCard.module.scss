@@ -1,0 +1,50 @@
+@import "./src/styles/mixins";
+
+.formWrapper{
+  padding: 0;
+  .chooseFormat{
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-bottom: 23px;
+    span {
+      @include customFont(400, 14px, 17px);
+      opacity: 0.5;
+      margin-bottom: 8px;
+    }
+
+    select{
+      @include customFont(400, 16px, 20px);
+      width: 100%;
+      height: 36px;
+      option {
+        border-radius: 2px;
+      }
+    }
+  }
+
+  .questionOrAnswer{
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    label{
+      position: relative;
+      @include customFont(400, 13px, 20px);
+      color: #b7b7b7;
+      &:after{
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 1px;
+        background: #d9d9d9;
+        bottom: 0;
+      }
+    }
+
+    input{
+      border: none;
+      color: #0D0C0B;
+      @include customFont(400, 16px, 20px);
+    }
+  }
+}
