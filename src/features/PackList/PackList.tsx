@@ -33,7 +33,7 @@ export const PackList = () => {
             cardsCount={card.cardsCount}
             id={card._id}
             userId={card.user_id}
-            educationsAction={setCards}
+            educationsAction={() => {}}
             editAction={updatePack}
             deleteAction={deletePack}
           />
@@ -72,10 +72,6 @@ export const PackList = () => {
 
   const addPack = () => {
     dispatch(addPackTC({ cardsPack: { name: 'h1 my name is', private: false } }))
-  }
-
-  const setCards = (id: string) => {
-    dispatch(setCardTC({ cardsPack_id: id }))
   }
 
   const deletePack = (id: string) => {
