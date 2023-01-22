@@ -18,6 +18,7 @@ import { Cards } from '../features/CardList/FriendCard/Cards'
 import { MyPack } from '../features/CardList/MyPack/MyPack'
 import { EmptyPack } from '../features/PackList/EmptyPack/EmptyPack'
 import { ModalFields } from '../common/ModalFields/ModalFields'
+import { DeletePackOrCard } from '../common/ModalFields/DeletePackOrCard/DeletePackOrCard'
 
 function App() {
   const dispatch = useAppDispatch()
@@ -33,7 +34,6 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Navigate to="/profile" />} />
-        <Route path="/modal" element={<ModalFields />} />
         <Route path="/login" element={<Login />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/checkEmail" element={<CheckEmail />} />

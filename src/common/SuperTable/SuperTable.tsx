@@ -77,3 +77,5 @@ type SuperTableType = {
   sortBy: string | null
   disabled: boolean
 }
+
+type TEST = PackType[] | CardType[] | { [index: string]: string | number | boolean }
