@@ -14,11 +14,9 @@ import { NewPassword } from '../features/NewPassword/NewPassword'
 import { setAuthApiTC } from './app-reducer'
 import { useAppDispatch, useAppSelector } from './store'
 import { PackList } from '../features/PackList/PackList'
-import { Cards } from '../features/CardList/FriendCard/Cards'
-import { MyPack } from '../features/CardList/MyPack/MyPack'
+import { Cards } from '../features/CardList/Cards'
 import { EmptyPack } from '../features/PackList/EmptyPack/EmptyPack'
-import { ModalFields } from '../common/ModalFields/ModalFields'
-import { DeletePackOrCard } from '../common/ModalFields/DeletePackOrCard/DeletePackOrCard'
+import { Learn } from '../features/Learn/Learn'
 
 function App() {
   const dispatch = useAppDispatch()
@@ -36,12 +34,12 @@ function App() {
         <Route path="/" element={<Navigate to="/profile" />} />
         <Route path="/login" element={<Login />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/learn" element={<Learn />} />
         <Route path="/checkEmail" element={<CheckEmail />} />
         <Route path="/newPassword" element={<NewPassword />} />
         <Route path="/packList" element={<PackList />} />
         <Route path="/emptyPack" element={<EmptyPack />} />
-        <Route path="/cardList" element={<Cards />} />
-        <Route path="/myPack" element={<MyPack />} />
+        <Route path="/cardList/:packId" element={<Cards />} />
         <Route path="/404" element={<NotFound />} />
         <Route path="/recoveryPassword" element={<RecoveryPassword />} />
         <Route path="/signUp" element={<SignUp />} />

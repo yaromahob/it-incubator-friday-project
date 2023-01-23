@@ -12,16 +12,10 @@ import { PackType, UpdatePackType } from '../../api/api-packsList'
 import { CardsCount } from './CardsCount/CardsCount'
 import { AllCards } from './AllCards/AllCards'
 import { SuperPagination } from '../../common/SuperPagination/SuperPagination'
-import { setCardTC } from '../CardList/Card-reducer'
-import { Navigate } from 'react-router-dom'
-import { ModalFields } from '../../common/ModalFields/ModalFields'
-import { AddOrEditPack } from '../../common/ModalFields/AddOrEditPack/AddOrEditPack'
-import { SaveAndCancelField } from '../../common/ModalFields/SaveAndCancelField/SaveAndCancelField'
-import { DeletePackOrCard } from '../../common/ModalFields/DeletePackOrCard/DeletePackOrCard'
-import { HeaderModal } from '../../common/ModalFields/HeaderModal/HeaderModal'
-import { EditOrAddCard } from '../../common/ModalFields/EditOrAddCard/EditOrAddCard'
+import { Navigate, NavLink } from 'react-router-dom'
 import { EditPack } from '../PackCardCRUD/EditPack'
 import { AddNewPack } from '../PackCardCRUD/AddNewPack'
+import { ModalFields } from '../../common/ModalFields/ModalFields'
 
 const ASC = '0'
 const DESC = '1'
@@ -29,7 +23,13 @@ const DESC = '1'
 export const PackList = () => {
   const [open, setOpen] = useState(false)
   const columns = [
-    { key: 'name', name: 'Name' },
+    {
+      key: 'name',
+      name: 'Name',
+      render: (card: PackType) => {
+        return <NavLink to={`/cardList/${card._id}`}> {card.name} </NavLink>
+      },
+    },
     { key: 'cardsCount', name: 'Cards' },
     { key: 'updated', name: 'Last Updated' },
     { key: 'user_name', name: 'Created by' },
@@ -42,7 +42,7 @@ export const PackList = () => {
             cardsCount={card.cardsCount}
             id={card._id}
             userId={card.user_id}
-            educationsAction={setCards}
+            educationsAction={() => {}}
             editAction={updatePack}
             deleteAction={deletePack}
           />
@@ -59,8 +59,6 @@ export const PackList = () => {
   const packCards = useAppSelector(state => state.packList.cardPacks)
   const isDisable = useAppSelector(state => state.packList.isDisabled)
   const sortBy = useAppSelector(state => state.packList.sortBy)
-  // const profileID = useAppSelector(state => state.profile._id)
-  // const packCardsID = useAppSelector(state => state.cardList.cards)
   const setIsLoggedInCards = useAppSelector(state => state.cardList.setIsLoggedInCards)
   const showCurrentPage = (currentPage: number, itemsCount: number) => {
     dispatch(setPackTC({ page: currentPage, pageCount: itemsCount }))
@@ -84,13 +82,10 @@ export const PackList = () => {
     // dispatch(addPackTC({ cardsPack: { name: 'h1 my name is', private: false } }))
   }
 
-  const setCards = (id: string) => {
-    dispatch(setCardTC({ cardsPack_id: id }))
-  }
-
   const deletePack = (id: string) => {
     dispatch(deletePackTC(id))
   }
+
   const updatePack = (data: UpdatePackType) => {
     dispatch(updatePackTC(data))
   }
@@ -99,16 +94,11 @@ export const PackList = () => {
     dispatch(searchTextAC(value))
     dispatch(setPackTC({ packName: value }))
   }
+
   useEffect(() => {
     if (isAuth) dispatch(setPackTC())
   }, [isAuth])
 
-  if (setIsLoggedInCards) {
-    // if (profileID === packCardsID) {
-    //   return <Navigate to={'/myPack'} />
-    // }
-    return <Navigate to={'/cardList'} />
-  }
   if (cardPacksTotalCount === 0) {
     dispatch(setPackTC({ packName: '' }))
     return <Navigate to={'/emptyPack'} />

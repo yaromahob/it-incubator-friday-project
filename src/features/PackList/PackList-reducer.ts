@@ -35,7 +35,7 @@ export const PackListReducer = (state: InitialStateType = initialState, action: 
     case 'PACKS/ADD-PACKS':
       return { ...state, cardPacks: [...state.cardPacks, action.newCardsPack] }
     case 'PACKS/DELETE-PACKS':
-      return { ...state, cardPacks: [...state.cardPacks].filter(e => e._id !== action.idPack) }
+      return { ...state, cardPacks: state.cardPacks.filter(e => e._id !== action.idPack) }
     case 'PACKS/DISABLE-BUTTON':
       return { ...state, isDisabled: action.isDisabled }
     case 'PACKS/SET-CARDS-COUNT':
