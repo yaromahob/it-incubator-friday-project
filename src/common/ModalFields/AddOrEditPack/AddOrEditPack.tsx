@@ -2,17 +2,19 @@ import React, { ChangeEvent } from 'react'
 import styles from './AddOrEditPack.module.scss'
 import SuperInputText from '../../SuperInputText/SuperInputText'
 import SuperCheckbox from '../../SuperCheckbox/SuperCheckbox'
+import SuperDebouncedInput from '../../SuperDebouncedInput/SuperDebouncedInput'
 
-export const AddOrEditPack: React.FC<AddOrEditPack> = ({ newPackName, onChange }) => {
+export const AddOrEditPack: React.FC<AddOrEditPack> = ({ newPackName, onChange, isPrivate, onChangePrivate }) => {
   return (
     <>
       <div className={styles.inputsField}>
         <label className={styles.inputF}>
           Name Pack
-          <SuperInputText type={'text'} value={newPackName} onChange={onChange} />
+          <SuperDebouncedInput value={newPackName} onChange={onChange} />
+          {/*<SuperInputText type={'text'} value={newPackName} onChange={onChange} />*/}
         </label>
         <label className={styles.checkboxF}>
-          <SuperCheckbox />
+          <SuperCheckbox onChange={onChangePrivate} />
           Private pack
         </label>
       </div>
@@ -23,6 +25,6 @@ export const AddOrEditPack: React.FC<AddOrEditPack> = ({ newPackName, onChange }
 type AddOrEditPack = {
   newPackName: string
   onChange: (e: ChangeEvent<HTMLInputElement>) => void
-  private: boolean
+  isPrivate: boolean
   onChangePrivate: (e: ChangeEvent<HTMLInputElement>) => void
 }

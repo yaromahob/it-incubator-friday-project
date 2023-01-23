@@ -9,8 +9,8 @@ export const EditPack = () => {
   return (
     <div>
       <HeaderModal titleModal={'Edit pack'} />
-      <AddOrEditPack newPackName={'asd'} onChange={() => alert()} private={false} onChangePrivate={() => alert()} />
-      <SaveAndCancelField type={'Save'} onAction={() => alert()} />
+      <AddOrEditPack newPackName={'asd'} onChange={() => alert()} isPrivate={false} onChangePrivate={() => alert()} />
+      <SaveAndCancelField type={'Save'} onAction={() => alert()} cancelAction={() => alert()} />
     </div>
   )
 }
