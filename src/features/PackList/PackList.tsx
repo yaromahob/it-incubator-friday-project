@@ -16,12 +16,13 @@ import { Navigate, NavLink } from 'react-router-dom'
 import { EditPack } from '../PackCardCRUD/EditPack'
 import { AddNewPack } from '../PackCardCRUD/AddNewPack'
 import { ModalFields } from '../../common/ModalFields/ModalFields'
+import { setModalOpen } from '../../App/app-reducer'
+import { newPackNameAC, newPackPrivateAC } from '../PackCardCRUD/packCardCRUD-reducer'
 
 const ASC = '0'
 const DESC = '1'
 
 export const PackList = () => {
-  const [open, setOpen] = useState(false)
   const columns = [
     {
       key: 'name',
@@ -60,9 +61,14 @@ export const PackList = () => {
   const isDisable = useAppSelector(state => state.packList.isDisabled)
   const sortBy = useAppSelector(state => state.packList.sortBy)
   const setIsLoggedInCards = useAppSelector(state => state.cardList.setIsLoggedInCards)
+  const isModelOpen = useAppSelector(state => state.app.isModalOpen)
+  const newPackName = useAppSelector(state => state.packCardCRUD.namePack)
+  const isPrivate = useAppSelector(state => state.packCardCRUD.privatePack)
+
   const showCurrentPage = (currentPage: number, itemsCount: number) => {
     dispatch(setPackTC({ page: currentPage, pageCount: itemsCount }))
   }
+
   const clearFilter = () => {
     dispatch(clearFilterTC())
   }
@@ -78,8 +84,13 @@ export const PackList = () => {
   }
 
   const addPack = () => {
-    setOpen(!open)
-    // dispatch(addPackTC({ cardsPack: { name: 'h1 my name is', private: false } }))
+    dispatch(newPackNameAC(''))
+    dispatch(setModalOpen(true))
+  }
+
+  const setCloseModal = () => {
+    dispatch(addPackTC({ cardsPack: { name: newPackName, private: isPrivate } }))
+    dispatch(setModalOpen(false))
   }
 
   const deletePack = (id: string) => {
@@ -134,8 +145,8 @@ export const PackList = () => {
         onChange={showCurrentPage}
         disabled={isDisable}
       />
-      <ModalFields open={open} callback={setOpen}>
-        <AddNewPack open={open} callback={setOpen} />
+      <ModalFields open={isModelOpen} callback={setCloseModal}>
+        <AddNewPack open={isModelOpen} callback={setCloseModal} />
       </ModalFields>
     </div>
   )

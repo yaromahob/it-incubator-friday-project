@@ -9,7 +9,7 @@ export const DeletePack = () => {
     <div>
       <HeaderModal titleModal={'Delete Pack'} />
       <DeletePackOrCard nameItem={'ALAHAMORA'} />
-      <SaveAndCancelField type={'Delete'} onAction={() => alert()} />
+      <SaveAndCancelField type={'Delete'} onAction={() => alert()} cancelAction={() => alert()} />
     </div>
   )
 }
