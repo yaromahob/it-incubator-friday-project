@@ -7,7 +7,17 @@ import SuperButton from '../../common/SuperButton/SuperButton'
 import { useAppDispatch, useAppSelector } from '../../App/store'
 import { SuperTable } from '../../common/SuperTable/SuperTable'
 import { ActionButtonsContainer } from '../../common/ActionButtonsContainer/ActionButtonsContainer'
-import { addPackTC, clearFilterTC, deletePackTC, searchTextAC, setPackTC, sortByDateAC, updatePackTC } from './PackList-reducer'
+import {
+  addPackTC,
+  clearFilterTC,
+  deletePackTC,
+  searchTextAC,
+  setOpenModalNewPackAC,
+  setPackTC,
+  sortByDateAC,
+  textNewPackAC,
+  updatePackTC,
+} from './PackList-reducer'
 import { PackType, UpdatePackType } from '../../api/api-packsList'
 import { CardsCount } from './CardsCount/CardsCount'
 import { AllCards } from './AllCards/AllCards'
@@ -16,8 +26,6 @@ import { Navigate, NavLink } from 'react-router-dom'
 import { EditPack } from '../PackCardCRUD/EditPack'
 import { AddNewPack } from '../PackCardCRUD/AddNewPack'
 import { ModalFields } from '../../common/ModalFields/ModalFields'
-import { setModalOpen } from '../../App/app-reducer'
-import { newPackNameAC, newPackPrivateAC } from '../PackCardCRUD/packCardCRUD-reducer'
 
 const ASC = '0'
 const DESC = '1'
@@ -62,9 +70,10 @@ export const PackList = () => {
   const isDisable = useAppSelector(state => state.packList.isDisabled)
   const sortBy = useAppSelector(state => state.packList.sortBy)
   const setIsLoggedInCards = useAppSelector(state => state.cardList.setIsLoggedInCards)
-  const isModelOpen = useAppSelector(state => state.app.isModalOpen)
-  const newPackName = useAppSelector(state => state.packCardCRUD.namePack)
-  const isPrivate = useAppSelector(state => state.packCardCRUD.privatePack)
+  const isOpenModalNewPack = useAppSelector(state => state.packList.isOpenModalNewPack)
+  const isOpenModalEditPack = useAppSelector(state => state.packList.isOpenModalEditPack)
+  const textNewPackName = useAppSelector(state => state.packList.textNewPack)
+  const isPrivateNewPack = useAppSelector(state => state.packList.isPrivateNewPack)
 
   const showCurrentPage = (currentPage: number, itemsCount: number) => {
     dispatch(setPackTC({ page: currentPage, pageCount: itemsCount }))
@@ -85,13 +94,15 @@ export const PackList = () => {
   }
 
   const addPack = () => {
-    dispatch(newPackNameAC(''))
-    dispatch(setModalOpen(true))
+    dispatch(textNewPackAC(''))
+    dispatch(setOpenModalNewPackAC(true))
   }
 
   const setCloseModal = () => {
-    dispatch(addPackTC({ cardsPack: { name: newPackName, private: isPrivate } }))
-    dispatch(setModalOpen(false))
+    if (textNewPackName) {
+      dispatch(addPackTC({ cardsPack: { name: textNewPackName, private: isPrivateNewPack } }))
+    }
+    dispatch(setOpenModalNewPackAC(false))
   }
 
   const deletePack = (id: string) => {
@@ -146,8 +157,11 @@ export const PackList = () => {
         onChange={showCurrentPage}
         disabled={isDisable}
       />
-      <ModalFields open={isModelOpen} callback={setCloseModal}>
-        <AddNewPack open={isModelOpen} callback={setCloseModal} />
+      <ModalFields open={isOpenModalNewPack} callback={setCloseModal}>
+        <AddNewPack />
+      </ModalFields>
+      <ModalFields open={isOpenModalEditPack} callback={setCloseModal}>
+        <EditPack />
       </ModalFields>
     </div>
   )

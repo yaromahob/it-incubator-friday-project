@@ -1,11 +1,6 @@
-import React, { useEffect } from 'react'
-import styles from './ModalFields.module.scss'
-import { AddOrEditPack } from './AddOrEditPack/AddOrEditPack'
-import { SaveAndCancelField } from './SaveAndCancelField/SaveAndCancelField'
+import React from 'react'
 import Modal from '@mui/material/Modal'
 import Box from '@mui/material/Box'
-import { setModalOpen } from '../../App/app-reducer'
-import { useAppDispatch, useAppSelector } from '../../App/store'
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -19,7 +14,6 @@ const style = {
 }
 
 export const ModalFields: React.FC<ModalFieldsType> = ({ open, callback, children }) => {
-  const dispatch = useAppDispatch()
   const handleClose = () => callback()
 
   return (

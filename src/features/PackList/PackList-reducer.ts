@@ -13,7 +13,17 @@ export type InitialStateType = {
   userId: string
   sortBy: string
   searchedText: string
+  textNewPack: string
+  isPrivateNewPack: boolean
+  isOpenModalNewPack: boolean
+  isOpenModalEditPack: boolean
 }
+
+export type testType = {
+  namePack: string
+  privatePack: boolean
+}
+
 export const initialState: InitialStateType = {
   cardPacks: [],
   page: 1, //выбранная стр
@@ -26,6 +36,10 @@ export const initialState: InitialStateType = {
   userId: '',
   sortBy: '0',
   searchedText: '',
+  textNewPack: '',
+  isPrivateNewPack: false,
+  isOpenModalNewPack: false,
+  isOpenModalEditPack: false,
 }
 
 export const PackListReducer = (state: InitialStateType = initialState, action: PacksActionType): InitialStateType => {
@@ -41,17 +55,17 @@ export const PackListReducer = (state: InitialStateType = initialState, action: 
     case 'PACKS/SET-CARDS-COUNT':
       console.log(action.cardsCount)
       return { ...state, cardsCount: [...action.cardsCount] }
+    case 'PACKS/SET-OPEN-MODAL-NEW-PACK': {
+      return { ...state, isOpenModalNewPack: action.value }
+    }
+    case 'PACKS/SET-TEXT-NEW-PACK':
+      return { ...state, textNewPack: action.text }
+    case 'PACKS/SET-IS-PRIVATE-NEW-PACK':
+      return { ...state, isPrivateNewPack: action.value }
     case 'PACKS/UPDATE-PACKS':
       return {
         ...state,
-        cardPacks: [...state.cardPacks].map(e =>
-          e._id === action.data._id
-            ? {
-                ...e,
-                name: action.data.name,
-              }
-            : e
-        ),
+        cardPacks: [...state.cardPacks].map(pack => (pack._id === action.data._id ? { ...pack, name: action.data.name } : pack)),
       }
     case 'PACKS/SET_USERID':
       return { ...state, userId: action.userId }
@@ -73,6 +87,10 @@ export const updatePackAC = (data: PackType) => ({ type: 'PACKS/UPDATE-PACKS', d
 export const setUserIdAC = (userId: string) => ({ type: 'PACKS/SET_USERID', userId } as const)
 export const sortByDateAC = (sortBy: string) => ({ type: 'PACKS/SORT_BY_DATE', sortBy } as const)
 export const searchTextAC = (value: string) => ({ type: 'PACKS/SEARCH-BY-TEXT', value } as const)
+export const textNewPackAC = (text: string) => ({ type: 'PACKS/SET-TEXT-NEW-PACK', text } as const)
+export const isPrivateNewPackAC = (value: boolean) => ({ type: 'PACKS/SET-IS-PRIVATE-NEW-PACK', value } as const)
+export const setOpenModalNewPackAC = (value: boolean) => ({ type: 'PACKS/SET-OPEN-MODAL-NEW-PACK', value } as const)
+export const setOpenModalEditPackAC = (value: boolean) => ({ type: 'PACKS/SET-OPEN-MODAL-EDIT-PACK', value } as const)
 
 // thunk
 export const clearFilterTC = (): AppThunk => dispatch => {
@@ -139,3 +157,7 @@ export type PacksActionType =
   | ReturnType<typeof setUserIdAC>
   | ReturnType<typeof sortByDateAC>
   | ReturnType<typeof searchTextAC>
+  | ReturnType<typeof textNewPackAC>
+  | ReturnType<typeof isPrivateNewPackAC>
+  | ReturnType<typeof setOpenModalNewPackAC>
+  | ReturnType<typeof setOpenModalEditPackAC>
