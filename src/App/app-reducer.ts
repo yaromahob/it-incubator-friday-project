@@ -13,7 +13,6 @@ const initialState = {
   error: null as null | string,
   entityStatus: 'idle',
   isAuth: false,
-  isModalOpen: false,
 }
 
 type InitialStateType = typeof initialState
@@ -32,9 +31,6 @@ export const appReducer = (state: InitialStateType = initialState, action: AppAc
     case 'APP/SET-IsAUTH': {
       return { ...state, isAuth: action.value }
     }
-    case 'APP/SET-MODAL-OPEN': {
-      return { ...state, isModalOpen: action.value }
-    }
     default: {
       return state
     }
@@ -48,8 +44,6 @@ export const setAppStatus = (status: RequestStatusType) => ({ type: 'APP/SET-STA
 export const setAppError = (error: null | string) => ({ type: 'APP/SET-ERROR', error } as const)
 
 export const setAuthApi = (value: boolean) => ({ type: 'APP/SET-IsAUTH', value } as const)
-
-export const setModalOpen = (value: boolean) => ({ type: 'APP/SET-MODAL-OPEN', value } as const)
 
 export const setAuthApiTC = () => async (dispatch: AppDispatch) => {
   dispatch(setIsLoggedInAC(true))
@@ -74,6 +68,5 @@ export type SetStatusType = ReturnType<typeof setAppStatus>
 export type SetErrorType = ReturnType<typeof setAppError>
 export type SetInitialized = ReturnType<typeof setInitialized>
 export type SetAuthApi = ReturnType<typeof setAuthApi>
-export type SetModalOpen = ReturnType<typeof setModalOpen>
 
-export type AppActionsType = SetStatusType | SetErrorType | SetInitialized | SetAuthApi | SetModalOpen
+export type AppActionsType = SetStatusType | SetErrorType | SetInitialized | SetAuthApi
