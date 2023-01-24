@@ -1,37 +1,45 @@
 import React, { useEffect, useState } from 'react'
 import styles from './FriendOrMyCard.module.scss'
 import { ActionButtonsContainer } from '../../common/ActionButtonsContainer/ActionButtonsContainer'
-import { useParams } from 'react-router-dom'
-import { addCardTC, setCardTC } from '../CardList/Card-reducer'
+import { Navigate, NavLink, useParams } from 'react-router-dom'
+import { addCardTC, deleteCardTC, setCardTC, setIsLoggedInCardsAC } from '../CardList/Card-reducer'
 import { useAppDispatch, useAppSelector } from '../../App/store'
 import SuperButton from '../../common/SuperButton/SuperButton'
 
 export const FriendOrMyCard: React.FC<FriendOrMyCardType> = ({ cardPackID }) => {
   const [showAction, setShowAction] = useState(false)
   const dispatch = useAppDispatch()
+  const setIsLoggedInCards = useAppSelector(state => state.cardList.setIsLoggedInCards)
   const userID = useAppSelector(state => state.profile._id)
   const { packId } = useParams()
 
-  const educationCardList = (id: string) => {
-    dispatch(setCardTC({ cardsPack_id: id }))
+  const educationCardList = () => {
+    dispatch(setIsLoggedInCardsAC(true))
   }
 
   const addCard = () => {
-    dispatch(addCardTC({ card: { cardsPack_id: packId!, question: '123' } }))
+    dispatch(addCardTC({ card: { cardsPack_id: packId!, question: '1+2', answer: '3' } }))
   }
 
   const deleteCard = (id: string) => {
-    console.log(id)
+    dispatch(deleteCardTC(id))
   }
 
   const updateCard = (data: any) => {
     console.log(data)
+  }
+  if (setIsLoggedInCards) {
+    return <Navigate to={'/learn'} />
   }
 
   useEffect(() => {
     if (!packId) return
     dispatch(setCardTC({ cardsPack_id: packId }))
   }, [packId])
+
+  const learnToPackHandler = () => {
+    return <Navigate to={'/packList'} />
+  }
 
   if (cardPackID) {
     return (
@@ -67,7 +75,7 @@ export const FriendOrMyCard: React.FC<FriendOrMyCardType> = ({ cardPackID }) => 
     return (
       <div className={styles.myPackWrapper}>
         <h2>Friend’s Pack</h2>
-        <SuperButton>Learn to pack</SuperButton>
+        <SuperButton onClick={learnToPackHandler}>Learn to pack</SuperButton>
       </div>
     )
   }

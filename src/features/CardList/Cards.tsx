@@ -49,7 +49,7 @@ export const Cards = () => {
   const cardPacks = useAppSelector(state => state.cardList.cards)
   const isDisable = useAppSelector(state => state.packList.isDisabled)
   const cardPackID = cardPacks.find(item => item.user_id === profileID)
-  console.log(cardPackID)
+  console.log(cardPackID, 'cardPackID')
 
   const [sortInfo, setSortInfo] = useState<SortInfoType>({
     sortBy: null,
@@ -72,12 +72,6 @@ export const Cards = () => {
   const updateCard = (data: any) => {
     console.log(data)
   }
-
-  // const { packId } = useParams()
-  // useEffect(() => {
-  //   if (!packId) return
-  //   dispatch(setCardTC({ cardsPack_id: packId }))
-  // }, [packId])
 
   return (
     <div className={styles.listWrapper}>

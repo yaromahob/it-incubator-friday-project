@@ -45,20 +45,21 @@ export const setAppError = (error: null | string) => ({ type: 'APP/SET-ERROR', e
 export const setAuthApi = (value: boolean) => ({ type: 'APP/SET-IsAUTH', value } as const)
 
 export const setAuthApiTC = () => async (dispatch: AppDispatch) => {
-  dispatch(setIsLoggedInAC(true))
+  //dispatch(setIsLoggedInAC(true))
   try {
     const res = await authAPI.me()
     const { _id, email, name, token, avatar, ...rest } = res.data
     dispatch(setProfileAC(_id, email, name, token, avatar))
     dispatch(headerSetNameAC(name))
     dispatch(setAuthApi(true))
+    dispatch(setIsLoggedInAC(true))
   } catch (e) {
     const err = e as Error | AxiosError<{ error: string }>
     if (axios.isAxiosError(err)) {
       const error = err.response?.data ? err.response.data.error : err.message
       //dispatch(setAppError(error))
       console.log(error)
-      dispatch(setIsLoggedInAC(false))
+      // dispatch(setIsLoggedInAC(false))
     }
   }
 }

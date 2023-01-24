@@ -34,7 +34,7 @@ function App() {
         <Route path="/" element={<Navigate to="/profile" />} />
         <Route path="/login" element={<Login />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/learn" element={<Learn />} />
+        <Route path="/learn/:packId" element={<Learn />} />
         <Route path="/checkEmail" element={<CheckEmail />} />
         <Route path="/newPassword" element={<NewPassword />} />
         <Route path="/packList" element={<PackList />} />

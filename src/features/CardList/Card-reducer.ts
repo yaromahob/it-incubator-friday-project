@@ -1,7 +1,7 @@
 import { AppActionType, AppRootStateType, AppThunk } from '../../App/store'
 import { AddCardsPack, PackType, packsAPI, ParamsListPacksType, ResponseTypePacksList, UpdatePackType } from '../../api/api-packsList'
 import { addPackType } from '../PackList/PackList-reducer'
-import { AddCardType, cardsAPI, CardType, ParamsCardsListType } from '../../api/api-cardsList'
+import { AddCardType, cardsAPI, CardType, LearnCardType, ParamsCardsListType } from '../../api/api-cardsList'
 
 export type InitialStateType = {
   cards: CardType[]
@@ -18,14 +18,17 @@ export const CardListReducer = (state: InitialStateType = initialState, action: 
     case 'CARD/SET-CARDS':
       console.log(action.cards)
       return { ...state, cards: action.cards }
+
     case 'CARD/ADD-CARDS':
       return { ...state, cards: [...state.cards!, action.newCard] }
     case 'CARD/DELETE-CARDS':
-      return { ...state, cards: [...state.cards!].filter(c => c._id !== action.id) }
+      return { ...state, cards: state.cards!.filter(c => c._id !== action.id) }
     case 'CARD/UPDATE-CARDS':
-      return { ...state, cards: [...state.cards!].filter(c => (c._id === action.id ? { ...action.updatedCard } : c)) }
+      return { ...state, cards: state.cards!.filter(c => (c._id === action.id ? { ...action.updatedCard } : c)) }
     case 'CARD/SET-IS-LOGGED-IN-CARDS':
       return { ...state, setIsLoggedInCards: action.value }
+    case 'CARD/GRADE-UPDATE':
+      return { ...state, cards: state.cards.filter(c => (c._id === action.id ? { ...c, grade: action.grade } : c)) }
     default:
       return state
   }
@@ -36,13 +39,13 @@ export const addCardsAC = (newCard: CardType) => ({ type: 'CARD/ADD-CARDS', newC
 export const deleteCardsAC = (id: string) => ({ type: 'CARD/DELETE-CARDS', id } as const)
 export const updateCardsAC = (updatedCard: CardType, id: string) => ({ type: 'CARD/UPDATE-CARDS', updatedCard, id } as const)
 export const setIsLoggedInCardsAC = (value: boolean) => ({ type: 'CARD/SET-IS-LOGGED-IN-CARDS', value } as const)
+const gradeCardUpdateAC = (grade: number, id: string) => ({ type: 'CARD/GRADE-UPDATE', grade, id } as const)
 // thunk
 export const setCardTC =
   (data: ParamsCardsListType): AppThunk =>
   dispatch => {
     cardsAPI.setCards(data).then(res => {
       if (res.data) {
-        dispatch(setIsLoggedInCardsAC(true))
         dispatch(setCardsAC(res.data.cards))
       }
     })
@@ -61,6 +64,7 @@ export const deleteCardTC =
       dispatch(deleteCardsAC(res.data.deletedCard._id))
     })
   }
+
 export type updateCardType = Partial<{
   _id: string
   cardsPack_id?: string
@@ -84,6 +88,13 @@ export const updateCardTC =
       dispatch(updateCardsAC(res.data.updatedCard, res.data.updatedCard._id))
     })
   }
+export const gradeCardUpdateTC =
+  (data: LearnCardType): AppThunk =>
+  dispatch => {
+    cardsAPI.gradeUpdate(data).then(res => {
+      dispatch(gradeCardUpdateAC(res.data.updatedGrade.grade, res.data.updatedGrade.card_id))
+    })
+  }
 
 export type CardsActionType =
   | ReturnType<typeof setCardsAC>
@@ -91,3 +102,4 @@ export type CardsActionType =
   | ReturnType<typeof deleteCardsAC>
   | ReturnType<typeof updateCardsAC>
   | ReturnType<typeof setIsLoggedInCardsAC>
+  | ReturnType<typeof gradeCardUpdateAC>

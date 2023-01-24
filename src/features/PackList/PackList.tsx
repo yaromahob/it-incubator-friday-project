@@ -56,7 +56,7 @@ export const PackList = () => {
   const packCards = useAppSelector(state => state.packList.cardPacks)
   const isDisable = useAppSelector(state => state.packList.isDisabled)
   const sortBy = useAppSelector(state => state.packList.sortBy)
-  const setIsLoggedInCards = useAppSelector(state => state.cardList.setIsLoggedInCards)
+
   const showCurrentPage = (currentPage: number, itemsCount: number) => {
     dispatch(setPackTC({ page: currentPage, pageCount: itemsCount }))
   }
