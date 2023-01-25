@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react'
+import React, { ChangeEvent } from 'react'
 import { HeaderModal } from '../../common/ModalFields/HeaderModal/HeaderModal'
 import { AddOrEditPack } from '../../common/ModalFields/AddOrEditPack/AddOrEditPack'
 import { SaveAndCancelField } from '../../common/ModalFields/SaveAndCancelField/SaveAndCancelField'
@@ -7,13 +7,11 @@ import { addPackTC, isPrivateNewPackAC, setOpenModalNewPackAC, textNewPackAC } f
 import styles from '../../common/ModalFields/ModalFields.module.scss'
 
 export const AddNewPack = () => {
-  const newPackName = useAppSelector(state => state.packList.textNewPack)
-  const isPrivate = useAppSelector(state => state.packList.isPrivateNewPack)
+  const { textNewPack, isPrivateNewPack } = useAppSelector(state => state.packList)
   const dispatch = useAppDispatch()
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(textNewPackAC(e.currentTarget.value))
-    console.log(newPackName)
   }
 
   const onPrivateHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -21,7 +19,7 @@ export const AddNewPack = () => {
   }
 
   const onSaveHandler = () => {
-    dispatch(addPackTC({ cardsPack: { name: newPackName, private: isPrivate } }))
+    dispatch(addPackTC({ cardsPack: { name: textNewPack, private: isPrivateNewPack } }))
     dispatch(setOpenModalNewPackAC(false))
   }
 
@@ -33,7 +31,7 @@ export const AddNewPack = () => {
   return (
     <div className={styles.modal}>
       <HeaderModal titleModal={'Add new pack'} />
-      <AddOrEditPack newPackName={newPackName} onChange={onChangeHandler} isPrivate={isPrivate} onChangePrivate={onPrivateHandler} />
+      <AddOrEditPack newPackName={textNewPack} onChange={onChangeHandler} isPrivate={isPrivateNewPack} onChangePrivate={onPrivateHandler} />
       <SaveAndCancelField type={'Save'} onAction={onSaveHandler} cancelAction={onCancelHandler} />
     </div>
   )

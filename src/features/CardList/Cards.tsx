@@ -6,11 +6,26 @@ import styles from './Cards.module.scss'
 import searchIcon from '../../assets/svg/search.svg'
 import SuperDebouncedInput from '../../common/SuperDebouncedInput/SuperDebouncedInput'
 import { Grade } from '../../common/Grade/Grade'
-import { PackType } from '../../api/api-packsList'
-import { setPackTC } from '../PackList/PackList-reducer'
+import { setOpenModalDeletePackAC, setOpenModalEditPackAC, setPackTC } from '../PackList/PackList-reducer'
 import { BackToPackList } from '../BackToPackList/BackToPackList'
 import { FriendOrMyCard } from '../FriendOrMyCard/FriendOrMyCard'
 import { ActionButtonsContainer } from '../../common/ActionButtonsContainer/ActionButtonsContainer'
+import { CardType } from '../../api/api-cardsList'
+import { ModalFields } from '../../common/ModalFields/ModalFields'
+import {
+  addCardTC,
+  setAnswerValueAC,
+  setIdEditCardAC,
+  openNewCardModalAC,
+  openDeleteCardModalAC,
+  setQuestionValueAC,
+  openEditCardModalAC,
+  setCardTC,
+} from './Card-reducer'
+import { AddNewCard } from '../PackCardCRUD/AddNewCard'
+import { useParams } from 'react-router-dom'
+import { DeleteCard } from '../PackCardCRUD/DeleteCard'
+import { EditCard } from '../PackCardCRUD/EditCard'
 
 const ASC = '0'
 const DESC = '1'
@@ -24,7 +39,7 @@ export const Cards = () => {
     {
       key: 'grade',
       name: 'Grade',
-      render: (card: PackType) => {
+      render: (card: CardType) => {
         const cardID = card.user_id
         return (
           <div className={styles.renderWrapper}>
@@ -33,7 +48,8 @@ export const Cards = () => {
               <ActionButtonsContainer
                 id={card._id}
                 userId={card.user_id}
-                cardsCount={card.cardsCount}
+                packName={card.question}
+                packAnswer={card.answer}
                 editAction={updateCard}
                 deleteAction={deleteCard}
               />
@@ -45,12 +61,12 @@ export const Cards = () => {
   ]
 
   const dispatch = useAppDispatch()
-  const setIsLoggedInCards = useAppSelector(state => state.cardList.setIsLoggedInCards)
+  const isAuth = useAppSelector(state => state.app.isAuth)
   const cardPacks = useAppSelector(state => state.cardList.cards)
   const isDisable = useAppSelector(state => state.packList.isDisabled)
   const cardPackID = cardPacks.find(item => item.user_id === profileID)
-  console.log(cardPackID, 'cardPackID')
-
+  const { openAddNewCardModal, openDeleteCardModal, openEditCardModal, question, answer } = useAppSelector(state => state.cardList)
+  const { packId } = useParams()
   const [sortInfo, setSortInfo] = useState<SortInfoType>({
     sortBy: null,
   })
@@ -66,28 +82,62 @@ export const Cards = () => {
     }
   }
 
-  const deleteCard = (id: string) => {
-    console.log(id)
+  const closeAddModalHandler = () => {
+    question && dispatch(addCardTC({ card: { cardsPack_id: packId!, question: question, answer: answer } }))
+    dispatch(openNewCardModalAC(false))
+    dispatch(setQuestionValueAC(''))
+    dispatch(setAnswerValueAC(''))
   }
-  const updateCard = (data: any) => {
-    console.log(data)
+
+  const closeDeleteModalHandler = () => {
+    // question && dispatch(addCardTC({ card: { cardsPack_id: packId!, question: question, answer: answer } }))
+    dispatch(openDeleteCardModalAC(false))
+    dispatch(setQuestionValueAC(''))
+    dispatch(setAnswerValueAC(''))
+  }
+
+  const closeEditModalHandler = () => {
+    dispatch(openEditCardModalAC(false))
+  }
+
+  const deleteCard = (id: string, packName: string) => {
+    dispatch(openDeleteCardModalAC(true))
+    dispatch(setQuestionValueAC(packName))
+    dispatch(setIdEditCardAC(id))
+  }
+
+  const updateCard = (id: string, packName: string, packAnswer: string | undefined) => {
+    dispatch(openEditCardModalAC(true))
+    dispatch(setQuestionValueAC(packName))
+    dispatch(setAnswerValueAC(packAnswer!))
+    dispatch(setIdEditCardAC(id))
   }
 
   return (
     <div className={styles.listWrapper}>
-      <BackToPackList />
-      <FriendOrMyCard cardPackID={cardPackID && cardPackID.user_id} />
-      <div className={styles.interfaceField}>
-        <div className={styles.search}>
-          <span>Search</span>
-          <div>
-            <img src={searchIcon} alt="search icon" />
-            <SuperDebouncedInput placeholder="Provide your text" />
+      <div>
+        <BackToPackList />
+        <FriendOrMyCard cardPackID={cardPackID && cardPackID.user_id} />
+        <div className={styles.interfaceField}>
+          <div className={styles.search}>
+            <span>Search</span>
+            <div>
+              <img src={searchIcon} alt="search icon" />
+              <SuperDebouncedInput placeholder="Provide your text" />
+            </div>
           </div>
         </div>
+        <SuperTable columns={columns2} data={cardPacks} onClick={onClickHandler} sortBy={sortInfo.sortBy} disabled={isDisable} />
       </div>
-
-      <SuperTable columns={columns2} data={cardPacks} onClick={onClickHandler} sortBy={sortInfo.sortBy} disabled={isDisable} />
+      <ModalFields open={openAddNewCardModal} callback={closeAddModalHandler}>
+        <AddNewCard packId={packId!} />
+      </ModalFields>
+      <ModalFields open={openDeleteCardModal} callback={closeDeleteModalHandler}>
+        <DeleteCard nameItem={question} />
+      </ModalFields>
+      <ModalFields open={openEditCardModal} callback={closeEditModalHandler}>
+        <EditCard />
+      </ModalFields>
     </div>
   )
 }

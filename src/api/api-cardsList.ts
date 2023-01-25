@@ -99,7 +99,6 @@ export interface ResponseGradeUpdateCardType {
 }
 export const cardsAPI = {
   setCards(params: ParamsCardsListType) {
-    console.log(params)
     return instance.get<ResponseSetCardTyp>(`/cards/card`, {
       params,
     })
@@ -108,10 +107,11 @@ export const cardsAPI = {
     return instance.post<ResponseAddCardType>(`/cards/card`, data)
   },
   deleteCard(id?: string) {
-    return instance.delete<ResponseDeleteCardType>(`/cards/card${id}`)
+    console.log(id)
+    return instance.delete<ResponseDeleteCardType>(`/cards/card`, { params: { id } })
   },
   createCard(card: updateCardType) {
-    return instance.put<ResponseUpdateCardType>(`/cards/card`)
+    return instance.put<ResponseUpdateCardType>(`/cards/card`, { card })
   },
   gradeUpdate(data: LearnCardType) {
     return instance.put<ResponseGradeUpdateCardType>(`/cards/grade`, data)

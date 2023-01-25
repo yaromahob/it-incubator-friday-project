@@ -14,14 +14,11 @@ export type InitialStateType = {
   sortBy: string
   searchedText: string
   textNewPack: string
+  idEditPack: string
   isPrivateNewPack: boolean
   isOpenModalNewPack: boolean
   isOpenModalEditPack: boolean
-}
-
-export type testType = {
-  namePack: string
-  privatePack: boolean
+  isOpenModalDeletePack: boolean
 }
 
 export const initialState: InitialStateType = {
@@ -37,9 +34,11 @@ export const initialState: InitialStateType = {
   sortBy: '0',
   searchedText: '',
   textNewPack: '',
+  idEditPack: '',
   isPrivateNewPack: false,
   isOpenModalNewPack: false,
   isOpenModalEditPack: false,
+  isOpenModalDeletePack: false,
 }
 
 export const PackListReducer = (state: InitialStateType = initialState, action: PacksActionType): InitialStateType => {
@@ -53,15 +52,20 @@ export const PackListReducer = (state: InitialStateType = initialState, action: 
     case 'PACKS/DISABLE-BUTTON':
       return { ...state, isDisabled: action.isDisabled }
     case 'PACKS/SET-CARDS-COUNT':
-      console.log(action.cardsCount)
       return { ...state, cardsCount: [...action.cardsCount] }
     case 'PACKS/SET-OPEN-MODAL-NEW-PACK': {
       return { ...state, isOpenModalNewPack: action.value }
     }
+    case 'PACKS/SET-OPEN-MODAL-EDIT-PACK':
+      return { ...state, isOpenModalEditPack: action.value }
+    case 'PACKS/SET-OPEN-MODAL-DELETE-PACK':
+      return { ...state, isOpenModalDeletePack: action.value }
     case 'PACKS/SET-TEXT-NEW-PACK':
       return { ...state, textNewPack: action.text }
     case 'PACKS/SET-IS-PRIVATE-NEW-PACK':
       return { ...state, isPrivateNewPack: action.value }
+    case 'PACKS/SET-ID-EDIT-PACK':
+      return { ...state, idEditPack: action.id }
     case 'PACKS/UPDATE-PACKS':
       return {
         ...state,
@@ -91,6 +95,8 @@ export const textNewPackAC = (text: string) => ({ type: 'PACKS/SET-TEXT-NEW-PACK
 export const isPrivateNewPackAC = (value: boolean) => ({ type: 'PACKS/SET-IS-PRIVATE-NEW-PACK', value } as const)
 export const setOpenModalNewPackAC = (value: boolean) => ({ type: 'PACKS/SET-OPEN-MODAL-NEW-PACK', value } as const)
 export const setOpenModalEditPackAC = (value: boolean) => ({ type: 'PACKS/SET-OPEN-MODAL-EDIT-PACK', value } as const)
+export const setOpenModalDeletePackAC = (value: boolean) => ({ type: 'PACKS/SET-OPEN-MODAL-DELETE-PACK', value } as const)
+export const idEditPackAC = (id: string) => ({ type: 'PACKS/SET-ID-EDIT-PACK', id } as const)
 
 // thunk
 export const clearFilterTC = (): AppThunk => dispatch => {
@@ -118,7 +124,7 @@ export const setPackTC =
   dispatch => {
     dispatch(disableButtonAC(true))
     packsAPI.setPacks(data).then(res => {
-      console.log(res)
+      console.log(res.data.cardPacks)
       dispatch(setPacksAC(res.data))
       dispatch(disableButtonAC(false))
     })
@@ -161,3 +167,5 @@ export type PacksActionType =
   | ReturnType<typeof isPrivateNewPackAC>
   | ReturnType<typeof setOpenModalNewPackAC>
   | ReturnType<typeof setOpenModalEditPackAC>
+  | ReturnType<typeof setOpenModalDeletePackAC>
+  | ReturnType<typeof idEditPackAC>

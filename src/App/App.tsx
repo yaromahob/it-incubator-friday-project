@@ -39,7 +39,7 @@ function App() {
         <Route path="/newPassword" element={<NewPassword />} />
         <Route path="/packList" element={<PackList />} />
         <Route path="/emptyPack" element={<EmptyPack />} />
-        <Route path="/cardList/:packId" element={<Cards />} />
+        <Route path="/cardList/:packOwner/:packId" element={<Cards />} />
         <Route path="/404" element={<NotFound />} />
         <Route path="/recoveryPassword" element={<RecoveryPassword />} />
         <Route path="/signUp" element={<SignUp />} />

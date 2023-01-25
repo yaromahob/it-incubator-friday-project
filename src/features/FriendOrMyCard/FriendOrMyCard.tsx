@@ -2,7 +2,15 @@ import React, { useEffect, useState } from 'react'
 import styles from './FriendOrMyCard.module.scss'
 import { ActionButtonsContainer } from '../../common/ActionButtonsContainer/ActionButtonsContainer'
 import { Navigate, NavLink, useParams } from 'react-router-dom'
-import { addCardTC, deleteCardTC, setCardTC, setIsLoggedInCardsAC } from '../CardList/Card-reducer'
+import {
+  addCardTC,
+  deleteCardTC,
+  setAnswerValueAC,
+  setCardTC,
+  setIsLoggedInCardsAC,
+  openNewCardModalAC,
+  setQuestionValueAC,
+} from '../CardList/Card-reducer'
 import { useAppDispatch, useAppSelector } from '../../App/store'
 import SuperButton from '../../common/SuperButton/SuperButton'
 
@@ -11,23 +19,26 @@ export const FriendOrMyCard: React.FC<FriendOrMyCardType> = ({ cardPackID }) => 
   const dispatch = useAppDispatch()
   const setIsLoggedInCards = useAppSelector(state => state.cardList.setIsLoggedInCards)
   const userID = useAppSelector(state => state.profile._id)
-  const { packId } = useParams()
+  const { packOwner, packId } = useParams()
 
   const educationCardList = () => {
     dispatch(setIsLoggedInCardsAC(true))
   }
 
   const addCard = () => {
-    dispatch(addCardTC({ card: { cardsPack_id: packId!, question: '1+2', answer: '3' } }))
+    dispatch(setQuestionValueAC(''))
+    dispatch(setAnswerValueAC(''))
+    dispatch(openNewCardModalAC(true))
   }
 
   const deleteCard = (id: string) => {
     dispatch(deleteCardTC(id))
   }
 
-  const updateCard = (data: any) => {
-    console.log(data)
+  const updateCard = (id: string, packName: string) => {
+    // console.log(data)
   }
+
   if (setIsLoggedInCards) {
     return <Navigate to={'/learn'} />
   }
@@ -41,7 +52,7 @@ export const FriendOrMyCard: React.FC<FriendOrMyCardType> = ({ cardPackID }) => 
     return <Navigate to={'/packList'} />
   }
 
-  if (cardPackID) {
+  if (packOwner === userID) {
     return (
       <div className={styles.myPackWrapper}>
         <div>
