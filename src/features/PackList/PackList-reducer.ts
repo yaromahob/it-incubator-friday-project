@@ -52,6 +52,7 @@ export const PackListReducer = (state: InitialStateType = initialState, action: 
     case 'PACKS/DISABLE-BUTTON':
       return { ...state, isDisabled: action.isDisabled }
     case 'PACKS/SET-CARDS-COUNT':
+      console.log(action.cardsCount)
       return { ...state, cardsCount: [...action.cardsCount] }
     case 'PACKS/SET-OPEN-MODAL-NEW-PACK': {
       return { ...state, isOpenModalNewPack: action.value }
