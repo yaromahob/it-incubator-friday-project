@@ -33,6 +33,7 @@ export type AppActionType =
   | AuthActionType
   | PacksActionType
   | CardsActionType
+
 export type AppDispatch = ThunkDispatch<AppRootStateType, unknown, AppActionType>
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppRootStateType, unknown, AppActionType>
 

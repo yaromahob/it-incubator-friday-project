@@ -1,6 +1,5 @@
 import { AppThunk } from '../../App/store'
 import { AddCardsPack, packsAPI, PackType, ParamsListPacksType, ResponseTypePacksList, UpdatePackType } from '../../api/api-packsList'
-import { log } from 'util'
 
 export type InitialStateType = {
   cardPacks: PackType[]
@@ -14,7 +13,14 @@ export type InitialStateType = {
   userId: string
   sortBy: string
   searchedText: string
+  textNewPack: string
+  idEditPack: string
+  isPrivateNewPack: boolean
+  isOpenModalNewPack: boolean
+  isOpenModalEditPack: boolean
+  isOpenModalDeletePack: boolean
 }
+
 export const initialState: InitialStateType = {
   cardPacks: [],
   page: 1, //выбранная стр
@@ -27,6 +33,12 @@ export const initialState: InitialStateType = {
   userId: '',
   sortBy: '0',
   searchedText: '',
+  textNewPack: '',
+  idEditPack: '',
+  isPrivateNewPack: false,
+  isOpenModalNewPack: false,
+  isOpenModalEditPack: false,
+  isOpenModalDeletePack: false,
 }
 
 export const PackListReducer = (state: InitialStateType = initialState, action: PacksActionType): InitialStateType => {
@@ -42,17 +54,23 @@ export const PackListReducer = (state: InitialStateType = initialState, action: 
     case 'PACKS/SET-CARDS-COUNT':
       console.log(action.cardsCount)
       return { ...state, cardsCount: [...action.cardsCount] }
+    case 'PACKS/SET-OPEN-MODAL-NEW-PACK': {
+      return { ...state, isOpenModalNewPack: action.value }
+    }
+    case 'PACKS/SET-OPEN-MODAL-EDIT-PACK':
+      return { ...state, isOpenModalEditPack: action.value }
+    case 'PACKS/SET-OPEN-MODAL-DELETE-PACK':
+      return { ...state, isOpenModalDeletePack: action.value }
+    case 'PACKS/SET-TEXT-NEW-PACK':
+      return { ...state, textNewPack: action.text }
+    case 'PACKS/SET-IS-PRIVATE-NEW-PACK':
+      return { ...state, isPrivateNewPack: action.value }
+    case 'PACKS/SET-ID-EDIT-PACK':
+      return { ...state, idEditPack: action.id }
     case 'PACKS/UPDATE-PACKS':
       return {
         ...state,
-        cardPacks: [...state.cardPacks].map(e =>
-          e._id === action.data._id
-            ? {
-                ...e,
-                name: action.data.name,
-              }
-            : e
-        ),
+        cardPacks: [...state.cardPacks].map(pack => (pack._id === action.data._id ? { ...pack, name: action.data.name } : pack)),
       }
     case 'PACKS/SET_USERID':
       return { ...state, userId: action.userId }
@@ -74,6 +92,12 @@ export const updatePackAC = (data: PackType) => ({ type: 'PACKS/UPDATE-PACKS', d
 export const setUserIdAC = (userId: string) => ({ type: 'PACKS/SET_USERID', userId } as const)
 export const sortByDateAC = (sortBy: string) => ({ type: 'PACKS/SORT_BY_DATE', sortBy } as const)
 export const searchTextAC = (value: string) => ({ type: 'PACKS/SEARCH-BY-TEXT', value } as const)
+export const textNewPackAC = (text: string) => ({ type: 'PACKS/SET-TEXT-NEW-PACK', text } as const)
+export const isPrivateNewPackAC = (value: boolean) => ({ type: 'PACKS/SET-IS-PRIVATE-NEW-PACK', value } as const)
+export const setOpenModalNewPackAC = (value: boolean) => ({ type: 'PACKS/SET-OPEN-MODAL-NEW-PACK', value } as const)
+export const setOpenModalEditPackAC = (value: boolean) => ({ type: 'PACKS/SET-OPEN-MODAL-EDIT-PACK', value } as const)
+export const setOpenModalDeletePackAC = (value: boolean) => ({ type: 'PACKS/SET-OPEN-MODAL-DELETE-PACK', value } as const)
+export const idEditPackAC = (id: string) => ({ type: 'PACKS/SET-ID-EDIT-PACK', id } as const)
 
 // thunk
 export const clearFilterTC = (): AppThunk => dispatch => {
@@ -109,7 +133,6 @@ export const addPackTC =
   (data: AddCardsPack): AppThunk =>
   dispatch => {
     packsAPI.addPack(data).then(res => {
-      //console.log(res.data.newCardsPack)
       dispatch(addPackAC(res.data.newCardsPack))
     })
   }
@@ -140,3 +163,9 @@ export type PacksActionType =
   | ReturnType<typeof setUserIdAC>
   | ReturnType<typeof sortByDateAC>
   | ReturnType<typeof searchTextAC>
+  | ReturnType<typeof textNewPackAC>
+  | ReturnType<typeof isPrivateNewPackAC>
+  | ReturnType<typeof setOpenModalNewPackAC>
+  | ReturnType<typeof setOpenModalEditPackAC>
+  | ReturnType<typeof setOpenModalDeletePackAC>
+  | ReturnType<typeof idEditPackAC>

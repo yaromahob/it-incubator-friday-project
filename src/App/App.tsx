@@ -41,7 +41,7 @@ function App() {
         <Route path={PATH.PACKLIST} element={<PackList />} />
         <Route path={PATH.EMPTYPACK} element={<EmptyPack />} />
         <Route path={PATH.EMPTYCARD + '/:id'} element={<EmptyCard />} />
-        <Route path={PATH.CARDLIST + '/:packId'} element={<Cards />} />
+        <Route path={PATH.CARDLIST + '/:packOwner/:packId'} element={<Cards />} />
         <Route path={PATH.ERROR} element={<NotFound />} />
         <Route path={PATH.RECOVERYPASSWORD} element={<RecoveryPassword />} />
         <Route path={PATH.SIGNUP} element={<SignUp />} />

@@ -42,6 +42,7 @@ export const setInitialized = (value: boolean) => ({ type: 'APP/SET-INITIALIZED'
 export const setAppStatus = (status: RequestStatusType) => ({ type: 'APP/SET-STATUS', status } as const)
 
 export const setAppError = (error: null | string) => ({ type: 'APP/SET-ERROR', error } as const)
+
 export const setAuthApi = (value: boolean) => ({ type: 'APP/SET-IsAUTH', value } as const)
 
 export const setAuthApiTC = () => async (dispatch: AppDispatch) => {

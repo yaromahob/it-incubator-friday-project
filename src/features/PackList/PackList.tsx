@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import SuperDebouncedInput from '../../common/SuperDebouncedInput/SuperDebouncedInput'
 import styles from './PackList.module.scss'
 import clearFilterIcon from '../../assets/svg/clearFilters.svg'
@@ -7,30 +7,47 @@ import SuperButton from '../../common/SuperButton/SuperButton'
 import { useAppDispatch, useAppSelector } from '../../App/store'
 import { SuperTable } from '../../common/SuperTable/SuperTable'
 import { ActionButtonsContainer } from '../../common/ActionButtonsContainer/ActionButtonsContainer'
-import { addPackTC, clearFilterTC, deletePackTC, searchTextAC, setPackTC, sortByDateAC, updatePackTC } from './PackList-reducer'
-import { PackType, UpdatePackType } from '../../api/api-packsList'
+import {
+  addPackTC,
+  clearFilterTC,
+  idEditPackAC,
+  searchTextAC,
+  setOpenModalDeletePackAC,
+  setOpenModalEditPackAC,
+  setOpenModalNewPackAC,
+  setPackTC,
+  sortByDateAC,
+  textNewPackAC,
+  updatePackTC,
+} from './PackList-reducer'
+import { PackType } from '../../api/api-packsList'
 import { CardsCount } from './CardsCount/CardsCount'
 import { AllCards } from './AllCards/AllCards'
 import { SuperPagination } from '../../common/SuperPagination/SuperPagination'
 import { Navigate, NavLink } from 'react-router-dom'
 import { EditPack } from '../PackCardCRUD/EditPack'
 import { PATH } from '../../root'
+import { AddNewPack } from '../PackCardCRUD/AddNewPack'
+import { ModalFields } from '../../common/ModalFields/ModalFields'
+import { DeletePack } from '../PackCardCRUD/DeletePack'
+import { EmptyPack } from './EmptyPack/EmptyPack'
 
 const ASC = '0'
 const DESC = '1'
 
 export const PackList = () => {
-  const profileId = useAppSelector(state => state.profile._id)
+  const profileID = useAppSelector(state => state.profile._id)
   const columns = [
     {
       key: 'name',
       name: 'Name',
       render: (card: PackType) => {
-        if (card.user_id === profileId && card.cardsCount === 0) {
-          return <NavLink to={`${PATH.EMPTYCARD}/${card._id}`}> {card.name} </NavLink>
-        } else {
-          return <NavLink to={`${PATH.CARDLIST}/${card._id}`}> {card.name} </NavLink>
+        if (card.user_id === profileID && card.cardsCount === 0) {
+          return <NavLink to={`${PATH.EMPTYCARD}/${card.user_id}/${card._id}`}> {card.name} </NavLink>
+        } else if (card.cardsCount === 0 && card.user_id !== profileID) {
+          return <span>{card.name}</span>
         }
+        return <NavLink to={`${PATH.CARDLIST}/${card.user_id}/${card._id}`}> {card.name} </NavLink>
       },
     },
     { key: 'cardsCount', name: 'Cards' },
@@ -45,8 +62,9 @@ export const PackList = () => {
             cardsCount={card.cardsCount}
             id={card._id}
             userId={card.user_id}
+            packName={card.name}
             educationsAction={() => {}}
-            editAction={updatePack}
+            editAction={editPack}
             deleteAction={deletePack}
           />
         )
@@ -55,25 +73,36 @@ export const PackList = () => {
   ]
 
   const dispatch = useAppDispatch()
-  const page = useAppSelector(state => state.packList.page)
-  const pageCount = useAppSelector(state => state.packList.pageCount)
-  const cardPacksTotalCount = useAppSelector(state => state.packList.cardPacksTotalCount)
   const isAuth = useAppSelector(state => state.app.isAuth)
-  const packCards = useAppSelector(state => state.packList.cardPacks)
-  const isDisable = useAppSelector(state => state.packList.isDisabled)
-  const sortBy = useAppSelector(state => state.packList.sortBy)
+  const {
+    page,
+    pageCount,
+    cardPacksTotalCount,
+    cardPacks,
+    isDisabled,
+    sortBy,
+    isOpenModalNewPack,
+    isOpenModalEditPack,
+    isOpenModalDeletePack,
+    idEditPack,
+    textNewPack,
+    isPrivateNewPack,
+  } = useAppSelector(state => state.packList)
 
   const showCurrentPage = (currentPage: number, itemsCount: number) => {
     dispatch(setPackTC({ page: currentPage, pageCount: itemsCount }))
   }
+
   const clearFilter = () => {
     dispatch(clearFilterTC())
   }
+
   const onClickHandler = () => {
     if (sortBy === DESC) {
       dispatch(setPackTC({ sortPacks: '0updated' }))
       dispatch(sortByDateAC(ASC))
     }
+
     if (sortBy === ASC) {
       dispatch(setPackTC({ sortPacks: '1updated' }))
       dispatch(sortByDateAC(DESC))
@@ -81,15 +110,35 @@ export const PackList = () => {
   }
 
   const addPack = () => {
-    dispatch(addPackTC({ cardsPack: { name: 'h1 my name is', private: false } }))
+    dispatch(textNewPackAC(''))
+    dispatch(setOpenModalNewPackAC(true))
   }
 
-  const deletePack = (id: string) => {
-    dispatch(deletePackTC(id))
+  const closeModalNewPack = () => {
+    textNewPack && dispatch(addPackTC({ cardsPack: { name: textNewPack, private: isPrivateNewPack } }))
+    dispatch(setOpenModalNewPackAC(false))
   }
 
-  const updatePack = (data: UpdatePackType) => {
-    dispatch(updatePackTC(data))
+  const closeModalEditPack = () => {
+    textNewPack && dispatch(updatePackTC({ cardsPack: { _id: idEditPack, name: textNewPack, private: isPrivateNewPack } }))
+    dispatch(setOpenModalEditPackAC(false))
+  }
+
+  const closeModalDeletePack = () => {
+    dispatch(setOpenModalDeletePackAC(false))
+    dispatch(idEditPackAC(''))
+  }
+
+  const deletePack = (id: string, packName: string) => {
+    dispatch(setOpenModalDeletePackAC(true))
+    dispatch(textNewPackAC(packName))
+    dispatch(idEditPackAC(id))
+  }
+
+  const editPack = (id: string, packName: string) => {
+    dispatch(textNewPackAC(packName))
+    dispatch(idEditPackAC(id))
+    dispatch(setOpenModalEditPackAC(true))
   }
 
   const searchText = (value: string) => {
@@ -105,39 +154,54 @@ export const PackList = () => {
     dispatch(setPackTC({ packName: '' }))
     return <Navigate to={PATH.EMPTYPACK} />
   }
-
+  
+  // TODO доделать
   return (
     <div className={styles.listWrapper}>
-      <div className={styles.folder}>
-        <h2>Packs list</h2>
-        <SuperButton onClick={addPack}>Add new pack</SuperButton>
-      </div>
-      <div className={styles.interfaceField}>
-        <div className={styles.search}>
-          <span>Search</span>
-          <div>
-            <img src={searchIcon} alt="search icon" />
-            <SuperDebouncedInput placeholder="Provide your text" onDebouncedChange={searchText} disabled={isDisable} />
+      {cardPacksTotalCount ? (
+        <div>
+          <div className={styles.folder}>
+            <h2>Packs list</h2>
+            <SuperButton onClick={addPack}>Add new pack</SuperButton>
           </div>
+          <div className={styles.interfaceField}>
+            <div className={styles.search}>
+              <span>Search</span>
+              <div>
+                <img src={searchIcon} alt="search icon" />
+                <SuperDebouncedInput placeholder="Provide your text" onDebouncedChange={searchText} disabled={isDisabled} />
+              </div>
+            </div>
+            <AllCards />
+            <CardsCount />
+            <div className={styles.clearFilters}>
+              <span></span>
+              <button onClick={clearFilter} disabled={isDisabled}>
+                <img src={clearFilterIcon} alt="button img" />
+              </button>
+            </div>
+          </div>
+          <SuperTable columns={columns} data={cardPacks} onClick={onClickHandler} sortBy={sortBy} disabled={isDisabled} />
+          <SuperPagination
+            page={page}
+            itemsCountForPage={pageCount}
+            totalCount={cardPacksTotalCount}
+            onChange={showCurrentPage}
+            disabled={isDisabled}
+          />
+          <ModalFields open={isOpenModalNewPack} callback={closeModalNewPack}>
+            <AddNewPack />
+          </ModalFields>
+          <ModalFields open={isOpenModalEditPack} callback={closeModalEditPack}>
+            <EditPack />
+          </ModalFields>
+          <ModalFields open={isOpenModalDeletePack} callback={closeModalDeletePack}>
+            <DeletePack nameItem={textNewPack} />
+          </ModalFields>
         </div>
-        <AllCards />
-        <CardsCount />
-        <div className={styles.clearFilters}>
-          <span></span>
-          <button onClick={clearFilter} disabled={isDisable}>
-            <img src={clearFilterIcon} alt="button img" />
-          </button>
-        </div>
-      </div>
-      <SuperTable columns={columns} data={packCards} onClick={onClickHandler} sortBy={sortBy} disabled={isDisable} />
-      <SuperPagination
-        page={page}
-        itemsCountForPage={pageCount}
-        totalCount={cardPacksTotalCount}
-        onChange={showCurrentPage}
-        disabled={isDisable}
-      />
-      <EditPack />
+      ) : (
+        <EmptyPack callback={addPack} />
+      )}
     </div>
   )
 }

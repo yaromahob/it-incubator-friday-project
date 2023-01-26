@@ -11,6 +11,8 @@ import { PATH } from '../../root'
 export const ActionButtonsContainer: React.FC<ActionButtonsContainerType> = ({
   id,
   userId,
+  packName,
+  packAnswer,
   cardsCount,
   educationsAction,
   editAction,
@@ -24,10 +26,11 @@ export const ActionButtonsContainer: React.FC<ActionButtonsContainerType> = ({
     navigate(`${PATH.LEARN}/${id}`)
   }
   const editCallback = () => {
-    editAction && editAction({ cardsPack: { _id: id, name: 'new Card' } })
+    editAction && editAction(id, packName!, packAnswer)
+    // editAction && editAction({ cardsPack: { _id: id, name: 'new Card' } })
   }
   const deleteCallback = () => {
-    deleteAction && deleteAction(id)
+    deleteAction && deleteAction(id, packName!)
   }
 
   return (
@@ -58,13 +61,15 @@ export const ActionButtonsContainer: React.FC<ActionButtonsContainerType> = ({
   )
 }
 
-// types
+// types                data: UpdatePackType
 
 export type ActionButtonsContainerType = {
   id: string
   userId: string
+  packName?: string
+  packAnswer?: string
   educationsAction?: (id: string) => void
-  editAction?: (data: UpdatePackType) => void
-  deleteAction?: (id: string) => void
-  cardsCount: number
+  editAction?: (id: string, packName: string, packAnswer?: string) => void
+  deleteAction?: (id: string, packName: string) => void
+  cardsCount?: number
 }

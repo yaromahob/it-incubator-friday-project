@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ChangeEvent } from 'react'
 import styles from './EditOrAddCard.module.scss'
 import SuperSelect from '../../SuperSelect/SuperSelect'
 import SuperInputText from '../../SuperInputText/SuperInputText'
@@ -8,7 +8,7 @@ const names = [
   { id: 2, value: 'Video' },
 ]
 
-export const EditOrAddCard = () => {
+export const EditOrAddCard: React.FC<EditOrAddCardType> = ({ question, answer, questionCallback, answerCallback }) => {
   return (
     <div className={styles.formWrapper}>
       <div className={styles.chooseFormat}>
@@ -18,13 +18,20 @@ export const EditOrAddCard = () => {
       <div className={styles.questionOrAnswer}>
         <label>
           Question
-          <SuperInputText value={'How "This" works in JavaScript?'} />
+          <SuperInputText value={question} onChange={questionCallback} />
         </label>
         <label>
           Answer
-          <SuperInputText value={'This is how "This" works in JavaScript'} />
+          <SuperInputText value={answer} onChange={answerCallback} />
         </label>
       </div>
     </div>
   )
+}
+
+type EditOrAddCardType = {
+  question: string
+  answer: string
+  questionCallback: (e: ChangeEvent<HTMLInputElement>) => void
+  answerCallback: (e: ChangeEvent<HTMLInputElement>) => void
 }

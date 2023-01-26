@@ -6,17 +6,30 @@ import { AddCardType, cardsAPI, CardType, LearnCardType, ParamsCardsListType } f
 export type InitialStateType = {
   cards: CardType[]
   setIsLoggedInCards: boolean
+  openAddNewCardModal: boolean
+  openEditCardModal: boolean
+  openDeleteCardModal: boolean
+  idEditCard: string
+  questionFormat: 'Text' | 'Video'
+  question: string
+  answer: string
 }
 
 export const initialState: InitialStateType = {
   cards: [],
   setIsLoggedInCards: false,
+  questionFormat: 'Text',
+  question: '',
+  answer: '',
+  idEditCard: '',
+  openAddNewCardModal: false,
+  openEditCardModal: false,
+  openDeleteCardModal: false,
 }
 
 export const CardListReducer = (state: InitialStateType = initialState, action: AppActionType): InitialStateType => {
   switch (action.type) {
     case 'CARD/SET-CARDS':
-      console.log(action.cards)
       return { ...state, cards: action.cards }
 
     case 'CARD/ADD-CARDS':
@@ -29,6 +42,20 @@ export const CardListReducer = (state: InitialStateType = initialState, action: 
       return { ...state, setIsLoggedInCards: action.value }
     case 'CARD/GRADE-UPDATE':
       return { ...state, cards: state.cards.filter(c => (c._id === action.id ? { ...c, grade: action.grade } : c)) }
+    case 'CARD/QUESTION-UPDATE-TEXT':
+      return { ...state, question: action.text }
+    case 'CARD/ANSWER-UPDATE-TEXT':
+      return { ...state, answer: action.text }
+    case 'CARD/QUESTION-FORMAT':
+      return { ...state, questionFormat: action.value }
+    case 'CARD/OPEN-MODAL-ADD-NEW-CARD':
+      return { ...state, openAddNewCardModal: action.value }
+    case 'CARD/OPEN-MODAL-EDIT-CARD':
+      return { ...state, openEditCardModal: action.value }
+    case 'CARD/OPEN-MODAL-DELETE-CARD':
+      return { ...state, openDeleteCardModal: action.value }
+    case 'CARD/SET-ID-EDIT-CARD':
+      return { ...state, idEditCard: action.id }
     default:
       return state
   }
@@ -39,7 +66,15 @@ export const addCardsAC = (newCard: CardType) => ({ type: 'CARD/ADD-CARDS', newC
 export const deleteCardsAC = (id: string) => ({ type: 'CARD/DELETE-CARDS', id } as const)
 export const updateCardsAC = (updatedCard: CardType, id: string) => ({ type: 'CARD/UPDATE-CARDS', updatedCard, id } as const)
 export const setIsLoggedInCardsAC = (value: boolean) => ({ type: 'CARD/SET-IS-LOGGED-IN-CARDS', value } as const)
-const gradeCardUpdateAC = (grade: number, id: string) => ({ type: 'CARD/GRADE-UPDATE', grade, id } as const)
+export const gradeCardUpdateAC = (grade: number, id: string) => ({ type: 'CARD/GRADE-UPDATE', grade, id } as const)
+export const openNewCardModalAC = (value: boolean) => ({ type: 'CARD/OPEN-MODAL-ADD-NEW-CARD', value } as const)
+export const openEditCardModalAC = (value: boolean) => ({ type: 'CARD/OPEN-MODAL-EDIT-CARD', value } as const)
+export const openDeleteCardModalAC = (value: boolean) => ({ type: 'CARD/OPEN-MODAL-DELETE-CARD', value } as const)
+export const setQuestionValueAC = (text: string) => ({ type: 'CARD/QUESTION-UPDATE-TEXT', text } as const)
+export const setAnswerValueAC = (text: string) => ({ type: 'CARD/ANSWER-UPDATE-TEXT', text } as const)
+export const setIdEditCardAC = (id: string) => ({ type: 'CARD/SET-ID-EDIT-CARD', id } as const)
+export const setFormatQuestionAC = (value: 'Text' | 'Video') => ({ type: 'CARD/QUESTION-FORMAT', value } as const)
+
 // thunk
 export const setCardTC =
   (data: ParamsCardsListType): AppThunk =>
@@ -84,9 +119,9 @@ export type updateCardType = Partial<{
   }
 }>
 export const updateCardTC =
-  (card: CardType): AppThunk =>
+  (card: updateCardType): AppThunk =>
   dispatch => {
-    cardsAPI.createCard(card as updateCardType).then(res => {
+    cardsAPI.createCard(card).then(res => {
       dispatch(updateCardsAC(res.data.updatedCard, res.data.updatedCard._id))
     })
   }
@@ -105,3 +140,10 @@ export type CardsActionType =
   | ReturnType<typeof updateCardsAC>
   | ReturnType<typeof setIsLoggedInCardsAC>
   | ReturnType<typeof gradeCardUpdateAC>
+  | ReturnType<typeof openDeleteCardModalAC>
+  | ReturnType<typeof openNewCardModalAC>
+  | ReturnType<typeof setQuestionValueAC>
+  | ReturnType<typeof setAnswerValueAC>
+  | ReturnType<typeof setFormatQuestionAC>
+  | ReturnType<typeof setIdEditCardAC>
+  | ReturnType<typeof openEditCardModalAC>

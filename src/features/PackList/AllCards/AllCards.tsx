@@ -9,6 +9,7 @@ export const AllCards = () => {
   const isDisable = useAppSelector(state => state.packList.isDisabled)
   const cardsCount = useAppSelector(state => state.packList.cardsCount)
   const userId = useAppSelector(state => state.packList.userId)
+
   const allActiveHandler = () => {
     dispatch(setPackTC({ user_id: '', min: cardsCount[0], max: cardsCount[1] }))
     dispatch(setUserIdAC(''))

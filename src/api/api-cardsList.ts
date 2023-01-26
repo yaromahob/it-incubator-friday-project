@@ -17,21 +17,6 @@ export type ParamsCardsListType = {
   page?: number
   pageCount?: number
 }
-export type CardType = {
-  _id: string
-  cardsPack_id: string
-  user_id: string
-  question: string
-  answer: string
-  grade: number
-  shots: number
-  comments: string
-  type: string
-  rating: number
-  more_id: string
-  created: string
-  updated: string
-}
 export type AddCardType = {
   card: {
     cardsPack_id: string
@@ -44,10 +29,6 @@ export type AddCardType = {
     questionVideo?: string
     answerVideo?: string
   }
-}
-export type LearnCardType = {
-  grade: number
-  card_id: string
 }
 
 export type ResponseSetCardTyp = {
@@ -66,6 +47,23 @@ export type ResponseSetCardTyp = {
   token: string
   tokenDeathTime: number
 }
+
+export type CardType = {
+  _id: string
+  cardsPack_id: string
+  user_id: string
+  question: string
+  answer: string
+  grade: number
+  shots: number
+  comments: string
+  type: string
+  rating: number
+  more_id: string
+  created: string
+  updated: string
+}
+
 export type ResponseAddCardType = {
   newCard: CardType
   token: string
@@ -80,6 +78,11 @@ export type ResponseUpdateCardType = {
   updatedCard: CardType
   token: string
   tokenDeathTime: number
+}
+
+export type LearnCardType = {
+  grade: number
+  card_id: string
 }
 
 export interface UpdatedGrade {
@@ -101,7 +104,6 @@ export interface ResponseGradeUpdateCardType {
 }
 export const cardsAPI = {
   setCards(params: ParamsCardsListType) {
-    console.log(params)
     return instance.get<ResponseSetCardTyp>(`/cards/card`, {
       params,
     })
@@ -110,10 +112,10 @@ export const cardsAPI = {
     return instance.post<ResponseAddCardType>(`/cards/card`, data)
   },
   deleteCard(id?: string) {
-    return instance.delete<ResponseDeleteCardType>(`/cards/card${id}`)
+    return instance.delete<ResponseDeleteCardType>(`/cards/card`, { params: { id } })
   },
   createCard(card: updateCardType) {
-    return instance.put<ResponseUpdateCardType>(`/cards/card`, card)
+    return instance.put<ResponseUpdateCardType>(`/cards/card`, { card })
   },
   gradeUpdate(data: LearnCardType) {
     return instance.put<ResponseGradeUpdateCardType>(`/cards/grade`, data)
