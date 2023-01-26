@@ -1,18 +1,18 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
 export const PATH = {
   MAIN: '/',
-  PACKLIST: '/packList',
-  CARDLIST: '/cardList',
+  PACK_LIST: '/packList',
+  CARD_LIST: '/cardList',
   LOGIN: '/login',
   PROFILE: '/profile',
   LEARN: '/learn',
-  CHECKEMAIL: '/checkEmail',
-  NEWPASSWORD: '/newPassword',
-  EMPTYPACK: '/emptyPack',
-  EMPTYCARD: '/emptyCard',
+  CHECK_EMAIL: '/checkEmail',
+  NEW_PASSWORD: '/newPassword',
+  EMPTY_PACK: '/emptyPack',
+  EMPTY_CARD: '/emptyCard',
   ERROR: '/404',
-  RECOVERYPASSWORD: '/recoveryPassword',
+  RECOVERY_PASSWORD: '/recoveryPassword',
   SIGNUP: '/signUp',
-  SUPERCOMPONENTS: '/superComponents',
+  SUPER_COMPONENTS: '/superComponents',
 } as const

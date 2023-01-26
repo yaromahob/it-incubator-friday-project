@@ -43,11 +43,14 @@ export const PackList = () => {
       name: 'Name',
       render: (card: PackType) => {
         if (card.user_id === profileID && card.cardsCount === 0) {
-          return <NavLink to={`${PATH.EMPTYCARD}/${card.user_id}/${card._id}`}> {card.name} </NavLink>
-        } else if (card.cardsCount === 0 && card.user_id !== profileID) {
+          return <NavLink to={`${PATH.EMPTY_CARD}/${card.user_id}/${card._id}`}> {card.name} </NavLink>
+        }
+
+        if (card.cardsCount === 0 && card.user_id !== profileID) {
           return <span>{card.name}</span>
         }
-        return <NavLink to={`${PATH.CARDLIST}/${card.user_id}/${card._id}`}> {card.name} </NavLink>
+
+        return <NavLink to={`${PATH.CARD_LIST}/${card.user_id}/${card._id}`}> {card.name} </NavLink>
       },
     },
     { key: 'cardsCount', name: 'Cards' },
@@ -152,9 +155,9 @@ export const PackList = () => {
 
   if (cardPacksTotalCount === 0) {
     dispatch(setPackTC({ packName: '' }))
-    return <Navigate to={PATH.EMPTYPACK} />
+    return <Navigate to={PATH.EMPTY_PACK} />
   }
-  
+
   // TODO доделать
   return (
     <div className={styles.listWrapper}>

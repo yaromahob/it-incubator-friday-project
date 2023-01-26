@@ -50,7 +50,7 @@ export const FriendOrMyCard: React.FC<FriendOrMyCardType> = ({ cardPackID }) => 
   }, [packId])
 
   const learnToPackHandler = () => {
-    return <Navigate to={PATH.PACKLIST} />
+    return <Navigate to={PATH.PACK_LIST} />
   }
 
   if (packOwner === userID) {

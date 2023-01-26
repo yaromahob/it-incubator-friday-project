@@ -36,28 +36,17 @@ function App() {
         <Route path={PATH.LOGIN} element={<Login />} />
         <Route path={PATH.PROFILE} element={<Profile />} />
         <Route path={PATH.LEARN + '/:packId'} element={<Learn />} />
-        <Route path={PATH.CHECKEMAIL} element={<CheckEmail />} />
-        <Route path={PATH.NEWPASSWORD} element={<NewPassword />} />
-        <Route path={PATH.PACKLIST} element={<PackList />} />
-        <Route path={PATH.EMPTYPACK} element={<EmptyPack />} />
-        <Route path={PATH.EMPTYCARD + '/:id'} element={<EmptyCard />} />
-        <Route path={PATH.CARDLIST + '/:packOwner/:packId'} element={<Cards />} />
+        <Route path={PATH.CHECK_EMAIL} element={<CheckEmail />} />
+        <Route path={PATH.NEW_PASSWORD} element={<NewPassword />} />
+        <Route path={PATH.PACK_LIST} element={<PackList />} />
+        <Route path={PATH.EMPTY_PACK} element={<EmptyPack />} />
+        <Route path={PATH.EMPTY_CARD + '/:packOwner/:packId'} element={<EmptyCard />} />
+        <Route path={PATH.CARD_LIST + '/:packOwner/:packId'} element={<Cards />} />
         <Route path={PATH.ERROR} element={<NotFound />} />
-        <Route path={PATH.RECOVERYPASSWORD} element={<RecoveryPassword />} />
+        <Route path={PATH.RECOVERY_PASSWORD} element={<RecoveryPassword />} />
         <Route path={PATH.SIGNUP} element={<SignUp />} />
-        <Route path={PATH.SUPERCOMPONENTS} element={<SuperComponents />} />
+        <Route path={PATH.SUPER_COMPONENTS} element={<SuperComponents />} />
       </Routes>
-      <footer>
-        <NavLink to={'/'}>Home</NavLink>
-        <NavLink to={'/login'}>Login</NavLink>
-        <NavLink to={'/profile'}>Profile</NavLink>
-        <NavLink to={'/checkEmail'}>checkEmail</NavLink>
-        <NavLink to={'/newPassword'}>newPassword</NavLink>
-        <NavLink to={'/packList'}>packList</NavLink>
-        <NavLink to={'/cardList'}>cardList</NavLink>
-        <NavLink to={'/recoveryPassword'}>recoveryPassword</NavLink>
-        <NavLink to={'/signUp'}>signUp</NavLink>
-      </footer>
     </div>
   )
 }

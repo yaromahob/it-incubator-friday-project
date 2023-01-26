@@ -27,7 +27,7 @@ export const EditCard = () => {
   }
 
   const saveHandler = () => {
-    dispatch(updateCardTC({ _id: idEditCard, answer: answer, question: question }))
+    dispatch(updateCardTC({ card: { _id: idEditCard, answer: answer, question: question } }))
     dispatch(openEditCardModalAC(false))
   }
 

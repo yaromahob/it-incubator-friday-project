@@ -43,7 +43,7 @@ const RecoveryPassword = () => {
     },
   })
   if (isRecoveryPassword) {
-    return <Navigate to={PATH.CHECKEMAIL} />
+    return <Navigate to={PATH.CHECK_EMAIL} />
   }
   return (
     <div className={styles.signUp}>

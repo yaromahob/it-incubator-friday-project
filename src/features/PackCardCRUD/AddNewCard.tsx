@@ -9,7 +9,7 @@ import { addCardTC, setAnswerValueAC, openNewCardModalAC, setQuestionValueAC } f
 
 export const AddNewCard: React.FC<AddNewCardType> = ({ packId }) => {
   const dispatch = useAppDispatch()
-  const { question, answer } = useAppSelector(state => state.cardList)
+  const { question, answer, openAddNewCardModal } = useAppSelector(state => state.cardList)
 
   const questionHandler = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(setQuestionValueAC(e.target.value))
@@ -22,6 +22,8 @@ export const AddNewCard: React.FC<AddNewCardType> = ({ packId }) => {
   const saveHandler = () => {
     dispatch(addCardTC({ card: { cardsPack_id: packId, question: question, answer: answer } }))
     dispatch(openNewCardModalAC(false))
+    dispatch(setQuestionValueAC(''))
+    dispatch(setAnswerValueAC(''))
   }
 
   const cancelHandler = () => {
@@ -30,14 +32,27 @@ export const AddNewCard: React.FC<AddNewCardType> = ({ packId }) => {
     dispatch(setAnswerValueAC(''))
   }
 
+  const closeAddModalHandler = () => {
+    question && dispatch(addCardTC({ card: { cardsPack_id: packId!, question: question, answer: answer } }))
+    dispatch(openNewCardModalAC(false))
+    dispatch(setQuestionValueAC(''))
+    dispatch(setAnswerValueAC(''))
+  }
+
   return (
-    <div className={styles.modal}>
-      <HeaderModal titleModal={'Add new card'} />
-      <EditOrAddCard questionCallback={questionHandler} answerCallback={answerHandler} question={question} answer={answer} />
-      <SaveAndCancelField type={'Save'} onAction={saveHandler} cancelAction={cancelHandler} />
-    </div>
+    <ModalFields open={openAddNewCardModal} callback={closeAddModalHandler}>
+      <div className={styles.modal}>
+        <HeaderModal titleModal={'Add new card'} />
+        <EditOrAddCard questionCallback={questionHandler} answerCallback={answerHandler} question={question} answer={answer} />
+        <SaveAndCancelField type={'Save'} onAction={saveHandler} cancelAction={cancelHandler} />
+      </div>
+    </ModalFields>
   )
 }
+//
+// <ModalFields open={openAddNewCardModal} callback={closeAddModalHandler}>
+//   <AddNewCard packId={packId!} />
+// </ModalFields>
 
 type AddNewCardType = {
   packId: string

@@ -130,9 +130,7 @@ export const Cards = () => {
         </div>
         <SuperTable columns={columns2} data={cardPacks} onClick={onClickHandler} sortBy={sortInfo.sortBy} disabled={isDisable} />
       </div>
-      <ModalFields open={openAddNewCardModal} callback={closeAddModalHandler}>
-        <AddNewCard packId={packId!} />
-      </ModalFields>
+      <AddNewCard packId={packId!} />
       <ModalFields open={openDeleteCardModal} callback={closeDeleteModalHandler}>
         <DeleteCard nameItem={question} />
       </ModalFields>

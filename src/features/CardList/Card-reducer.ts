@@ -100,7 +100,7 @@ export const deleteCardTC =
     })
   }
 
-export type updateCardType = Partial<{
+export type updateCardType = {
   card: {
     _id: string
     cardsPack_id?: string
@@ -117,7 +117,7 @@ export type updateCardType = Partial<{
     updated?: string
     __v?: number
   }
-}>
+}
 export const updateCardTC =
   (card: updateCardType): AppThunk =>
   dispatch => {
