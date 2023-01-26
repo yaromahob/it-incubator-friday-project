@@ -12,15 +12,16 @@ import CheckEmail from '../features/CheckEmail/CheckEmail'
 import Login from '../features/Login/Login'
 import { NewPassword } from '../features/NewPassword/NewPassword'
 import { setAuthApiTC } from './app-reducer'
-import { useAppDispatch, useAppSelector } from './store'
+import { useAppDispatch } from './store'
 import { PackList } from '../features/PackList/PackList'
 import { Cards } from '../features/CardList/Cards'
 import { EmptyPack } from '../features/PackList/EmptyPack/EmptyPack'
 import { Learn } from '../features/Learn/Learn'
+import { PATH } from '../root'
+import { EmptyCard } from '../features/PackList/EmptyCard/EmptyCard'
 
 function App() {
   const dispatch = useAppDispatch()
-  const isAuth = useAppSelector(state => state.app.isAuth)
 
   useEffect(() => {
     dispatch(setAuthApiTC())
@@ -31,19 +32,20 @@ function App() {
       <ErrorSnackbar />
       <Header />
       <Routes>
-        <Route path="/" element={<Navigate to="/profile" />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/learn/:packId" element={<Learn />} />
-        <Route path="/checkEmail" element={<CheckEmail />} />
-        <Route path="/newPassword" element={<NewPassword />} />
-        <Route path="/packList" element={<PackList />} />
-        <Route path="/emptyPack" element={<EmptyPack />} />
-        <Route path="/cardList/:packId" element={<Cards />} />
-        <Route path="/404" element={<NotFound />} />
-        <Route path="/recoveryPassword" element={<RecoveryPassword />} />
-        <Route path="/signUp" element={<SignUp />} />
-        <Route path="/superComponents" element={<SuperComponents />} />
+        <Route path={PATH.MAIN} element={<Navigate to="/profile" />} />
+        <Route path={PATH.LOGIN} element={<Login />} />
+        <Route path={PATH.PROFILE} element={<Profile />} />
+        <Route path={PATH.LEARN + '/:packId'} element={<Learn />} />
+        <Route path={PATH.CHECKEMAIL} element={<CheckEmail />} />
+        <Route path={PATH.NEWPASSWORD} element={<NewPassword />} />
+        <Route path={PATH.PACKLIST} element={<PackList />} />
+        <Route path={PATH.EMPTYPACK} element={<EmptyPack />} />
+        <Route path={PATH.EMPTYCARD + '/:id'} element={<EmptyCard />} />
+        <Route path={PATH.CARDLIST + '/:packId'} element={<Cards />} />
+        <Route path={PATH.ERROR} element={<NotFound />} />
+        <Route path={PATH.RECOVERYPASSWORD} element={<RecoveryPassword />} />
+        <Route path={PATH.SIGNUP} element={<SignUp />} />
+        <Route path={PATH.SUPERCOMPONENTS} element={<SuperComponents />} />
       </Routes>
       <footer>
         <NavLink to={'/'}>Home</NavLink>

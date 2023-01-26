@@ -9,6 +9,7 @@ import React from 'react'
 import { loginTC } from './loginReducer'
 import { useSelector } from 'react-redux'
 import SuperCheckbox from '../../common/SuperCheckbox/SuperCheckbox'
+import { PATH } from '../../root'
 
 type FormikErrorType = {
   email?: string
@@ -45,7 +46,7 @@ const Login = () => {
     },
   })
   if (isLoggedIn) {
-    return <Navigate to={'/profile'} />
+    return <Navigate to={PATH.PROFILE} />
   }
 
   return (

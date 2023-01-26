@@ -6,6 +6,7 @@ import styles from './ActionButtonsContainer.module.scss'
 import { UpdatePackType } from '../../api/api-packsList'
 import { useAppSelector } from '../../App/store'
 import { Navigate, useNavigate } from 'react-router-dom'
+import { PATH } from '../../root'
 
 export const ActionButtonsContainer: React.FC<ActionButtonsContainerType> = ({
   id,
@@ -20,7 +21,7 @@ export const ActionButtonsContainer: React.FC<ActionButtonsContainerType> = ({
   const educationCallback = (e: MouseEvent<HTMLDivElement>) => {
     e.preventDefault()
     e.stopPropagation()
-    navigate(`/learn/${id}`)
+    navigate(`${PATH.LEARN}/${id}`)
   }
   const editCallback = () => {
     editAction && editAction({ cardsPack: { _id: id, name: 'new Card' } })

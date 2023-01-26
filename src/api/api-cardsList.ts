@@ -17,35 +17,6 @@ export type ParamsCardsListType = {
   page?: number
   pageCount?: number
 }
-export type AddCardType = {
-  card: {
-    cardsPack_id: string
-    question?: string // если не отправить будет таким
-    answer?: string // если не отправить будет таким
-    grade?: number // 0..5, не обязателен
-    shots?: number // не обязателен
-    answerImg?: string // не обязателен
-    questionImg?: string // не обязателен
-    questionVideo?: string // не обязателен
-    answerVideo?: string // не обязателен
-  }
-}
-export type ResponseSetCardTyp = {
-  cards: CardType[]
-  packUserId: string
-  packName: string
-  packPrivate: boolean
-  packDeckCover: string
-  packCreated: string
-  packUpdated: string
-  page: number
-  pageCount: number
-  cardsTotalCount: number
-  minGrade: number
-  maxGrade: number
-  token: string
-  tokenDeathTime: number
-}
 export type CardType = {
   _id: string
   cardsPack_id: string
@@ -60,6 +31,40 @@ export type CardType = {
   more_id: string
   created: string
   updated: string
+}
+export type AddCardType = {
+  card: {
+    cardsPack_id: string
+    question?: string
+    answer?: string
+    grade?: number
+    shots?: number
+    answerImg?: string
+    questionImg?: string
+    questionVideo?: string
+    answerVideo?: string
+  }
+}
+export type LearnCardType = {
+  grade: number
+  card_id: string
+}
+
+export type ResponseSetCardTyp = {
+  cards: CardType[]
+  packUserId: string
+  packName: string
+  packPrivate: boolean
+  packDeckCover: string
+  packCreated: string
+  packUpdated: string
+  page: number
+  pageCount: number
+  cardsTotalCount: number
+  //minGrade: number
+  //maxGrade: number
+  token: string
+  tokenDeathTime: number
 }
 export type ResponseAddCardType = {
   newCard: CardType
@@ -76,10 +81,7 @@ export type ResponseUpdateCardType = {
   token: string
   tokenDeathTime: number
 }
-export type LearnCardType = {
-  grade: number
-  card_id: string
-}
+
 export interface UpdatedGrade {
   card_id: string //карточки
   user_id: string
@@ -111,7 +113,7 @@ export const cardsAPI = {
     return instance.delete<ResponseDeleteCardType>(`/cards/card${id}`)
   },
   createCard(card: updateCardType) {
-    return instance.put<ResponseUpdateCardType>(`/cards/card`)
+    return instance.put<ResponseUpdateCardType>(`/cards/card`, card)
   },
   gradeUpdate(data: LearnCardType) {
     return instance.put<ResponseGradeUpdateCardType>(`/cards/grade`, data)

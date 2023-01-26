@@ -7,15 +7,14 @@ import SuperInputText from '../../common/SuperInputText/SuperInputText'
 import SuperButton from '../../common/SuperButton/SuperButton'
 import { useSelector } from 'react-redux'
 import { recoveryPasswordTC } from '../Login/loginReducer'
+import { PATH } from '../../root'
 
 type FormikErrorType = {
   email?: string
 }
 const RecoveryPassword = () => {
   const dispatch = useAppDispatch()
-  const isRecoveryPassword = useSelector<AppRootStateType, boolean>(
-    state => state.login.isRecoveryPassword
-  )
+  const isRecoveryPassword = useSelector<AppRootStateType, boolean>(state => state.login.isRecoveryPassword)
 
   const formik = useFormik({
     initialValues: {
@@ -44,7 +43,7 @@ const RecoveryPassword = () => {
     },
   })
   if (isRecoveryPassword) {
-    return <Navigate to={'/CheckEmail'} />
+    return <Navigate to={PATH.CHECKEMAIL} />
   }
   return (
     <div className={styles.signUp}>
@@ -54,14 +53,10 @@ const RecoveryPassword = () => {
         <label className={formik.touched.email && formik.errors.email ? styles.errorField : ''}>
           <SuperInputText type={'text'} placeholder="Email" {...formik.getFieldProps('email')} />
 
-          <div className={styles.error}>
-            {formik.touched.email && formik.errors.email && formik.errors.email}
-          </div>
+          <div className={styles.error}>{formik.touched.email && formik.errors.email && formik.errors.email}</div>
         </label>
 
-        <p className={styles.description}>
-          Enter your email address and we will send you further instructions
-        </p>
+        <p className={styles.description}>Enter your email address and we will send you further instructions</p>
 
         <div className={styles.sendBtn}>
           <SuperButton xType={'default'} type="submit">

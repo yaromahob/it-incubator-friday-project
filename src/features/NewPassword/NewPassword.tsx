@@ -7,6 +7,7 @@ import styles from './NewPassword.module.scss'
 import { Navigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { PasswordContainer } from '../SignUp/PasswordContainer'
+import { PATH } from '../../root'
 
 export type FormikErrorType = {
   password?: string
@@ -45,7 +46,7 @@ export const NewPassword = () => {
   })
 
   if (isNewPassword) {
-    return <Navigate to={'/login'} />
+    return <Navigate to={PATH.LOGIN} />
   }
 
   return (
@@ -53,18 +54,12 @@ export const NewPassword = () => {
       <h3>Create new password</h3>
 
       <form onSubmit={formik.handleSubmit}>
-        <label
-          className={formik.touched.password && formik.errors.password ? styles.errorField : ''}
-        >
+        <label className={formik.touched.password && formik.errors.password ? styles.errorField : ''}>
           <PasswordContainer {...formik.getFieldProps('password')} placeholder="Password" />
 
-          <div className={styles.error}>
-            {formik.touched.password && formik.errors.password && formik.errors.password}
-          </div>
+          <div className={styles.error}>{formik.touched.password && formik.errors.password && formik.errors.password}</div>
         </label>
-        <p className={styles.description}>
-          Create new password and we will send you further instructions to email
-        </p>
+        <p className={styles.description}>Create new password and we will send you further instructions to email</p>
         <div className={styles.sendBtn}>
           <SuperButton xType={'default'} type="submit">
             Create new password

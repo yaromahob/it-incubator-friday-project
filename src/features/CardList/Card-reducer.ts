@@ -66,20 +66,22 @@ export const deleteCardTC =
   }
 
 export type updateCardType = Partial<{
-  _id: string
-  cardsPack_id?: string
-  user_id?: string
-  question?: string
-  answer?: string
-  grade?: number
-  shots?: number
-  comments?: string
-  type?: string
-  rating?: number
-  more_id?: string
-  created?: string
-  updated?: string
-  __v?: number
+  card: {
+    _id: string
+    cardsPack_id?: string
+    user_id?: string
+    question?: string
+    answer?: string
+    grade?: number
+    shots?: number
+    comments?: string
+    type?: string
+    rating?: number
+    more_id?: string
+    created?: string
+    updated?: string
+    __v?: number
+  }
 }>
 export const updateCardTC =
   (card: CardType): AppThunk =>

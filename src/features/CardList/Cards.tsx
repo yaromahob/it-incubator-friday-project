@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { SuperTable } from '../../common/SuperTable/SuperTable'
 import { SortInfoType } from '../PackList/PackList'
 import { useAppDispatch, useAppSelector } from '../../App/store'
@@ -11,6 +11,8 @@ import { setPackTC } from '../PackList/PackList-reducer'
 import { BackToPackList } from '../BackToPackList/BackToPackList'
 import { FriendOrMyCard } from '../FriendOrMyCard/FriendOrMyCard'
 import { ActionButtonsContainer } from '../../common/ActionButtonsContainer/ActionButtonsContainer'
+import { Navigate } from 'react-router-dom'
+import { PATH } from '../../root'
 
 const ASC = '0'
 const DESC = '1'
@@ -45,7 +47,6 @@ export const Cards = () => {
   ]
 
   const dispatch = useAppDispatch()
-  const setIsLoggedInCards = useAppSelector(state => state.cardList.setIsLoggedInCards)
   const cardPacks = useAppSelector(state => state.cardList.cards)
   const isDisable = useAppSelector(state => state.packList.isDisabled)
   const cardPackID = cardPacks.find(item => item.user_id === profileID)

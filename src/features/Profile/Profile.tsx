@@ -11,6 +11,7 @@ import { useSelector } from 'react-redux'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { logoutTC } from '../Login/loginReducer'
 import { BackToPackList } from '../BackToPackList/BackToPackList'
+import { PATH } from '../../root'
 
 const Profile = () => {
   const isAuth = useAppSelector(state => state.app.isAuth)
@@ -20,7 +21,7 @@ const Profile = () => {
 
   useEffect(() => {
     if (!isLoggedIn) {
-      navigate('/login')
+      navigate(PATH.LOGIN)
     }
   })
 

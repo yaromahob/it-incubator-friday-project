@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { CardType, LearnCardType } from '../../api/api-cardsList'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import { AppRootStateType, useAppDispatch, useAppSelector } from '../../App/store'
+import { AppRootStateType, useAppDispatch } from '../../App/store'
 import SuperButton from '../../common/SuperButton/SuperButton'
-import { inspect } from 'util'
 import styles from './learn.module.scss'
 import { gradeCardUpdateTC, setCardTC } from '../CardList/Card-reducer'
 import SuperCheckbox from '../../common/SuperCheckbox/SuperCheckbox'
 import { PackType } from '../../api/api-packsList'
+import { BackToPackList } from '../BackToPackList/BackToPackList'
 
 const grades = ['Did not know', 'forgot', 'A lot of thought', 'Confused', 'Knew the answer']
 
@@ -30,7 +30,6 @@ const getCard = (cards: CardType[]) => {
 export const Learn = () => {
   const [isChecked, setIsChecked] = useState<boolean>(false)
   const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
-  const [first, setFirst] = useState<boolean>(true)
   const { packId } = useParams() //id col
 
   console.log(packId)
@@ -91,29 +90,32 @@ export const Learn = () => {
   }
 
   return (
-    <div className={styles.learn}>
-      <h2>Learn: "{pack[0].name}"</h2>
-      <b>Question: {card.question}</b>
-      <h5 style={{ color: 'gray' }}>Количество попыток ответов на вопрос:{card.shots}</h5>
-      <div className={styles.sendBtn}>
-        <SuperButton onClick={() => setIsChecked(true)}>Show answer</SuperButton>
-      </div>
-      {isChecked && (
-        <>
-          <b>Answer:{card.answer}</b>
+    <>
+      <BackToPackList />
+      <div className={styles.learn}>
+        <h2>Learn: "{pack[0].name}"</h2>
+        <b>Question: {card.question}</b>
+        <h5 style={{ color: 'gray' }}>Количество попыток ответов на вопрос:{card.shots}</h5>
+        <div className={styles.sendBtn}>
+          <SuperButton onClick={() => setIsChecked(true)}>Show answer</SuperButton>
+        </div>
+        {isChecked && (
+          <>
+            <b>Answer:{card.answer}</b>
 
-          {grades.map((g, i) => (
+            {grades.map((g, i) => (
+              <div className={styles.sendBtn}>
+                <SuperCheckbox key={'grade-' + i} onClick={() => gradeUpdate({ grade: i + 1, card_id: card._id })}>
+                  {g}
+                </SuperCheckbox>
+              </div>
+            ))}
             <div className={styles.sendBtn}>
-              <SuperCheckbox key={'grade-' + i} onClick={() => gradeUpdate({ grade: i + 1, card_id: card._id })}>
-                {g}
-              </SuperCheckbox>
+              <SuperButton onClick={onNext}>next</SuperButton>
             </div>
-          ))}
-          <div className={styles.sendBtn}>
-            <SuperButton onClick={onNext}>next</SuperButton>
-          </div>
-        </>
-      )}
-    </div>
+          </>
+        )}
+      </div>
+    </>
   )
 }

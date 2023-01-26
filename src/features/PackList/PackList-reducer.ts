@@ -1,5 +1,6 @@
 import { AppThunk } from '../../App/store'
 import { AddCardsPack, packsAPI, PackType, ParamsListPacksType, ResponseTypePacksList, UpdatePackType } from '../../api/api-packsList'
+import { log } from 'util'
 
 export type InitialStateType = {
   cardPacks: PackType[]
@@ -100,7 +101,6 @@ export const setPackTC =
   dispatch => {
     dispatch(disableButtonAC(true))
     packsAPI.setPacks(data).then(res => {
-      console.log(res)
       dispatch(setPacksAC(res.data))
       dispatch(disableButtonAC(false))
     })
@@ -109,6 +109,7 @@ export const addPackTC =
   (data: AddCardsPack): AppThunk =>
   dispatch => {
     packsAPI.addPack(data).then(res => {
+      //console.log(res.data.newCardsPack)
       dispatch(addPackAC(res.data.newCardsPack))
     })
   }

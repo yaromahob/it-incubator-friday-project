@@ -14,17 +14,23 @@ import { AllCards } from './AllCards/AllCards'
 import { SuperPagination } from '../../common/SuperPagination/SuperPagination'
 import { Navigate, NavLink } from 'react-router-dom'
 import { EditPack } from '../PackCardCRUD/EditPack'
+import { PATH } from '../../root'
 
 const ASC = '0'
 const DESC = '1'
 
 export const PackList = () => {
+  const profileId = useAppSelector(state => state.profile._id)
   const columns = [
     {
       key: 'name',
       name: 'Name',
       render: (card: PackType) => {
-        return <NavLink to={`/cardList/${card._id}`}> {card.name} </NavLink>
+        if (card.user_id === profileId && card.cardsCount === 0) {
+          return <NavLink to={`${PATH.EMPTYCARD}/${card._id}`}> {card.name} </NavLink>
+        } else {
+          return <NavLink to={`${PATH.CARDLIST}/${card._id}`}> {card.name} </NavLink>
+        }
       },
     },
     { key: 'cardsCount', name: 'Cards' },
@@ -97,8 +103,9 @@ export const PackList = () => {
 
   if (cardPacksTotalCount === 0) {
     dispatch(setPackTC({ packName: '' }))
-    return <Navigate to={'/emptyPack'} />
+    return <Navigate to={PATH.EMPTYPACK} />
   }
+
   return (
     <div className={styles.listWrapper}>
       <div className={styles.folder}>

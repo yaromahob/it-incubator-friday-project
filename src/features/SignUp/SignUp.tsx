@@ -7,6 +7,7 @@ import { useFormik } from 'formik'
 import SuperInputText from '../../common/SuperInputText/SuperInputText'
 import { useAppDispatch, useAppSelector } from '../../App/store'
 import { signUpTC } from './signUp-reducer'
+import { PATH } from '../../root'
 
 type FormikErrorType = {
   email?: string
@@ -51,7 +52,7 @@ export const SignUp = () => {
     },
   })
   if (isSignUp) {
-    return <Navigate to={'/login'} />
+    return <Navigate to={PATH.LOGIN} />
   }
 
   return (
@@ -62,32 +63,20 @@ export const SignUp = () => {
         <label className={formik.touched.email && formik.errors.email ? styles.errorField : ''}>
           Email
           <SuperInputText type={'text'} {...formik.getFieldProps('email')} />
-          <div className={styles.error}>
-            {formik.touched.email && formik.errors.email && formik.errors.email}
-          </div>
+          <div className={styles.error}>{formik.touched.email && formik.errors.email && formik.errors.email}</div>
         </label>
 
-        <label
-          className={formik.touched.password && formik.errors.password ? styles.errorField : ''}
-        >
+        <label className={formik.touched.password && formik.errors.password ? styles.errorField : ''}>
           Password
           {/*<input type="password" name="password" />*/}
           <PasswordContainer {...formik.getFieldProps('password')} />
-          <div className={styles.error}>
-            {formik.touched.password && formik.errors.password && formik.errors.password}
-          </div>
+          <div className={styles.error}>{formik.touched.password && formik.errors.password && formik.errors.password}</div>
         </label>
-        <label
-          className={
-            formik.touched.confirmPassword && formik.errors.confirmPassword ? styles.errorField : ''
-          }
-        >
+        <label className={formik.touched.confirmPassword && formik.errors.confirmPassword ? styles.errorField : ''}>
           Confirm password
           <PasswordContainer {...formik.getFieldProps('confirmPassword')} />
           <div className={styles.error}>
-            {formik.touched.confirmPassword &&
-              formik.errors.confirmPassword &&
-              formik.errors.confirmPassword}
+            {formik.touched.confirmPassword && formik.errors.confirmPassword && formik.errors.confirmPassword}
           </div>
         </label>
         <div className={styles.sendBtn}>

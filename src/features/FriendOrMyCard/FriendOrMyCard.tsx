@@ -5,6 +5,7 @@ import { Navigate, NavLink, useParams } from 'react-router-dom'
 import { addCardTC, deleteCardTC, setCardTC, setIsLoggedInCardsAC } from '../CardList/Card-reducer'
 import { useAppDispatch, useAppSelector } from '../../App/store'
 import SuperButton from '../../common/SuperButton/SuperButton'
+import { PATH } from '../../root'
 
 export const FriendOrMyCard: React.FC<FriendOrMyCardType> = ({ cardPackID }) => {
   const [showAction, setShowAction] = useState(false)
@@ -29,7 +30,7 @@ export const FriendOrMyCard: React.FC<FriendOrMyCardType> = ({ cardPackID }) => 
     console.log(data)
   }
   if (setIsLoggedInCards) {
-    return <Navigate to={'/learn'} />
+    return <Navigate to={PATH.LEARN} />
   }
 
   useEffect(() => {
@@ -38,9 +39,8 @@ export const FriendOrMyCard: React.FC<FriendOrMyCardType> = ({ cardPackID }) => 
   }, [packId])
 
   const learnToPackHandler = () => {
-    return <Navigate to={'/packList'} />
+    return <Navigate to={PATH.PACKLIST} />
   }
-
   if (cardPackID) {
     return (
       <div className={styles.myPackWrapper}>
