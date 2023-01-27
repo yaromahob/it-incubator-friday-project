@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/it-incubator-friday-project/static/css/main.fab51deb.css",
-    "main.js": "/it-incubator-friday-project/static/js/main.aa704bda.js",
+    "main.css": "/it-incubator-friday-project/static/css/main.28dc4e47.css",
+    "main.js": "/it-incubator-friday-project/static/js/main.fbfa75de.js",
     "static/js/787.fd7613c7.chunk.js": "/it-incubator-friday-project/static/js/787.fd7613c7.chunk.js",
     "static/media/checkEmail.svg": "/it-incubator-friday-project/static/media/checkEmail.2c9fd3a893050dac8b8696cfee43f3e5.svg",
     "static/media/logo.svg": "/it-incubator-friday-project/static/media/logo.26f79858862bec92ec0d7f3207d8c084.svg",
@@ -18,14 +18,15 @@
     "static/media/logout.svg": "/it-incubator-friday-project/static/media/logout.4631dbd136b384a8118857f16dae43d5.svg",
     "static/media/eye.svg": "/it-incubator-friday-project/static/media/eye.387504043ef26d142754ca0d8a3a059d.svg",
     "static/media/down.svg": "/it-incubator-friday-project/static/media/down.e48898c2c6bc76aba3e0ec01e84c5b9f.svg",
+    "static/media/cross.svg": "/it-incubator-friday-project/static/media/cross.d6ca3b6bf6d29f372501be33ca3e421a.svg",
     "static/media/up.svg": "/it-incubator-friday-project/static/media/up.c9f949515da96209b785942f792b68b7.svg",
     "static/media/arrow.svg": "/it-incubator-friday-project/static/media/arrow.19c7bd8ee7d32ca8451f1de3f6803354.svg",
-    "main.fab51deb.css.map": "/it-incubator-friday-project/static/css/main.fab51deb.css.map",
-    "main.aa704bda.js.map": "/it-incubator-friday-project/static/js/main.aa704bda.js.map",
+    "main.28dc4e47.css.map": "/it-incubator-friday-project/static/css/main.28dc4e47.css.map",
+    "main.fbfa75de.js.map": "/it-incubator-friday-project/static/js/main.fbfa75de.js.map",
     "787.fd7613c7.chunk.js.map": "/it-incubator-friday-project/static/js/787.fd7613c7.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.fab51deb.css",
-    "static/js/main.aa704bda.js"
+    "static/css/main.28dc4e47.css",
+    "static/js/main.fbfa75de.js"
   ]
 }
