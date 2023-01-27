@@ -10,25 +10,28 @@ import { setOpenModalEditPackAC } from '../PackList/PackList-reducer'
 
 export const DeleteCard: React.FC<DeleteCardType> = ({ nameItem }) => {
   const dispatch = useAppDispatch()
-  const idCard = useAppSelector(state => state.cardList.idEditCard)
+  const { idEditCard, openDeleteCardModal } = useAppSelector(state => state.cardList)
 
   const deleteHandler = () => {
-    dispatch(deleteCardTC(idCard))
+    dispatch(deleteCardTC(idEditCard))
     dispatch(openDeleteCardModalAC(false))
   }
 
   const cancelHandler = () => {
     dispatch(setOpenModalEditPackAC(false))
+    dispatch(openDeleteCardModalAC(false))
     dispatch(setQuestionValueAC(''))
     dispatch(setAnswerValueAC(''))
   }
 
   return (
-    <div className={styles.modal}>
-      <HeaderModal titleModal={'Delete Card'} />
-      <DeletePackOrCard nameItem={nameItem} />
-      <SaveAndCancelField type={'Delete'} onAction={deleteHandler} cancelAction={cancelHandler} />
-    </div>
+    <ModalFields open={openDeleteCardModal} callback={cancelHandler}>
+      <div className={styles.modal}>
+        <HeaderModal titleModal={'Delete Card'} />
+        <DeletePackOrCard nameItem={nameItem} />
+        <SaveAndCancelField type={'Delete'} onAction={deleteHandler} cancelAction={cancelHandler} />
+      </div>
+    </ModalFields>
   )
 }
 

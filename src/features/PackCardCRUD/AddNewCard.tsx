@@ -49,10 +49,6 @@ export const AddNewCard: React.FC<AddNewCardType> = ({ packId }) => {
     </ModalFields>
   )
 }
-//
-// <ModalFields open={openAddNewCardModal} callback={closeAddModalHandler}>
-//   <AddNewCard packId={packId!} />
-// </ModalFields>
 
 type AddNewCardType = {
   packId: string

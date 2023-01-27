@@ -84,7 +84,6 @@ export const PackList = () => {
     cardPacks,
     isDisabled,
     sortBy,
-    isOpenModalNewPack,
     isOpenModalEditPack,
     isOpenModalDeletePack,
     idEditPack,
@@ -115,21 +114,6 @@ export const PackList = () => {
   const addPack = () => {
     dispatch(textNewPackAC(''))
     dispatch(setOpenModalNewPackAC(true))
-  }
-
-  const closeModalNewPack = () => {
-    textNewPack && dispatch(addPackTC({ cardsPack: { name: textNewPack, private: isPrivateNewPack } }))
-    dispatch(setOpenModalNewPackAC(false))
-  }
-
-  const closeModalEditPack = () => {
-    textNewPack && dispatch(updatePackTC({ cardsPack: { _id: idEditPack, name: textNewPack, private: isPrivateNewPack } }))
-    dispatch(setOpenModalEditPackAC(false))
-  }
-
-  const closeModalDeletePack = () => {
-    dispatch(setOpenModalDeletePackAC(false))
-    dispatch(idEditPackAC(''))
   }
 
   const deletePack = (id: string, packName: string) => {
@@ -192,15 +176,9 @@ export const PackList = () => {
             onChange={showCurrentPage}
             disabled={isDisabled}
           />
-          <ModalFields open={isOpenModalNewPack} callback={closeModalNewPack}>
-            <AddNewPack />
-          </ModalFields>
-          <ModalFields open={isOpenModalEditPack} callback={closeModalEditPack}>
-            <EditPack />
-          </ModalFields>
-          <ModalFields open={isOpenModalDeletePack} callback={closeModalDeletePack}>
-            <DeletePack nameItem={textNewPack} />
-          </ModalFields>
+          <AddNewPack />
+          <EditPack />
+          <DeletePack nameItem={textNewPack} />
         </div>
       ) : (
         <EmptyPack callback={addPack} />

@@ -16,9 +16,8 @@ import {
 } from '../PackList/PackList-reducer'
 
 export const EditPack = () => {
-  const editPackText = useAppSelector(state => state.packList.textNewPack)
-  const isPrivate = useAppSelector(state => state.packList.isPrivateNewPack)
-  const idPack = useAppSelector(state => state.packList.idEditPack)
+  const { textNewPack, isPrivateNewPack, idEditPack, isOpenModalEditPack } = useAppSelector(state => state.packList)
+
   const dispatch = useAppDispatch()
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -30,7 +29,7 @@ export const EditPack = () => {
   }
 
   const onSaveHandler = () => {
-    dispatch(updatePackTC({ cardsPack: { _id: idPack, name: editPackText } }))
+    dispatch(updatePackTC({ cardsPack: { _id: idEditPack, name: textNewPack } }))
     dispatch(setOpenModalEditPackAC(false))
   }
 
@@ -38,11 +37,24 @@ export const EditPack = () => {
     dispatch(textNewPackAC(''))
     dispatch(setOpenModalEditPackAC(false))
   }
+
+  const closeModalEditPack = () => {
+    textNewPack && dispatch(updatePackTC({ cardsPack: { _id: idEditPack, name: textNewPack, private: isPrivateNewPack } }))
+    dispatch(setOpenModalEditPackAC(false))
+  }
+
   return (
-    <div className={styles.modal}>
-      <HeaderModal titleModal={'Edit pack'} />
-      <AddOrEditPack newPackName={editPackText} onChange={onChangeHandler} isPrivate={isPrivate} onChangePrivate={onPrivateHandler} />
-      <SaveAndCancelField type={'Save'} onAction={onSaveHandler} cancelAction={onCancelHandler} />
-    </div>
+    <ModalFields open={isOpenModalEditPack} callback={closeModalEditPack}>
+      <div className={styles.modal}>
+        <HeaderModal titleModal={'Edit pack'} />
+        <AddOrEditPack
+          newPackName={textNewPack}
+          onChange={onChangeHandler}
+          isPrivate={isPrivateNewPack}
+          onChangePrivate={onPrivateHandler}
+        />
+        <SaveAndCancelField type={'Save'} onAction={onSaveHandler} cancelAction={onCancelHandler} />
+      </div>
+    </ModalFields>
   )
 }

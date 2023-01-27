@@ -9,7 +9,7 @@ import { deletePackTC, idEditPackAC, setOpenModalDeletePackAC } from '../PackLis
 
 export const DeletePack: React.FC<DeletePackType> = ({ nameItem }) => {
   const dispatch = useAppDispatch()
-  const { idEditPack } = useAppSelector(state => state.packList)
+  const { idEditPack, isOpenModalDeletePack } = useAppSelector(state => state.packList)
 
   const cancelActionHandler = () => {
     dispatch(setOpenModalDeletePackAC(false))
@@ -21,12 +21,19 @@ export const DeletePack: React.FC<DeletePackType> = ({ nameItem }) => {
     dispatch(setOpenModalDeletePackAC(false))
   }
 
+  const closeModalDeletePack = () => {
+    dispatch(setOpenModalDeletePackAC(false))
+    dispatch(idEditPackAC(''))
+  }
+
   return (
-    <div className={styles.modal}>
-      <HeaderModal titleModal={'Delete Pack'} />
-      <DeletePackOrCard nameItem={nameItem} />
-      <SaveAndCancelField type={'Delete'} onAction={deleteActionHandler} cancelAction={cancelActionHandler} />
-    </div>
+    <ModalFields open={isOpenModalDeletePack} callback={closeModalDeletePack}>
+      <div className={styles.modal}>
+        <HeaderModal titleModal={'Delete Pack'} />
+        <DeletePackOrCard nameItem={nameItem} />
+        <SaveAndCancelField type={'Delete'} onAction={deleteActionHandler} cancelAction={cancelActionHandler} />
+      </div>
+    </ModalFields>
   )
 }
 

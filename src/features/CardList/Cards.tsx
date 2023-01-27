@@ -6,24 +6,12 @@ import styles from './Cards.module.scss'
 import searchIcon from '../../assets/svg/search.svg'
 import SuperDebouncedInput from '../../common/SuperDebouncedInput/SuperDebouncedInput'
 import { Grade } from '../../common/Grade/Grade'
-import { setOpenModalDeletePackAC, setOpenModalEditPackAC, setPackTC } from '../PackList/PackList-reducer'
+import { setPackTC } from '../PackList/PackList-reducer'
 import { BackToPackList } from '../BackToPackList/BackToPackList'
 import { FriendOrMyCard } from '../FriendOrMyCard/FriendOrMyCard'
 import { ActionButtonsContainer } from '../../common/ActionButtonsContainer/ActionButtonsContainer'
-import { Navigate } from 'react-router-dom'
-import { PATH } from '../../root'
 import { CardType } from '../../api/api-cardsList'
-import { ModalFields } from '../../common/ModalFields/ModalFields'
-import {
-  addCardTC,
-  setAnswerValueAC,
-  setIdEditCardAC,
-  openNewCardModalAC,
-  openDeleteCardModalAC,
-  setQuestionValueAC,
-  openEditCardModalAC,
-  setCardTC,
-} from './Card-reducer'
+import { setAnswerValueAC, setIdEditCardAC, openDeleteCardModalAC, setQuestionValueAC, openEditCardModalAC } from './Card-reducer'
 import { AddNewCard } from '../PackCardCRUD/AddNewCard'
 import { useParams } from 'react-router-dom'
 import { DeleteCard } from '../PackCardCRUD/DeleteCard'
@@ -63,11 +51,10 @@ export const Cards = () => {
   ]
 
   const dispatch = useAppDispatch()
-  const isAuth = useAppSelector(state => state.app.isAuth)
   const cardPacks = useAppSelector(state => state.cardList.cards)
   const isDisable = useAppSelector(state => state.packList.isDisabled)
   const cardPackID = cardPacks.find(item => item.user_id === profileID)
-  const { openAddNewCardModal, openDeleteCardModal, openEditCardModal, question, answer } = useAppSelector(state => state.cardList)
+  const { question } = useAppSelector(state => state.cardList)
   const { packId } = useParams()
   const [sortInfo, setSortInfo] = useState<SortInfoType>({
     sortBy: null,
@@ -82,23 +69,6 @@ export const Cards = () => {
       dispatch(setPackTC({ sortPacks: '1updated' }))
       setSortInfo({ sortBy: DESC })
     }
-  }
-
-  const closeAddModalHandler = () => {
-    question && dispatch(addCardTC({ card: { cardsPack_id: packId!, question: question, answer: answer } }))
-    dispatch(openNewCardModalAC(false))
-    dispatch(setQuestionValueAC(''))
-    dispatch(setAnswerValueAC(''))
-  }
-
-  const closeDeleteModalHandler = () => {
-    dispatch(openDeleteCardModalAC(false))
-    dispatch(setQuestionValueAC(''))
-    dispatch(setAnswerValueAC(''))
-  }
-
-  const closeEditModalHandler = () => {
-    dispatch(openEditCardModalAC(false))
   }
 
   const deleteCard = (id: string, packName: string) => {
@@ -131,12 +101,8 @@ export const Cards = () => {
         <SuperTable columns={columns2} data={cardPacks} onClick={onClickHandler} sortBy={sortInfo.sortBy} disabled={isDisable} />
       </div>
       <AddNewCard packId={packId!} />
-      <ModalFields open={openDeleteCardModal} callback={closeDeleteModalHandler}>
-        <DeleteCard nameItem={question} />
-      </ModalFields>
-      <ModalFields open={openEditCardModal} callback={closeEditModalHandler}>
-        <EditCard />
-      </ModalFields>
+      <DeleteCard nameItem={question} />
+      <EditCard />
     </div>
   )
 }

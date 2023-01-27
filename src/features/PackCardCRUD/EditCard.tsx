@@ -16,7 +16,7 @@ import {
 
 export const EditCard = () => {
   const dispatch = useAppDispatch()
-  const { question, answer, idEditCard } = useAppSelector(state => state.cardList)
+  const { question, answer, idEditCard, openEditCardModal } = useAppSelector(state => state.cardList)
 
   const questionHandler = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(setQuestionValueAC(e.target.value))
@@ -38,10 +38,12 @@ export const EditCard = () => {
   }
 
   return (
-    <div className={styles.modal}>
-      <HeaderModal titleModal={'Edit card'} />
-      <EditOrAddCard questionCallback={questionHandler} answerCallback={answerHandler} question={question} answer={answer} />
-      <SaveAndCancelField type={'Save'} onAction={saveHandler} cancelAction={cancelHandler} />
-    </div>
+    <ModalFields open={openEditCardModal} callback={cancelHandler}>
+      <div className={styles.modal}>
+        <HeaderModal titleModal={'Edit card'} />
+        <EditOrAddCard questionCallback={questionHandler} answerCallback={answerHandler} question={question} answer={answer} />
+        <SaveAndCancelField type={'Save'} onAction={saveHandler} cancelAction={cancelHandler} />
+      </div>
+    </ModalFields>
   )
 }

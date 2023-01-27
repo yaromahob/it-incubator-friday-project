@@ -5,10 +5,16 @@ import { SaveAndCancelField } from '../../common/ModalFields/SaveAndCancelField/
 import { useAppDispatch, useAppSelector } from '../../App/store'
 import { addPackTC, isPrivateNewPackAC, setOpenModalNewPackAC, textNewPackAC } from '../PackList/PackList-reducer'
 import styles from '../../common/ModalFields/ModalFields.module.scss'
+import { ModalFields } from '../../common/ModalFields/ModalFields'
 
 export const AddNewPack = () => {
-  const { textNewPack, isPrivateNewPack } = useAppSelector(state => state.packList)
+  const { textNewPack, isPrivateNewPack, isOpenModalNewPack } = useAppSelector(state => state.packList)
   const dispatch = useAppDispatch()
+
+  const closeModalNewPack = () => {
+    textNewPack && dispatch(addPackTC({ cardsPack: { name: textNewPack, private: isPrivateNewPack } }))
+    dispatch(setOpenModalNewPackAC(false))
+  }
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(textNewPackAC(e.currentTarget.value))
@@ -29,10 +35,17 @@ export const AddNewPack = () => {
   }
 
   return (
-    <div className={styles.modal}>
-      <HeaderModal titleModal={'Add new pack'} />
-      <AddOrEditPack newPackName={textNewPack} onChange={onChangeHandler} isPrivate={isPrivateNewPack} onChangePrivate={onPrivateHandler} />
-      <SaveAndCancelField type={'Save'} onAction={onSaveHandler} cancelAction={onCancelHandler} />
-    </div>
+    <ModalFields open={isOpenModalNewPack} callback={closeModalNewPack}>
+      <div className={styles.modal}>
+        <HeaderModal titleModal={'Add new pack'} />
+        <AddOrEditPack
+          newPackName={textNewPack}
+          onChange={onChangeHandler}
+          isPrivate={isPrivateNewPack}
+          onChangePrivate={onPrivateHandler}
+        />
+        <SaveAndCancelField type={'Save'} onAction={onSaveHandler} cancelAction={onCancelHandler} />
+      </div>
+    </ModalFields>
   )
 }
