@@ -74,10 +74,13 @@ export const PackList = () => {
 
   const dispatch = useAppDispatch()
   const isAuth = useAppSelector(state => state.app.isAuth)
-  const { page, pageCount, cardPacksTotalCount, cardPacks, isDisabled, sortBy, textNewPack } = useAppSelector(state => state.packList)
+  const { page, pageCount, cardPacksTotalCount, cardPacks, isDisabled, sortBy, textNewPack, userId } = useAppSelector(
+    state => state.packList
+  )
 
   const showCurrentPage = (currentPage: number, itemsCount: number) => {
-    dispatch(setPackTC({ page: currentPage, pageCount: itemsCount }))
+    userId && dispatch(setPackTC({ user_id: userId, page: currentPage, pageCount: itemsCount }))
+    !userId && dispatch(setPackTC({ page: currentPage, pageCount: itemsCount }))
   }
 
   const clearFilter = () => {
