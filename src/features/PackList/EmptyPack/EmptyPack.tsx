@@ -1,15 +1,13 @@
 import React from 'react'
 import styles from './EmptyPack.module.scss'
 import SuperButton from '../../../common/SuperButton/SuperButton'
-import { addPackTC } from '../PackList-reducer'
-import { useAppDispatch } from '../../../App/store'
-import { BackToPackList } from '../../BackToPackList/BackToPackList'
+import { BackToPackListWithoutRedirect } from '../../BackToPackList/BackToPackListWithoutRedirect'
 
 export const EmptyPack: React.FC<EmptyPackType> = ({ callback }) => {
   return (
     <div>
       <div className={styles.pack}>
-        <BackToPackList />
+        <BackToPackListWithoutRedirect />
         <h2>Name Pack</h2>
       </div>
 

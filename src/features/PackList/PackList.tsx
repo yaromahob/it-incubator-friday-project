@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import SuperDebouncedInput from '../../common/SuperDebouncedInput/SuperDebouncedInput'
 import styles from './PackList.module.scss'
 import clearFilterIcon from '../../assets/svg/clearFilters.svg'
@@ -8,7 +8,6 @@ import { useAppDispatch, useAppSelector } from '../../App/store'
 import { SuperTable } from '../../common/SuperTable/SuperTable'
 import { ActionButtonsContainer } from '../../common/ActionButtonsContainer/ActionButtonsContainer'
 import {
-  addPackTC,
   clearFilterTC,
   idEditPackAC,
   searchTextAC,
@@ -18,17 +17,15 @@ import {
   setPackTC,
   sortByDateAC,
   textNewPackAC,
-  updatePackTC,
 } from './PackList-reducer'
 import { PackType } from '../../api/api-packsList'
 import { CardsCount } from './CardsCount/CardsCount'
 import { AllCards } from './AllCards/AllCards'
 import { SuperPagination } from '../../common/SuperPagination/SuperPagination'
-import { Navigate, NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import { EditPack } from '../PackCardCRUD/EditPack'
 import { PATH } from '../../root'
 import { AddNewPack } from '../PackCardCRUD/AddNewPack'
-import { ModalFields } from '../../common/ModalFields/ModalFields'
 import { DeletePack } from '../PackCardCRUD/DeletePack'
 import { EmptyPack } from './EmptyPack/EmptyPack'
 
@@ -77,19 +74,7 @@ export const PackList = () => {
 
   const dispatch = useAppDispatch()
   const isAuth = useAppSelector(state => state.app.isAuth)
-  const {
-    page,
-    pageCount,
-    cardPacksTotalCount,
-    cardPacks,
-    isDisabled,
-    sortBy,
-    isOpenModalEditPack,
-    isOpenModalDeletePack,
-    idEditPack,
-    textNewPack,
-    isPrivateNewPack,
-  } = useAppSelector(state => state.packList)
+  const { page, pageCount, cardPacksTotalCount, cardPacks, isDisabled, sortBy, textNewPack } = useAppSelector(state => state.packList)
 
   const showCurrentPage = (currentPage: number, itemsCount: number) => {
     dispatch(setPackTC({ page: currentPage, pageCount: itemsCount }))
@@ -137,12 +122,6 @@ export const PackList = () => {
     if (isAuth) dispatch(setPackTC())
   }, [isAuth])
 
-  if (cardPacksTotalCount === 0) {
-    dispatch(setPackTC({ packName: '' }))
-    return <Navigate to={PATH.EMPTY_PACK} />
-  }
-
-  // TODO доделать
   return (
     <div className={styles.listWrapper}>
       {cardPacksTotalCount ? (

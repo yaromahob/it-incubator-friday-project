@@ -1,12 +1,26 @@
-import axios from 'axios'
-import recoveryPassword from '../features/RecoveryPassword/RecoveryPassword'
-import exp from 'constants'
 import { updateCardType } from '../features/CardList/Card-reducer'
+import { instance } from './instance'
 
-const instance = axios.create({
-  baseURL: process.env.NODE_ENV === 'development' ? 'http://localhost:7542/2.0/' : 'https://neko-back.herokuapp.com/2.0/',
-  withCredentials: true,
-})
+export const cardsAPI = {
+  setCards(params: ParamsCardsListType) {
+    return instance.get<ResponseSetCardTyp>(`/cards/card`, {
+      params,
+    })
+  },
+  addCard(data: AddCardType) {
+    return instance.post<ResponseAddCardType>(`/cards/card`, data)
+  },
+  deleteCard(id?: string) {
+    return instance.delete<ResponseDeleteCardType>(`/cards/card`, { params: { id } })
+  },
+  createCard(card: updateCardType) {
+    return instance.put<ResponseUpdateCardType>(`/cards/card`, card)
+  },
+  gradeUpdate(data: LearnCardType) {
+    return instance.put<ResponseGradeUpdateCardType>(`/cards/grade`, data)
+  },
+}
+
 export type ParamsCardsListType = {
   cardAnswer?: string
   cardQuestion?: string
@@ -86,9 +100,9 @@ export type LearnCardType = {
 }
 
 export interface UpdatedGrade {
-  card_id: string //карточки
+  card_id: string
   user_id: string
-  cardsPack_id: string //колоды
+  cardsPack_id: string
   grade: number
   shots: number
   more_id: string
@@ -97,27 +111,9 @@ export interface UpdatedGrade {
   updated: string
   __v: number
 }
+
 export interface ResponseGradeUpdateCardType {
   updatedGrade: UpdatedGrade
   token: string
   tokenDeathTime: number
-}
-export const cardsAPI = {
-  setCards(params: ParamsCardsListType) {
-    return instance.get<ResponseSetCardTyp>(`/cards/card`, {
-      params,
-    })
-  },
-  addCard(data: AddCardType) {
-    return instance.post<ResponseAddCardType>(`/cards/card`, data)
-  },
-  deleteCard(id?: string) {
-    return instance.delete<ResponseDeleteCardType>(`/cards/card`, { params: { id } })
-  },
-  createCard(card: updateCardType) {
-    return instance.put<ResponseUpdateCardType>(`/cards/card`, card)
-  },
-  gradeUpdate(data: LearnCardType) {
-    return instance.put<ResponseGradeUpdateCardType>(`/cards/grade`, data)
-  },
 }

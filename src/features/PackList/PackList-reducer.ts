@@ -9,7 +9,6 @@ export type InitialStateType = {
   minCardsCount: number
   maxCardsCount: number
   isDisabled: boolean
-  cardsCount: Array<number>
   userId: string
   sortBy: string
   searchedText: string
@@ -23,13 +22,12 @@ export type InitialStateType = {
 
 export const initialState: InitialStateType = {
   cardPacks: [],
-  page: 1, //выбранная стр
-  pageCount: 4, //ко-во стр
-  cardPacksTotalCount: 2, // количество колод
+  page: 1,
+  pageCount: 4,
+  cardPacksTotalCount: 2,
   minCardsCount: 0,
   maxCardsCount: 4,
   isDisabled: false,
-  cardsCount: [1, 30],
   userId: '',
   sortBy: '0',
   searchedText: '',
@@ -51,9 +49,6 @@ export const PackListReducer = (state: InitialStateType = initialState, action: 
       return { ...state, cardPacks: state.cardPacks.filter(e => e._id !== action.idPack) }
     case 'PACKS/DISABLE-BUTTON':
       return { ...state, isDisabled: action.isDisabled }
-    case 'PACKS/SET-CARDS-COUNT':
-      console.log(action.cardsCount)
-      return { ...state, cardsCount: [...action.cardsCount] }
     case 'PACKS/SET-OPEN-MODAL-NEW-PACK': {
       return { ...state, isOpenModalNewPack: action.value }
     }
@@ -70,7 +65,14 @@ export const PackListReducer = (state: InitialStateType = initialState, action: 
     case 'PACKS/UPDATE-PACKS':
       return {
         ...state,
-        cardPacks: [...state.cardPacks].map(pack => (pack._id === action.data._id ? { ...pack, name: action.data.name } : pack)),
+        cardPacks: [...state.cardPacks].map(pack =>
+          pack._id === action.data._id
+            ? {
+                ...pack,
+                name: action.data.name,
+              }
+            : pack
+        ),
       }
     case 'PACKS/SET_USERID':
       return { ...state, userId: action.userId }
@@ -87,7 +89,6 @@ export const setPacksAC = (data: ResponseTypePacksList) => ({ type: 'PACKS/SET-P
 export const addPackAC = (newCardsPack: PackType) => ({ type: 'PACKS/ADD-PACKS', newCardsPack } as const)
 export const deletePackAC = (idPack: string) => ({ type: 'PACKS/DELETE-PACKS', idPack } as const)
 export const disableButtonAC = (isDisabled: boolean) => ({ type: 'PACKS/DISABLE-BUTTON', isDisabled } as const)
-export const setCardsCountAC = (cardsCount: number[]) => ({ type: 'PACKS/SET-CARDS-COUNT', cardsCount } as const)
 export const updatePackAC = (data: PackType) => ({ type: 'PACKS/UPDATE-PACKS', data } as const)
 export const setUserIdAC = (userId: string) => ({ type: 'PACKS/SET_USERID', userId } as const)
 export const sortByDateAC = (sortBy: string) => ({ type: 'PACKS/SORT_BY_DATE', sortBy } as const)
@@ -104,8 +105,6 @@ export const clearFilterTC = (): AppThunk => dispatch => {
   dispatch(disableButtonAC(true))
   packsAPI
     .setPacks({
-      min: 0,
-      max: 30,
       sortPacks: '0updated',
       page: 1,
       pageCount: 4,
@@ -114,7 +113,6 @@ export const clearFilterTC = (): AppThunk => dispatch => {
     .then(res => {
       dispatch(setPacksAC(res.data))
       dispatch(setUserIdAC(''))
-      dispatch(setCardsCountAC([1, 30]))
       dispatch(sortByDateAC('0'))
       dispatch(disableButtonAC(false))
     })
@@ -125,7 +123,9 @@ export const setPackTC =
   dispatch => {
     dispatch(disableButtonAC(true))
     packsAPI.setPacks(data).then(res => {
+      console.log(res)
       dispatch(setPacksAC(res.data))
+      dispatch(searchTextAC(''))
       dispatch(disableButtonAC(false))
     })
   }
@@ -159,7 +159,6 @@ export type PacksActionType =
   | ReturnType<typeof deletePackAC>
   | ReturnType<typeof updatePackAC>
   | ReturnType<typeof disableButtonAC>
-  | ReturnType<typeof setCardsCountAC>
   | ReturnType<typeof setUserIdAC>
   | ReturnType<typeof sortByDateAC>
   | ReturnType<typeof searchTextAC>

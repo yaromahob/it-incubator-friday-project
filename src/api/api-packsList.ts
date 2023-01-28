@@ -1,20 +1,29 @@
-import axios from 'axios'
-import recoveryPassword from '../features/RecoveryPassword/RecoveryPassword'
-import exp from 'constants'
+import { instance } from './instance'
 
-const instance = axios.create({
-  baseURL: process.env.NODE_ENV === 'development' ? 'http://localhost:7542/2.0/' : 'https://neko-back.herokuapp.com/2.0/',
-  withCredentials: true,
-})
+export const packsAPI = {
+  setPacks(params?: ParamsListPacksType) {
+    return instance.get<ResponseTypePacksList>(`cards/pack`, { params })
+  },
+  addPack(data: AddCardsPack) {
+    return instance.post<ResponseTypeNewCardsPack>(`cards/pack`, data)
+  },
+  deletePack(id: string) {
+    return instance.delete<ResponseDeletedCardsPackType>(`cards/pack?id=${id}`)
+  },
+  createPack(data: UpdatePackType) {
+    return instance.put<ResponseUpdateType>(`cards/pack`, data)
+  },
+}
+
 export type ParamsListPacksType = {
-  packName?: string // не обязательно
-  min?: number // не обязательно
-  max?: number // не обязательно
-  sortPacks?: any // не обязательно
-  page?: number // не обязательно
-  pageCount?: number // не обязательно
+  packName?: string
+  min?: number
+  max?: number
+  sortPacks?: any
+  page?: number
+  pageCount?: number
 
-  user_id?: string // чьи колоды не обязательно, или придут все
+  user_id?: string
   block?: boolean
 }
 export type PackType = {
@@ -73,18 +82,4 @@ export type ResponseTypePacksList = {
   cardPacksTotalCount: number
   minCardsCount: number
   maxCardsCount: number
-}
-export const packsAPI = {
-  setPacks(params?: ParamsListPacksType) {
-    return instance.get<ResponseTypePacksList>(`cards/pack`, { params })
-  },
-  addPack(data: AddCardsPack) {
-    return instance.post<ResponseTypeNewCardsPack>(`cards/pack`, data)
-  },
-  deletePack(id: string) {
-    return instance.delete<ResponseDeletedCardsPackType>(`cards/pack?id=${id}`)
-  },
-  createPack(data: UpdatePackType) {
-    return instance.put<ResponseUpdateType>(`cards/pack`, data)
-  },
 }

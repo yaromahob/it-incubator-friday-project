@@ -1,7 +1,7 @@
 import { AppActionType, AppThunk } from '../../App/store'
-import { newPasswordType, recoveryPasswordType } from '../../api/auth-api'
+import { newPasswordType, recoveryPasswordType } from '../../api/api-auth'
 import { setAppStatus, SetErrorType, SetStatusType } from '../../App/app-reducer'
-import { authAPI, LoginParamsType } from '../../api/auth-api'
+import { apiAuth, LoginParamsType } from '../../api/api-auth'
 import { setAppError, setAuthApi, setAuthApiTC } from '../../App/app-reducer'
 import axios, { AxiosError } from 'axios'
 
@@ -32,7 +32,7 @@ export const newPasswordAC = (value: boolean) => ({ type: 'login/NEW-PASSWORD', 
 export const loginTC =
   (data: LoginParamsType): AppThunk =>
   dispatch => {
-    authAPI.login(data).then(res => {
+    apiAuth.login(data).then(res => {
       if (!res.data.error) {
         dispatch(setIsLoggedInAC(true))
       } else {
@@ -56,7 +56,7 @@ export const recoveryPasswordTC =
   (data: recoveryPasswordType): AppThunk =>
   dispatch => {
     dispatch(setAppStatus('loading'))
-    authAPI
+    apiAuth
       .recoveryPassword(data)
       .then(res => {
         if (!res.data.error) {
@@ -77,7 +77,7 @@ export const recoveryPasswordTC =
 export const newPasswordTC =
   (data: newPasswordType): AppThunk =>
   dispatch => {
-    authAPI
+    apiAuth
       .newPassword(data)
       .then(res => {
         if (!res.data.error) {
@@ -94,7 +94,7 @@ export const newPasswordTC =
 
 export const logoutTC = (): AppThunk => async dispatch => {
   try {
-    const res = await authAPI.logout()
+    const res = await apiAuth.logout()
     dispatch(setIsLoggedInAC(false))
     dispatch(setAuthApi(false))
   } catch (e) {

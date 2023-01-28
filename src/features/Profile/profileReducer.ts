@@ -1,5 +1,5 @@
 import { AppThunk } from '../../App/store'
-import { updateUserApi } from '../../api/auth-api'
+import { updateUserApi } from '../../api/api-auth'
 
 import { setAppError } from '../../App/app-reducer'
 import { headerSetNameAC } from '../Header/headerReducer'

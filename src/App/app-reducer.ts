@@ -1,5 +1,5 @@
 import { AppDispatch } from './store'
-import { authAPI } from '../api/auth-api'
+import { apiAuth } from '../api/api-auth'
 import { setProfileAC } from '../features/Profile/profileReducer'
 import { setIsLoggedInAC } from '../features/Login/loginReducer'
 import axios, { AxiosError } from 'axios'
@@ -47,7 +47,7 @@ export const setAuthApi = (value: boolean) => ({ type: 'APP/SET-IsAUTH', value }
 
 export const setAuthApiTC = () => async (dispatch: AppDispatch) => {
   try {
-    const res = await authAPI.me()
+    const res = await apiAuth.me()
     const { _id, email, name, token, avatar, ...rest } = res.data
     dispatch(setProfileAC(_id, email, name, token, avatar))
     dispatch(headerSetNameAC(name))
