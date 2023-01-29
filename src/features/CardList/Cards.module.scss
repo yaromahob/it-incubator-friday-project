@@ -21,3 +21,19 @@
     }
   }
 }
+
+.renderWrapper {
+  display: flex;
+  align-items: center;
+
+  div {
+    span {
+      label {
+        svg {
+          width: 18px;
+          height: 18px;
+        }
+      }
+    }
+  }
+}

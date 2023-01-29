@@ -19,7 +19,7 @@ export const HeaderCell: React.FC<HeaderCellType> = ({ title, sortField, onClick
     <TableCell
       key={title}
       className={disabled ? `${styles.sortActive} ${styles.disabled}` : styles.sortActive}
-      align="left"
+      align="justify"
       onClick={onClick}
     >
       {title}
