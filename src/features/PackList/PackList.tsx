@@ -22,7 +22,7 @@ import { PackType } from '../../api/api-packsList'
 import { CardsCount } from './CardsCount/CardsCount'
 import { AllCards } from './AllCards/AllCards'
 import { SuperPagination } from '../../common/SuperPagination/SuperPagination'
-import { NavLink } from 'react-router-dom'
+import { Navigate, NavLink } from 'react-router-dom'
 import { EditPack } from '../PackCardCRUD/EditPack'
 import { PATH } from '../../root'
 import { AddNewPack } from '../PackCardCRUD/AddNewPack'
@@ -122,9 +122,11 @@ export const PackList = () => {
   }
 
   useEffect(() => {
-    if (isAuth) dispatch(setPackTC())
+    if (isAuth && !userId) dispatch(setPackTC())
+    if (userId) dispatch(setPackTC({ user_id: userId }))
   }, [isAuth])
 
+  if (!isAuth) <Navigate to={PATH.LOGIN} />
   return (
     <div className={styles.listWrapper}>
       {cardPacksTotalCount ? (
