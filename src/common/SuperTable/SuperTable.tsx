@@ -9,32 +9,25 @@ import TableContainer from '@mui/material/TableContainer'
 import { HeaderCell } from './HeaderCell/HeaderCell'
 import { PackType } from '../../api/api-packsList'
 import { CardType } from '../../api/api-cardsList'
-import { setCardTC } from '../../features/CardList/Card-reducer'
-import { useAppDispatch } from '../../App/store'
+import styles from './SuperTable.module.scss'
 
 export const ASC = '0'
 export const DESC = '1'
 
 export const SuperTable: React.FC<SuperTableType> = ({ columns, data, onClick, sortBy, disabled }) => {
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} className={styles.table}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
             {columns.map((title, i) => {
               return (
-                <HeaderCell
-                  key={`${title.key}-${i}`}
-                  sortBy={sortBy}
-                  title={title.name}
-                  onClickHandler={onClick}
-                  disabled={disabled}
-                ></HeaderCell>
+                <HeaderCell key={`${title.key}-${i}`} sortBy={sortBy} title={title.name} onClickHandler={onClick} disabled={disabled} />
               )
             })}
           </TableRow>
         </TableHead>
-        <TableBody>
+        <TableBody className={styles.test}>
           {data &&
             data.map((card, i) => {
               const cardItem = card as { [index: string]: string | number | boolean }
@@ -43,13 +36,13 @@ export const SuperTable: React.FC<SuperTableType> = ({ columns, data, onClick, s
                   {columns.map((col, i) => {
                     if (col.render) {
                       return (
-                        <TableCell key={`${col}-${i}`} component="th" scope="row">
+                        <TableCell key={`${col}-${i}`} align={'justify'} component="th" scope="row">
                           {col.render(card)}
                         </TableCell>
                       )
                     }
                     return (
-                      <TableCell key={`${col}_${i}`} component="th" scope="row">
+                      <TableCell key={`${col}_${i}`} align={'justify'} component="th" scope="row">
                         {cardItem[col.key]}
                       </TableCell>
                     )
