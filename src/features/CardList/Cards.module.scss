@@ -27,8 +27,14 @@
   align-items: center;
 
   div {
+    display: flex;
+
     span {
+      display: flex;
+
       label {
+        display: flex;
+
         svg {
           width: 18px;
           height: 18px;
