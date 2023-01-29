@@ -4,20 +4,23 @@ import editIcon from '../../assets/svg/edit.svg'
 import deleteIcon from '../../assets/svg/delete.svg'
 import styles from './ActionButtonsContainer.module.scss'
 import { UpdatePackType } from '../../api/api-packsList'
-import { useAppSelector } from '../../App/store'
+import { useAppDispatch, useAppSelector } from '../../App/store'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { PATH } from '../../root'
+import { deckCoverForAddAC } from '../../features/PackList/PackList-reducer'
 
 export const ActionButtonsContainer: React.FC<ActionButtonsContainerType> = ({
   id,
   userId,
   packName,
+  deckCover,
   packAnswer,
   cardsCount,
   educationsAction,
   editAction,
   deleteAction,
 }) => {
+  const dispatch = useAppDispatch()
   const profileId = useAppSelector(state => state.profile._id)
   const navigate = useNavigate()
   const educationCallback = (e: MouseEvent<HTMLDivElement>) => {
@@ -26,8 +29,7 @@ export const ActionButtonsContainer: React.FC<ActionButtonsContainerType> = ({
     navigate(`${PATH.LEARN}/${id}`)
   }
   const editCallback = () => {
-    editAction && editAction(id, packName!, packAnswer)
-    // editAction && editAction({ cardsPack: { _id: id, name: 'new Card' } })
+    editAction && editAction(id, packName!, packAnswer, deckCover)
   }
   const deleteCallback = () => {
     deleteAction && deleteAction(id, packName!)
@@ -67,9 +69,10 @@ export type ActionButtonsContainerType = {
   id: string
   userId: string
   packName?: string
+  deckCover?: string
   packAnswer?: string
   educationsAction?: (id: string) => void
-  editAction?: (id: string, packName: string, packAnswer?: string) => void
+  editAction?: (id: string, packName: string, packAnswer?: string, deckCoverEdit?: string) => void
   deleteAction?: (id: string, packName: string) => void
   cardsCount?: number
 }

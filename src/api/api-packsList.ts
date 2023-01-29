@@ -5,13 +5,13 @@ export const packsAPI = {
     return instance.get<ResponseTypePacksList>(`cards/pack`, { params })
   },
   addPack(data: AddCardsPack) {
-    return instance.post<ResponseType>(`cards/pack`, data)
+    return instance.post<ResponseTypeNewCardsPack>(`cards/pack`, data)
   },
   deletePack(id: string) {
-    return instance.delete<ResponseType>(`cards/pack?id=${id}`)
+    return instance.delete<ResponseDeletedCardsPackType>(`cards/pack?id=${id}`)
   },
   createPack(data: UpdatePackType) {
-    return instance.put<ResponseType>(`cards/pack`, data)
+    return instance.put<ResponseUpdateType>(`cards/pack`, data)
   },
 }
 
@@ -51,10 +51,16 @@ export type AddCardsPack = {
     private?: boolean
   }
 }
+export type ResponseUpdateType = {
+  updatedCardsPack: PackType
+  token: string
+  tokenDeathTime: number
+}
 export type UpdatePackType = {
   cardsPack: {
     _id: string
     name?: string
+    deckCover?: string
     private?: boolean
   }
 }
@@ -64,6 +70,7 @@ export type ResponseType = {
   token: string
   tokenDeathTime: number
 }
+
 export type ResponseTypeNewCardsPack = {
   newCardsPack: PackType
   token: string

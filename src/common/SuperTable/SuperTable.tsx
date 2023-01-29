@@ -41,6 +41,13 @@ export const SuperTable: React.FC<SuperTableType> = ({ columns, data, onClick, s
                         </TableCell>
                       )
                     }
+                    if (col.deckCover) {
+                      return (
+                        <TableCell key={`${col}-${i}`} align={'justify'} component="th" scope="row">
+                          <div className={styles.cardCover}>{col.deckCover(card)}</div>
+                        </TableCell>
+                      )
+                    }
                     return (
                       <TableCell key={`${col}_${i}`} align={'justify'} component="th" scope="row">
                         {cardItem[col.key]}
@@ -62,6 +69,7 @@ type DataType = {
   key: string
   name: string
   render?: (card: any) => ReactElement
+  deckCover?: (card: any) => ReactElement
 }
 
 type SuperTableType = {

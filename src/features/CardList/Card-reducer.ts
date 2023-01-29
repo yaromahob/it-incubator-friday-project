@@ -1,6 +1,5 @@
-import { AppActionType, AppRootStateType, AppThunk } from '../../App/store'
-import { AddCardsPack, PackType, packsAPI, ParamsListPacksType, ResponseTypePacksList, UpdatePackType } from '../../api/api-packsList'
-import { addPackType } from '../PackList/PackList-reducer'
+import { AppActionType, AppThunk } from '../../App/store'
+
 import { AddCardType, cardsAPI, CardType, LearnCardType, ParamsCardsListType } from '../../api/api-cardsList'
 import dayjs from 'dayjs'
 

@@ -42,7 +42,7 @@ export const AddNewCard: React.FC<AddNewCardType> = ({ packId }) => {
   return (
     <ModalFields open={openAddNewCardModal} callback={closeAddModalHandler}>
       <div className={styles.modal}>
-        <HeaderModal titleModal={'Add new card'} />
+        <HeaderModal titleModal={'Add new card'} callback={closeAddModalHandler} />
         <EditOrAddCard questionCallback={questionHandler} answerCallback={answerHandler} question={question} answer={answer} />
         <SaveAndCancelField type={'Save'} onAction={saveHandler} cancelAction={cancelHandler} />
       </div>

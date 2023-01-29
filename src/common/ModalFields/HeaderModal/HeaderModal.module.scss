@@ -4,11 +4,11 @@
 .headerModal {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin-bottom: 35px;
 
 
-
-  h2{
+  h2 {
     @include customFont(500, 18px, 22px)
 
   }
@@ -17,5 +17,14 @@
     border: none;
     cursor: pointer;
     background: transparent;
+    font-weight: 500;
+    font-size: 32px;
+    padding: 0;
+    margin: 0;
+    transition: 0.3s all;
+
+    &:hover {
+      transform: rotate(180deg);
+    }
   }
 }

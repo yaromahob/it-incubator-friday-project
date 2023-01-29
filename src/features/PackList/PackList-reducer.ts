@@ -14,6 +14,7 @@ export type InitialStateType = {
   sortBy: string
   searchedText: string
   textNewPack: string
+  deckCoverForAdd: string
   idEditPack: string
   isPrivateNewPack: boolean
   isOpenModalNewPack: boolean
@@ -33,6 +34,7 @@ export const initialState: InitialStateType = {
   sortBy: '0',
   searchedText: '',
   textNewPack: '',
+  deckCoverForAdd: '',
   idEditPack: '',
   isPrivateNewPack: false,
   isOpenModalNewPack: false,
@@ -46,13 +48,25 @@ export const PackListReducer = (state: InitialStateType = initialState, action: 
       const changeTimeFormat = action.data.cardPacks.map(pack => {
         return {
           ...pack,
+          deckCover: pack.deckCover ? pack.deckCover : '',
           created: dayjs(pack.created).format('DD.MM.YYYY HH:mm:ss'),
           updated: dayjs(pack.updated).format('DD.MM.YYYY HH:mm:ss'),
         }
       })
       return { ...state, ...action.data, cardPacks: changeTimeFormat }
+
     case 'PACKS/ADD-PACKS':
-      return { ...state, cardPacks: [...state.cardPacks, action.newCardsPack] }
+      return {
+        ...state,
+        cardPacks: [
+          ...state.cardPacks,
+          {
+            ...action.newCardsPack,
+            created: dayjs(action.newCardsPack.created).format('DD.MM.YYYY HH:mm:ss'),
+            updated: dayjs(action.newCardsPack.updated).format('DD.MM.YYYY HH:mm:ss'),
+          },
+        ],
+      }
     case 'PACKS/DELETE-PACKS':
       return { ...state, cardPacks: state.cardPacks.filter(e => e._id !== action.idPack) }
     case 'PACKS/DISABLE-BUTTON':
@@ -70,6 +84,8 @@ export const PackListReducer = (state: InitialStateType = initialState, action: 
       return { ...state, isPrivateNewPack: action.value }
     case 'PACKS/SET-ID-EDIT-PACK':
       return { ...state, idEditPack: action.id }
+    case 'PACKS/SET-COVER-NEW-PACK':
+      return { ...state, deckCoverForAdd: action.cover }
     case 'PACKS/UPDATE-PACKS':
       return {
         ...state,
@@ -78,6 +94,7 @@ export const PackListReducer = (state: InitialStateType = initialState, action: 
             ? {
                 ...pack,
                 name: action.data.name,
+                deckCover: action.data.deckCover,
               }
             : pack
         ),
@@ -107,6 +124,7 @@ export const setOpenModalNewPackAC = (value: boolean) => ({ type: 'PACKS/SET-OPE
 export const setOpenModalEditPackAC = (value: boolean) => ({ type: 'PACKS/SET-OPEN-MODAL-EDIT-PACK', value } as const)
 export const setOpenModalDeletePackAC = (value: boolean) => ({ type: 'PACKS/SET-OPEN-MODAL-DELETE-PACK', value } as const)
 export const idEditPackAC = (id: string) => ({ type: 'PACKS/SET-ID-EDIT-PACK', id } as const)
+export const deckCoverForAddAC = (cover: string) => ({ type: 'PACKS/SET-COVER-NEW-PACK', cover } as const)
 
 // thunk
 export const clearFilterTC = (): AppThunk => dispatch => {
@@ -140,14 +158,14 @@ export const addPackTC =
   (data: AddCardsPack): AppThunk =>
   dispatch => {
     packsAPI.addPack(data).then(res => {
-      dispatch(addPackAC(res.data.data))
+      dispatch(addPackAC(res.data.newCardsPack))
     })
   }
 export const deletePackTC =
   (id: string): AppThunk =>
   dispatch => {
     packsAPI.deletePack(id).then(res => {
-      dispatch(deletePackAC(res.data.data._id))
+      dispatch(deletePackAC(res.data.deletedCardsPack._id))
     })
   }
 
@@ -155,7 +173,7 @@ export const updatePackTC =
   (data: UpdatePackType): AppThunk =>
   dispatch => {
     packsAPI.createPack(data).then(res => {
-      dispatch(updatePackAC(res.data.data))
+      dispatch(updatePackAC(res.data.updatedCardsPack))
     })
   }
 
@@ -175,3 +193,4 @@ export type PacksActionType =
   | ReturnType<typeof setOpenModalEditPackAC>
   | ReturnType<typeof setOpenModalDeletePackAC>
   | ReturnType<typeof idEditPackAC>
+  | ReturnType<typeof deckCoverForAddAC>

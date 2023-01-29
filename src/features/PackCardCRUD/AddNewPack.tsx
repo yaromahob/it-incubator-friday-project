@@ -3,16 +3,25 @@ import { HeaderModal } from '../../common/ModalFields/HeaderModal/HeaderModal'
 import { AddOrEditPack } from '../../common/ModalFields/AddOrEditPack/AddOrEditPack'
 import { SaveAndCancelField } from '../../common/ModalFields/SaveAndCancelField/SaveAndCancelField'
 import { useAppDispatch, useAppSelector } from '../../App/store'
-import { addPackTC, isPrivateNewPackAC, setOpenModalNewPackAC, textNewPackAC } from '../PackList/PackList-reducer'
+import { addPackTC, deckCoverForAddAC, isPrivateNewPackAC, setOpenModalNewPackAC, textNewPackAC } from '../PackList/PackList-reducer'
 import styles from '../../common/ModalFields/ModalFields.module.scss'
 import { ModalFields } from '../../common/ModalFields/ModalFields'
 
 export const AddNewPack = () => {
-  const { textNewPack, isPrivateNewPack, isOpenModalNewPack } = useAppSelector(state => state.packList)
+  const { textNewPack, isPrivateNewPack, isOpenModalNewPack, deckCoverForAdd } = useAppSelector(state => state.packList)
   const dispatch = useAppDispatch()
 
   const closeModalNewPack = () => {
-    textNewPack && dispatch(addPackTC({ cardsPack: { name: textNewPack, private: isPrivateNewPack } }))
+    textNewPack &&
+      dispatch(
+        addPackTC({
+          cardsPack: {
+            name: textNewPack,
+            private: isPrivateNewPack,
+            deckCover: deckCoverForAdd ? deckCoverForAdd : '',
+          },
+        })
+      )
     dispatch(setOpenModalNewPackAC(false))
   }
 
@@ -25,21 +34,31 @@ export const AddNewPack = () => {
   }
 
   const onSaveHandler = () => {
-    dispatch(addPackTC({ cardsPack: { name: textNewPack, private: isPrivateNewPack } }))
+    dispatch(
+      addPackTC({
+        cardsPack: {
+          name: textNewPack,
+          private: isPrivateNewPack,
+          deckCover: deckCoverForAdd ? deckCoverForAdd : '',
+        },
+      })
+    )
     dispatch(setOpenModalNewPackAC(false))
   }
 
   const onCancelHandler = () => {
     dispatch(textNewPackAC(''))
+    dispatch(deckCoverForAddAC(''))
     dispatch(setOpenModalNewPackAC(false))
   }
 
   return (
     <ModalFields open={isOpenModalNewPack} callback={closeModalNewPack}>
       <div className={styles.modal}>
-        <HeaderModal titleModal={'Add new pack'} />
+        <HeaderModal titleModal={'Add new pack'} callback={onCancelHandler} />
         <AddOrEditPack
           newPackName={textNewPack}
+          deckCoverForAdd={deckCoverForAdd}
           onChange={onChangeHandler}
           isPrivate={isPrivateNewPack}
           onChangePrivate={onPrivateHandler}

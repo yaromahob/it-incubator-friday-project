@@ -2,19 +2,38 @@
 @import "./src/styles/variables";
 
 
-
-.inputsField{
+.inputsField {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 30px;
   margin-bottom: 35px;
+
+  .uploadCover {
+    position: absolute;
+    top: -35px;
+    right: -5px;
+    z-index: 1;
+  }
+
+  .cover {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+    img {
+      height: 200px;
+      margin: 10px auto;
+    }
+  }
+
 
   .inputF {
     position: relative;
     @include entryFieldTitle();
     color: #c1c1c1;
 
-    &:after{
+    &:after {
       @include lineAfterBlock();
     }
 
@@ -26,10 +45,11 @@
     }
   }
 
-  .checkboxF{
+  .checkboxF {
     display: flex;
     align-items: center;
     width: 130px;
+
     input {
       border: 1px solid $mainColor;
     }

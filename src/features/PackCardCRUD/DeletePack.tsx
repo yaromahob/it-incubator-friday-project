@@ -29,7 +29,7 @@ export const DeletePack: React.FC<DeletePackType> = ({ nameItem }) => {
   return (
     <ModalFields open={isOpenModalDeletePack} callback={closeModalDeletePack}>
       <div className={styles.modal}>
-        <HeaderModal titleModal={'Delete Pack'} />
+        <HeaderModal titleModal={'Delete Pack'} callback={cancelActionHandler} />
         <DeletePackOrCard nameItem={nameItem} />
         <SaveAndCancelField type={'Delete'} onAction={deleteActionHandler} cancelAction={cancelActionHandler} />
       </div>

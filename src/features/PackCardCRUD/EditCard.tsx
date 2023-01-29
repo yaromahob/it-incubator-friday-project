@@ -40,7 +40,7 @@ export const EditCard = () => {
   return (
     <ModalFields open={openEditCardModal} callback={cancelHandler}>
       <div className={styles.modal}>
-        <HeaderModal titleModal={'Edit card'} />
+        <HeaderModal titleModal={'Edit card'} callback={cancelHandler} />
         <EditOrAddCard questionCallback={questionHandler} answerCallback={answerHandler} question={question} answer={answer} />
         <SaveAndCancelField type={'Save'} onAction={saveHandler} cancelAction={cancelHandler} />
       </div>

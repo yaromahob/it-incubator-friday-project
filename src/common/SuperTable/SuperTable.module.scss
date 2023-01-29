@@ -4,6 +4,15 @@
 .table {
   margin-bottom: 20px;
 
+  span {
+    opacity: 0.5;
+  }
+
+  a {
+    text-decoration: none;
+    color: #0D0C0B;
+  }
+
   table {
     thead {
 
@@ -18,7 +27,7 @@
           cursor: pointer;
 
           &:first-child {
-            width: 250px;
+            width: 60px;
           }
 
           &:nth-child(2) {
@@ -79,5 +88,11 @@
       }
     }
 
+  }
+}
+
+.cardCover {
+  img {
+    width: 50px;
   }
 }

@@ -9,6 +9,7 @@ import { SuperTable } from '../../common/SuperTable/SuperTable'
 import { ActionButtonsContainer } from '../../common/ActionButtonsContainer/ActionButtonsContainer'
 import {
   clearFilterTC,
+  deckCoverForAddAC,
   idEditPackAC,
   searchTextAC,
   setOpenModalDeletePackAC,
@@ -28,6 +29,7 @@ import { PATH } from '../../root'
 import { AddNewPack } from '../PackCardCRUD/AddNewPack'
 import { DeletePack } from '../PackCardCRUD/DeletePack'
 import { EmptyPack } from './EmptyPack/EmptyPack'
+import noImage from '../../assets/svg/no_image_available.svg'
 
 const ASC = '0'
 const DESC = '1'
@@ -35,6 +37,13 @@ const DESC = '1'
 export const PackList = () => {
   const profileID = useAppSelector(state => state.profile._id)
   const columns = [
+    {
+      key: 'cover',
+      name: 'Cover',
+      deckCover: (card: PackType) => {
+        return <img src={card.deckCover ? card.deckCover : noImage} alt="card cover" />
+      },
+    },
     {
       key: 'name',
       name: 'Name',
@@ -63,6 +72,7 @@ export const PackList = () => {
             id={card._id}
             userId={card.user_id}
             packName={card.name}
+            deckCover={card.deckCover}
             educationsAction={() => {}}
             editAction={editPack}
             deleteAction={deletePack}
@@ -74,7 +84,7 @@ export const PackList = () => {
 
   const dispatch = useAppDispatch()
   const isAuth = useAppSelector(state => state.app.isAuth)
-  const { page, pageCount, cardPacksTotalCount, cardPacks, isDisabled, sortBy, textNewPack, userId } = useAppSelector(
+  const { page, pageCount, cardPacksTotalCount, cardPacks, isDisabled, sortBy, textNewPack, userId, deckCoverForAdd } = useAppSelector(
     state => state.packList
   )
 
@@ -101,6 +111,7 @@ export const PackList = () => {
 
   const addPack = () => {
     dispatch(textNewPackAC(''))
+    dispatch(deckCoverForAddAC(''))
     dispatch(setOpenModalNewPackAC(true))
   }
 
@@ -110,8 +121,9 @@ export const PackList = () => {
     dispatch(idEditPackAC(id))
   }
 
-  const editPack = (id: string, packName: string) => {
+  const editPack = (id: string, packName: string, _: string | undefined, deckCover: string | undefined) => {
     dispatch(textNewPackAC(packName))
+    deckCover && dispatch(deckCoverForAddAC(deckCover))
     dispatch(idEditPackAC(id))
     dispatch(setOpenModalEditPackAC(true))
   }
