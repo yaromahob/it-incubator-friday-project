@@ -2,6 +2,7 @@ import { AppActionType, AppRootStateType, AppThunk } from '../../App/store'
 import { AddCardsPack, PackType, packsAPI, ParamsListPacksType, ResponseTypePacksList, UpdatePackType } from '../../api/api-packsList'
 import { addPackType } from '../PackList/PackList-reducer'
 import { AddCardType, cardsAPI, CardType, LearnCardType, ParamsCardsListType } from '../../api/api-cardsList'
+import dayjs from 'dayjs'
 
 export type InitialStateType = {
   cards: CardType[]
@@ -30,8 +31,16 @@ export const initialState: InitialStateType = {
 export const CardListReducer = (state: InitialStateType = initialState, action: AppActionType): InitialStateType => {
   switch (action.type) {
     case 'CARD/SET-CARDS':
-      return { ...state, cards: action.cards }
-
+      return {
+        ...state,
+        cards: action.cards.map(card => {
+          return {
+            ...card,
+            created: dayjs(card.created).format('DD.MM.YYYY HH:mm:ss'),
+            updated: dayjs(card.updated).format('DD.MM.YYYY HH:mm:ss'),
+          }
+        }),
+      }
     case 'CARD/ADD-CARDS':
       return { ...state, cards: [...state.cards!, action.newCard] }
     case 'CARD/DELETE-CARDS':
@@ -64,7 +73,12 @@ export const CardListReducer = (state: InitialStateType = initialState, action: 
 export const setCardsAC = (cards: CardType[]) => ({ type: 'CARD/SET-CARDS', cards } as const)
 export const addCardsAC = (newCard: CardType) => ({ type: 'CARD/ADD-CARDS', newCard } as const)
 export const deleteCardsAC = (id: string) => ({ type: 'CARD/DELETE-CARDS', id } as const)
-export const updateCardsAC = (updatedCard: CardType, id: string) => ({ type: 'CARD/UPDATE-CARDS', updatedCard, id } as const)
+export const updateCardsAC = (updatedCard: CardType, id: string) =>
+  ({
+    type: 'CARD/UPDATE-CARDS',
+    updatedCard,
+    id,
+  } as const)
 export const setIsLoggedInCardsAC = (value: boolean) => ({ type: 'CARD/SET-IS-LOGGED-IN-CARDS', value } as const)
 export const gradeCardUpdateAC = (grade: number, id: string) => ({ type: 'CARD/GRADE-UPDATE', grade, id } as const)
 export const openNewCardModalAC = (value: boolean) => ({ type: 'CARD/OPEN-MODAL-ADD-NEW-CARD', value } as const)

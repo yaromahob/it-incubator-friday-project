@@ -1,5 +1,6 @@
 import { AppThunk } from '../../App/store'
 import { AddCardsPack, packsAPI, PackType, ParamsListPacksType, ResponseTypePacksList, UpdatePackType } from '../../api/api-packsList'
+import dayjs from 'dayjs'
 
 export type InitialStateType = {
   cardPacks: PackType[]
@@ -42,7 +43,14 @@ export const initialState: InitialStateType = {
 export const PackListReducer = (state: InitialStateType = initialState, action: PacksActionType): InitialStateType => {
   switch (action.type) {
     case 'PACKS/SET-PACKS':
-      return { ...state, ...action.data }
+      const changeTimeFormat = action.data.cardPacks.map(pack => {
+        return {
+          ...pack,
+          created: dayjs(pack.created).format('DD.MM.YYYY HH:mm:ss'),
+          updated: dayjs(pack.updated).format('DD.MM.YYYY HH:mm:ss'),
+        }
+      })
+      return { ...state, ...action.data, cardPacks: changeTimeFormat }
     case 'PACKS/ADD-PACKS':
       return { ...state, cardPacks: [...state.cardPacks, action.newCardsPack] }
     case 'PACKS/DELETE-PACKS':

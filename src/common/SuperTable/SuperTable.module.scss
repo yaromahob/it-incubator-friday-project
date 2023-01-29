@@ -1,41 +1,83 @@
 @import "./src/styles/mixins";
 
-thead {
 
-  background-color: #EFEFEF;
+.table {
+  margin-bottom: 20px;
 
-  tr {
+  table {
+    thead {
 
-    th {
-      display: flex;
-      position: relative;
-      padding-left: 36px;
-      @include minorTitle();
-      cursor: pointer;
+      background-color: #EFEFEF;
+
+      tr {
 
 
-      img {
-        position: absolute;
-        margin-left: 10px;
-        width: 15px;
-        top: 40%;
-      }
+        th {
+          position: relative;
+          @include minorTitle();
+          cursor: pointer;
 
-      &:last-child {
-        img {
-          display: none;
+          &:first-child {
+            width: 250px;
+          }
+
+          &:nth-child(2) {
+            width: 200px;
+          }
+
+          &:last-child {
+            width: 100px;
+          }
+
+          img {
+            position: absolute;
+            margin-left: 10px;
+            width: 15px;
+            top: 40%;
+          }
+
+          &:last-child {
+            img {
+              display: none;
+            }
+          }
         }
+
+
       }
+    }
+
+    .disabled {
+      pointer-events: none;
+      opacity: .5;
     }
 
 
   }
+
+
+  tbody {
+
+    tr {
+      th {
+        span, a {
+          display: inline-block;
+          width: 250px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+
+        &:last-child {
+          span, a {
+            display: flex;
+            align-items: center;
+            width: 100px;
+          }
+        }
+      }
+    }
+
+  }
 }
- .disabled {
-     pointer-events: none;
-     opacity: .5;
-   }
-
-
-
-
