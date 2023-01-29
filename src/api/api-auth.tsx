@@ -20,9 +20,35 @@ export const apiAuth = {
   },
 }
 export const updateUserApi = {
-  updateUsersData(name: string, avatar?: string) {
-    return instance.put('auth/me', { name, avatar })
+  updateUsersData(data: UpdateUserType) {
+    return instance.put<ResponseUpdateUserDataType>('auth/me', data)
   },
+}
+export type UpdateUserType = {
+  name?: string
+  avatar?: string
+}
+
+export interface UpdatedUser {
+  _id: string
+  email: string
+  rememberMe: boolean
+  isAdmin: boolean
+  name: string
+  verified: boolean
+  publicCardPacksCount: number
+  created: string
+  updated: string
+  __v: number
+  token: string
+  tokenDeathTime: number
+  avatar: string
+}
+
+export interface ResponseUpdateUserDataType {
+  updatedUser: UpdatedUser
+  token: string
+  tokenDeathTime: number
 }
 
 type ResponseType = {

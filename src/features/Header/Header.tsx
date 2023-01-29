@@ -3,8 +3,8 @@ import logo from '../../assets/svg/logo.svg'
 import SuperButton from '../../common/SuperButton/SuperButton'
 import styles from './Header.module.scss'
 import { useAppSelector } from '../../App/store'
-import defaultPhoto from '../../assets/png/Lesson 1/images.jpeg'
-import { Navigate, NavLink } from 'react-router-dom'
+import defaultPhoto from '../../assets/png/Lesson 1/default-avatar-profile.jpg'
+import { NavLink } from 'react-router-dom'
 import { PATH } from '../../root'
 
 export const Header = () => {

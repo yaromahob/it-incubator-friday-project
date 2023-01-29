@@ -49,6 +49,7 @@ export const setAuthApiTC = () => async (dispatch: AppDispatch) => {
   try {
     const res = await apiAuth.me()
     const { _id, email, name, token, avatar, ...rest } = res.data
+
     dispatch(setProfileAC(_id, email, name, token, avatar))
     dispatch(headerSetNameAC(name))
     dispatch(setAuthApi(true))

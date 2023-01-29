@@ -123,7 +123,6 @@ export const setPackTC =
   dispatch => {
     dispatch(disableButtonAC(true))
     packsAPI.setPacks(data).then(res => {
-      console.log(res)
       dispatch(setPacksAC(res.data))
       dispatch(searchTextAC(''))
       dispatch(disableButtonAC(false))
@@ -133,14 +132,14 @@ export const addPackTC =
   (data: AddCardsPack): AppThunk =>
   dispatch => {
     packsAPI.addPack(data).then(res => {
-      dispatch(addPackAC(res.data.newCardsPack))
+      dispatch(addPackAC(res.data.data))
     })
   }
 export const deletePackTC =
   (id: string): AppThunk =>
   dispatch => {
     packsAPI.deletePack(id).then(res => {
-      dispatch(deletePackAC(res.data.deletedCardsPack._id))
+      dispatch(deletePackAC(res.data.data._id))
     })
   }
 
@@ -148,7 +147,7 @@ export const updatePackTC =
   (data: UpdatePackType): AppThunk =>
   dispatch => {
     packsAPI.createPack(data).then(res => {
-      dispatch(updatePackAC(res.data.updatedCardsPack))
+      dispatch(updatePackAC(res.data.data))
     })
   }
 

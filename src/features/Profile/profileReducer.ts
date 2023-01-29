@@ -1,5 +1,5 @@
 import { AppThunk } from '../../App/store'
-import { updateUserApi } from '../../api/api-auth'
+import { updateUserApi, UpdateUserType } from '../../api/api-auth'
 
 import { setAppError } from '../../App/app-reducer'
 import { headerSetNameAC } from '../Header/headerReducer'
@@ -59,14 +59,15 @@ export const changeUsersNameAC = (name: string) =>
   } as const)
 
 export const updateUsersDataTC =
-  (name: string, avatar?: string): AppThunk =>
+  (data: UpdateUserType): AppThunk =>
   dispatch => {
     updateUserApi
-      .updateUsersData(name, avatar)
+      .updateUsersData(data)
       .then(res => {
-        const { name, avatar, ...rest } = res.data.updatedUser
-        dispatch(updateUsersDataAC(name, avatar))
-        dispatch(headerSetNameAC(name))
+        console.log(res)
+        //const { name, avatar } = res.data.updatedUser
+        dispatch(updateUsersDataAC(res.data.updatedUser.name, res.data.updatedUser.avatar))
+        dispatch(headerSetNameAC(res.data.updatedUser.name))
       })
       .catch(e => {
         const error = e.response ? e.response.data.error : e.message + ', more details in the console'
