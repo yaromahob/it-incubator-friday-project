@@ -5,11 +5,18 @@ import { EditOrAddCard } from '../../common/ModalFields/EditOrAddCard/EditOrAddC
 import styles from '../../common/ModalFields/ModalFields.module.scss'
 import { SaveAndCancelField } from '../../common/ModalFields/SaveAndCancelField/SaveAndCancelField'
 import { useAppDispatch, useAppSelector } from '../../App/store'
-import { addCardTC, setAnswerValueAC, openNewCardModalAC, setQuestionValueAC } from '../CardList/Card-reducer'
+import {
+  addCardTC,
+  setAnswerValueAC,
+  openNewCardModalAC,
+  setQuestionValueAC,
+  addCardQuestionImgAC,
+  addCardAnswerImgAC,
+} from '../CardList/Card-reducer'
 
 export const AddNewCard: React.FC<AddNewCardType> = ({ packId }) => {
   const dispatch = useAppDispatch()
-  const { question, answer, openAddNewCardModal } = useAppSelector(state => state.cardList)
+  const { question, answer, openAddNewCardModal, addCardQuestionImg, addCardAnswerImg } = useAppSelector(state => state.cardList)
 
   const questionHandler = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(setQuestionValueAC(e.target.value))
@@ -20,23 +27,50 @@ export const AddNewCard: React.FC<AddNewCardType> = ({ packId }) => {
   }
 
   const saveHandler = () => {
-    dispatch(addCardTC({ card: { cardsPack_id: packId, question: question, answer: answer } }))
+    dispatch(
+      addCardTC({
+        card: {
+          cardsPack_id: packId,
+          question: question,
+          answer: answer,
+          questionImg: addCardQuestionImg,
+          answerImg: addCardAnswerImg,
+        },
+      })
+    )
     dispatch(openNewCardModalAC(false))
     dispatch(setQuestionValueAC(''))
     dispatch(setAnswerValueAC(''))
+    dispatch(addCardQuestionImgAC(''))
+    dispatch(addCardAnswerImgAC(''))
   }
 
   const cancelHandler = () => {
     dispatch(openNewCardModalAC(false))
     dispatch(setQuestionValueAC(''))
     dispatch(setAnswerValueAC(''))
+    dispatch(addCardQuestionImgAC(''))
+    dispatch(addCardAnswerImgAC(''))
   }
 
   const closeAddModalHandler = () => {
-    question && dispatch(addCardTC({ card: { cardsPack_id: packId!, question: question, answer: answer } }))
+    question &&
+      dispatch(
+        addCardTC({
+          card: {
+            cardsPack_id: packId!,
+            question: question,
+            answer: answer,
+            questionImg: addCardQuestionImg,
+            answerImg: addCardAnswerImg,
+          },
+        })
+      )
     dispatch(openNewCardModalAC(false))
     dispatch(setQuestionValueAC(''))
     dispatch(setAnswerValueAC(''))
+    dispatch(addCardQuestionImgAC(''))
+    dispatch(addCardAnswerImgAC(''))
   }
 
   return (

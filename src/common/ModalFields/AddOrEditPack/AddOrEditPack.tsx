@@ -4,14 +4,20 @@ import SuperCheckbox from '../../SuperCheckbox/SuperCheckbox'
 import SuperDebouncedInput from '../../SuperDebouncedInput/SuperDebouncedInput'
 import noImage from '../../../assets/svg/no_image_available.svg'
 import { InputUploadCover } from '../../UploadCover/UploadCover'
+import { useAppDispatch } from '../../../App/store'
+import { addPackTC } from '../../../features/PackList/PackList-reducer'
 
-export const AddOrEditPack: React.FC<AddOrEditPack> = ({ newPackName, onChange, onChangePrivate, deckCoverForAdd }) => {
+export const AddOrEditPack: React.FC<AddOrEditPack> = ({ newPackName, onChange, isPrivate, onChangePrivate, deckCoverForAdd }) => {
+  const dispatch = useAppDispatch()
+  const addPackUploadCover = (v: string) => {
+    dispatch(addPackTC({ cardsPack: { deckCover: v, name: newPackName, private: isPrivate } }))
+  }
   return (
     <>
       <div className={styles.inputsField}>
         <label className={styles.uploadCover} title={'use an image with a maximum height of 170px'}>
           Upload cover
-          <InputUploadCover />
+          <InputUploadCover callback={addPackUploadCover} />
         </label>
         {deckCoverForAdd && (
           <label className={styles.cover}>

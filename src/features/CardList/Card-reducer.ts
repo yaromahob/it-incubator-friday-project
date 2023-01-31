@@ -13,6 +13,8 @@ export type InitialStateType = {
   questionFormat: 'Text' | 'Video'
   question: string
   answer: string
+  addCardQuestionImg: string
+  addCardAnswerImg: string
 }
 
 export const initialState: InitialStateType = {
@@ -25,6 +27,8 @@ export const initialState: InitialStateType = {
   openAddNewCardModal: false,
   openEditCardModal: false,
   openDeleteCardModal: false,
+  addCardQuestionImg: '',
+  addCardAnswerImg: '',
 }
 
 export const CardListReducer = (state: InitialStateType = initialState, action: AppActionType): InitialStateType => {
@@ -64,6 +68,10 @@ export const CardListReducer = (state: InitialStateType = initialState, action: 
       return { ...state, openDeleteCardModal: action.value }
     case 'CARD/SET-ID-EDIT-CARD':
       return { ...state, idEditCard: action.id }
+    case 'ADD-CARD-QUESTION-IMG':
+      return { ...state, addCardQuestionImg: action.value }
+    case 'ADD-CARD-ANSWER-IMG':
+      return { ...state, addCardAnswerImg: action.value }
     default:
       return state
   }
@@ -87,7 +95,8 @@ export const setQuestionValueAC = (text: string) => ({ type: 'CARD/QUESTION-UPDA
 export const setAnswerValueAC = (text: string) => ({ type: 'CARD/ANSWER-UPDATE-TEXT', text } as const)
 export const setIdEditCardAC = (id: string) => ({ type: 'CARD/SET-ID-EDIT-CARD', id } as const)
 export const setFormatQuestionAC = (value: 'Text' | 'Video') => ({ type: 'CARD/QUESTION-FORMAT', value } as const)
-
+export const addCardQuestionImgAC = (value: string) => ({ type: 'ADD-CARD-QUESTION-IMG', value } as const)
+export const addCardAnswerImgAC = (value: string) => ({ type: 'ADD-CARD-ANSWER-IMG', value } as const)
 // thunk
 export const setCardTC =
   (data: ParamsCardsListType): AppThunk =>
@@ -160,3 +169,5 @@ export type CardsActionType =
   | ReturnType<typeof setFormatQuestionAC>
   | ReturnType<typeof setIdEditCardAC>
   | ReturnType<typeof openEditCardModalAC>
+  | ReturnType<typeof addCardQuestionImgAC>
+  | ReturnType<typeof addCardAnswerImgAC>

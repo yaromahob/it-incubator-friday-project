@@ -4,7 +4,10 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import { deckCoverForAddAC } from '../../features/PackList/PackList-reducer'
 import { useAppDispatch } from '../../App/store'
 
-export const InputUploadCover = () => {
+type InputUploadCoverType = {
+  callback: (value: string) => void
+}
+export const InputUploadCover: React.FC<InputUploadCoverType> = ({ callback }) => {
   const dispatch = useAppDispatch()
   const uploadHandler = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length) {
@@ -14,7 +17,7 @@ export const InputUploadCover = () => {
       if (file.size < 4000000) {
         convertFileToBase64(file, (file64: string) => {
           // console.log('file64: ', file64)
-          dispatch(deckCoverForAddAC(file64))
+          callback(file64)
         })
       } else {
         console.error('Error: ', 'Файл слишком большого размера')
