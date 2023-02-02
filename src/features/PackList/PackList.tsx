@@ -16,7 +16,6 @@ import {
   setOpenModalEditPackAC,
   setOpenModalNewPackAC,
   setPackTC,
-  sortByDateAC,
   textNewPackAC,
 } from './PackList-reducer'
 import { PackType } from '../../api/api-packsList'
@@ -30,6 +29,7 @@ import { AddNewPack } from '../PackCardCRUD/AddNewPack'
 import { DeletePack } from '../PackCardCRUD/DeletePack'
 import { EmptyPack } from './EmptyPack/EmptyPack'
 import noImage from '../../assets/svg/no_image_available.svg'
+import { sortByDateAC } from '../../App/app-reducer'
 
 const ASC = '0'
 const DESC = '1'
@@ -83,10 +83,8 @@ export const PackList = () => {
   ]
 
   const dispatch = useAppDispatch()
-  const isAuth = useAppSelector(state => state.app.isAuth)
-  const { page, pageCount, cardPacksTotalCount, cardPacks, isDisabled, sortBy, textNewPack, userId } = useAppSelector(
-    state => state.packList
-  )
+  const { isAuth, sortBy } = useAppSelector(state => state.app)
+  const { page, pageCount, cardPacksTotalCount, cardPacks, isDisabled, textNewPack, userId } = useAppSelector(state => state.packList)
 
   const showCurrentPage = (currentPage: number, itemsCount: number) => {
     userId && dispatch(setPackTC({ user_id: userId, page: currentPage, pageCount: itemsCount }))
@@ -97,7 +95,7 @@ export const PackList = () => {
     dispatch(clearFilterTC())
   }
 
-  const onClickHandler = (value: string | null) => {
+  const onClickHandler = (value: string) => {
     if (sortBy === DESC) {
       dispatch(setPackTC({ sortPacks: `0${value}` }))
       dispatch(sortByDateAC(ASC))

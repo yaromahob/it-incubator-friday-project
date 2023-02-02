@@ -107,6 +107,7 @@ export const setCardTC =
       }
     })
   }
+
 export const addCardTC =
   (data: AddCardType): AppThunk =>
   dispatch => {
@@ -114,6 +115,7 @@ export const addCardTC =
       dispatch(addCardsAC(res.data.newCard))
     })
   }
+
 export const deleteCardTC =
   (id?: string): AppThunk =>
   dispatch => {

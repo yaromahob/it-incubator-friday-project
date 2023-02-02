@@ -82,7 +82,7 @@ type DataType = {
 type SuperTableType = {
   columns: Array<DataType>
   data: PackType[] | CardType[]
-  onClick: (value: string | null) => void
+  onClick: (value: string) => void
   sortField?: string | null
   sortBy: string | null
   disabled: boolean

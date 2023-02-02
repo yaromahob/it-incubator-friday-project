@@ -6,16 +6,23 @@ import styles from './Cards.module.scss'
 import searchIcon from '../../assets/svg/search.svg'
 import SuperDebouncedInput from '../../common/SuperDebouncedInput/SuperDebouncedInput'
 import { Grade } from '../../common/Grade/Grade'
-import { setPackTC } from '../PackList/PackList-reducer'
 import { BackToPackList } from '../BackToPackList/BackToPackList'
 import { FriendOrMyCard } from '../FriendOrMyCard/FriendOrMyCard'
 import { ActionButtonsContainer } from '../../common/ActionButtonsContainer/ActionButtonsContainer'
 import { CardType } from '../../api/api-cardsList'
-import { setAnswerValueAC, setIdEditCardAC, openDeleteCardModalAC, setQuestionValueAC, openEditCardModalAC } from './Card-reducer'
+import {
+  setAnswerValueAC,
+  setIdEditCardAC,
+  openDeleteCardModalAC,
+  setQuestionValueAC,
+  openEditCardModalAC,
+  setCardTC,
+} from './Card-reducer'
 import { AddNewCard } from '../PackCardCRUD/AddNewCard'
 import { useParams } from 'react-router-dom'
 import { DeleteCard } from '../PackCardCRUD/DeleteCard'
 import { EditCard } from '../PackCardCRUD/EditCard'
+import { sortByDateAC } from '../../App/app-reducer'
 
 const ASC = '0'
 const DESC = '1'
@@ -51,23 +58,22 @@ export const Cards = () => {
   ]
 
   const dispatch = useAppDispatch()
+  const { sortBy } = useAppSelector(state => state.app)
   const cardPacks = useAppSelector(state => state.cardList.cards)
   const isDisable = useAppSelector(state => state.packList.isDisabled)
   const cardPackID = cardPacks.find(item => item.user_id === profileID)
   const { question } = useAppSelector(state => state.cardList)
   const { packId } = useParams()
-  const [sortInfo, setSortInfo] = useState<SortInfoType>({
-    sortBy: null,
-  })
 
-  const onClickHandler = () => {
-    if (sortInfo.sortBy === DESC) {
-      dispatch(setPackTC({ sortPacks: '0updated' }))
-      setSortInfo({ sortBy: ASC })
+  const onClickHandler = (value: string | null) => {
+    if (sortBy === DESC) {
+      dispatch(setCardTC({ cardsPack_id: packId!, sortCards: `0${value}` }))
+      dispatch(sortByDateAC(ASC))
     }
-    if (sortInfo.sortBy === ASC) {
-      dispatch(setPackTC({ sortPacks: '1updated' }))
-      setSortInfo({ sortBy: DESC })
+
+    if (sortBy === ASC) {
+      dispatch(setCardTC({ cardsPack_id: packId!, sortCards: `1${value}` }))
+      dispatch(sortByDateAC(DESC))
     }
   }
 
@@ -98,7 +104,7 @@ export const Cards = () => {
             </div>
           </div>
         </div>
-        <SuperTable columns={columns2} data={cardPacks} onClick={onClickHandler} sortBy={sortInfo.sortBy} disabled={isDisable} />
+        <SuperTable columns={columns2} data={cardPacks} onClick={onClickHandler} sortBy={sortBy} disabled={isDisable} />
       </div>
       <AddNewCard packId={packId!} />
       <DeleteCard nameItem={question} />

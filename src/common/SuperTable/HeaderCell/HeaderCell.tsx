@@ -4,24 +4,24 @@ import arrowDown from '../../../assets/svg/down.svg'
 import arrowUp from '../../../assets/svg/up.svg'
 import styles from '../SuperTable.module.scss'
 import { ASC, DESC } from '../SuperTable'
-import { setSortValueAC } from '../../../features/PackList/PackList-reducer'
 import { useAppDispatch, useAppSelector } from '../../../App/store'
+import { setSortValueAC } from '../../../App/app-reducer'
 
 type HeaderCellType = {
   title: string
   sortField?: string | null
   sortBy: string | null
-  onClickHandler: (value: string | null) => void
+  onClickHandler: (value: string) => void
   disabled: boolean
 }
 
 export const HeaderCell: React.FC<HeaderCellType> = ({ title, sortField, onClickHandler, sortBy, disabled }) => {
   const dispatch = useAppDispatch()
-  const activeSortField = useAppSelector(state => state.packList.activeSortField)
-  const DISABLED_FIELDS = ['Grade', 'Actions', 'Cover']
+  const activeSortField = useAppSelector(state => state.app.activeSortField)
+  const DISABLED_SORT_FIELDS = ['Grade', 'Actions', 'Cover']
 
   const onClick = () => {
-    if (!DISABLED_FIELDS.includes(title)) {
+    if (!DISABLED_SORT_FIELDS.includes(title)) {
       sortField && onClickHandler(sortField)
       dispatch(setSortValueAC(title))
     }

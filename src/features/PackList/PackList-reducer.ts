@@ -1,6 +1,7 @@
 import { AppThunk } from '../../App/store'
 import { AddCardsPack, packsAPI, PackType, ParamsListPacksType, ResponseTypePacksList, UpdatePackType } from '../../api/api-packsList'
 import dayjs from 'dayjs'
+import { sortByDateAC } from '../../App/app-reducer'
 
 export type InitialStateType = {
   cardPacks: PackType[]
@@ -11,8 +12,6 @@ export type InitialStateType = {
   maxCardsCount: number
   isDisabled: boolean
   userId: string
-  sortBy: string
-  activeSortField: string | null
   searchedText: string
   textNewPack: string
   deckCoverForAdd: string
@@ -32,8 +31,6 @@ export const initialState: InitialStateType = {
   maxCardsCount: 4,
   isDisabled: false,
   userId: '',
-  sortBy: '1',
-  activeSortField: null,
   searchedText: '',
   textNewPack: '',
   deckCoverForAdd: '',
@@ -103,15 +100,10 @@ export const PackListReducer = (state: InitialStateType = initialState, action: 
       }
     case 'PACKS/SET_USERID':
       return { ...state, userId: action.userId }
-    case 'PACKS/SORT_BY_DATE':
-      return { ...state, sortBy: action.sortBy }
+
     case 'PACKS/SEARCH-BY-TEXT':
       return { ...state, searchedText: action.value }
-    case 'PACKS/SET-SORT-VALUE':
-      return {
-        ...state,
-        activeSortField: action.sortField,
-      }
+
     default:
       return state
   }
@@ -123,7 +115,7 @@ export const deletePackAC = (idPack: string) => ({ type: 'PACKS/DELETE-PACKS', i
 export const disableButtonAC = (isDisabled: boolean) => ({ type: 'PACKS/DISABLE-BUTTON', isDisabled } as const)
 export const updatePackAC = (data: PackType) => ({ type: 'PACKS/UPDATE-PACKS', data } as const)
 export const setUserIdAC = (userId: string) => ({ type: 'PACKS/SET_USERID', userId } as const)
-export const sortByDateAC = (sortBy: string) => ({ type: 'PACKS/SORT_BY_DATE', sortBy } as const)
+
 export const searchTextAC = (value: string) => ({ type: 'PACKS/SEARCH-BY-TEXT', value } as const)
 export const textNewPackAC = (text: string) => ({ type: 'PACKS/SET-TEXT-NEW-PACK', text } as const)
 export const isPrivateNewPackAC = (value: boolean) => ({ type: 'PACKS/SET-IS-PRIVATE-NEW-PACK', value } as const)
@@ -132,7 +124,6 @@ export const setOpenModalEditPackAC = (value: boolean) => ({ type: 'PACKS/SET-OP
 export const setOpenModalDeletePackAC = (value: boolean) => ({ type: 'PACKS/SET-OPEN-MODAL-DELETE-PACK', value } as const)
 export const idEditPackAC = (id: string) => ({ type: 'PACKS/SET-ID-EDIT-PACK', id } as const)
 export const deckCoverForAddAC = (cover: string) => ({ type: 'PACKS/SET-COVER-NEW-PACK', cover } as const)
-export const setSortValueAC = (sortField: string) => ({ type: 'PACKS/SET-SORT-VALUE', sortField } as const)
 
 // thunk
 export const clearFilterTC = (): AppThunk => dispatch => {
@@ -202,4 +193,3 @@ export type PacksActionType =
   | ReturnType<typeof setOpenModalDeletePackAC>
   | ReturnType<typeof idEditPackAC>
   | ReturnType<typeof deckCoverForAddAC>
-  | ReturnType<typeof setSortValueAC>
