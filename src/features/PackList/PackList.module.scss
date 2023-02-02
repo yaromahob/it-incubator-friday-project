@@ -8,6 +8,12 @@
     @include minorTitle();
   }
 
+  .table {
+    span {
+      opacity: 0.5;
+    }
+  }
+
   .folder {
     display: flex;
     justify-content: space-between;
@@ -88,7 +94,8 @@
           color: #fff;
           border: 1px solid $mainColor;
         }
-        .active:disabled{
+
+        .active:disabled {
           opacity: 0.5;
         }
       }

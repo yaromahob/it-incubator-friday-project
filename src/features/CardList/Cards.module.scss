@@ -9,17 +9,28 @@
       div {
         width: 100%;
         max-width: 100%;
+      }
+    }
+  }
 
-        div {
-          //width: 100%;
+  table {
 
-          input {
-            //width: 100%;
+    span {
+      opacity: 1;
+    }
+
+    thead {
+      tr {
+        th {
+          &:first-child {
+            width: 250px;
           }
+
         }
       }
     }
   }
+
 }
 
 .renderWrapper {
@@ -43,3 +54,7 @@
     }
   }
 }
+
+
+
+

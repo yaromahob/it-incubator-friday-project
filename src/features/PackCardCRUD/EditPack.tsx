@@ -41,9 +41,23 @@ export const EditPack = () => {
   }
 
   const closeModalEditPack = () => {
-    textNewPack && dispatch(updatePackTC({ cardsPack: { _id: idEditPack, name: textNewPack, private: isPrivateNewPack } }))
+    textNewPack &&
+      dispatch(
+        updatePackTC({
+          cardsPack: {
+            _id: idEditPack,
+            name: textNewPack,
+            deckCover: deckCoverForAdd,
+            private: isPrivateNewPack,
+          },
+        })
+      )
     dispatch(setOpenModalEditPackAC(false))
     dispatch(deckCoverForAddAC(''))
+  }
+
+  const addCoverHandler = (v: string) => {
+    dispatch(deckCoverForAddAC(v))
   }
 
   return (
@@ -54,6 +68,7 @@ export const EditPack = () => {
           newPackName={textNewPack}
           deckCoverForAdd={deckCoverForAdd}
           onChange={onChangeHandler}
+          coverCallback={addCoverHandler}
           isPrivate={isPrivateNewPack}
           onChangePrivate={onPrivateHandler}
         />

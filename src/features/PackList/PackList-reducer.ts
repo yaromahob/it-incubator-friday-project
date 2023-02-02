@@ -12,6 +12,7 @@ export type InitialStateType = {
   isDisabled: boolean
   userId: string
   sortBy: string
+  activeSortField: string | null
   searchedText: string
   textNewPack: string
   deckCoverForAdd: string
@@ -31,7 +32,8 @@ export const initialState: InitialStateType = {
   maxCardsCount: 4,
   isDisabled: false,
   userId: '',
-  sortBy: '0',
+  sortBy: '1',
+  activeSortField: null,
   searchedText: '',
   textNewPack: '',
   deckCoverForAdd: '',
@@ -105,6 +107,11 @@ export const PackListReducer = (state: InitialStateType = initialState, action: 
       return { ...state, sortBy: action.sortBy }
     case 'PACKS/SEARCH-BY-TEXT':
       return { ...state, searchedText: action.value }
+    case 'PACKS/SET-SORT-VALUE':
+      return {
+        ...state,
+        activeSortField: action.sortField,
+      }
     default:
       return state
   }
@@ -125,6 +132,7 @@ export const setOpenModalEditPackAC = (value: boolean) => ({ type: 'PACKS/SET-OP
 export const setOpenModalDeletePackAC = (value: boolean) => ({ type: 'PACKS/SET-OPEN-MODAL-DELETE-PACK', value } as const)
 export const idEditPackAC = (id: string) => ({ type: 'PACKS/SET-ID-EDIT-PACK', id } as const)
 export const deckCoverForAddAC = (cover: string) => ({ type: 'PACKS/SET-COVER-NEW-PACK', cover } as const)
+export const setSortValueAC = (sortField: string) => ({ type: 'PACKS/SET-SORT-VALUE', sortField } as const)
 
 // thunk
 export const clearFilterTC = (): AppThunk => dispatch => {
@@ -194,3 +202,4 @@ export type PacksActionType =
   | ReturnType<typeof setOpenModalDeletePackAC>
   | ReturnType<typeof idEditPackAC>
   | ReturnType<typeof deckCoverForAddAC>
+  | ReturnType<typeof setSortValueAC>

@@ -22,7 +22,14 @@ export const SuperTable: React.FC<SuperTableType> = ({ columns, data, onClick, s
           <TableRow>
             {columns.map((title, i) => {
               return (
-                <HeaderCell key={`${title.key}-${i}`} sortBy={sortBy} title={title.name} onClickHandler={onClick} disabled={disabled} />
+                <HeaderCell
+                  key={`${title.key}-${i}`}
+                  sortField={title.key}
+                  sortBy={sortBy}
+                  title={title.name}
+                  onClickHandler={onClick}
+                  disabled={disabled}
+                />
               )
             })}
           </TableRow>
@@ -75,7 +82,7 @@ type DataType = {
 type SuperTableType = {
   columns: Array<DataType>
   data: PackType[] | CardType[]
-  onClick: () => void
+  onClick: (value: string | null) => void
   sortField?: string | null
   sortBy: string | null
   disabled: boolean

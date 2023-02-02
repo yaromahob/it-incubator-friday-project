@@ -84,7 +84,7 @@ export const PackList = () => {
 
   const dispatch = useAppDispatch()
   const isAuth = useAppSelector(state => state.app.isAuth)
-  const { page, pageCount, cardPacksTotalCount, cardPacks, isDisabled, sortBy, textNewPack, userId, deckCoverForAdd } = useAppSelector(
+  const { page, pageCount, cardPacksTotalCount, cardPacks, isDisabled, sortBy, textNewPack, userId } = useAppSelector(
     state => state.packList
   )
 
@@ -97,14 +97,14 @@ export const PackList = () => {
     dispatch(clearFilterTC())
   }
 
-  const onClickHandler = () => {
+  const onClickHandler = (value: string | null) => {
     if (sortBy === DESC) {
-      dispatch(setPackTC({ sortPacks: '0updated' }))
+      dispatch(setPackTC({ sortPacks: `0${value}` }))
       dispatch(sortByDateAC(ASC))
     }
 
     if (sortBy === ASC) {
-      dispatch(setPackTC({ sortPacks: '1updated' }))
+      dispatch(setPackTC({ sortPacks: `1${value}` }))
       dispatch(sortByDateAC(DESC))
     }
   }

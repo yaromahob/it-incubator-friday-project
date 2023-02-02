@@ -52,6 +52,10 @@ export const AddNewPack = () => {
     dispatch(setOpenModalNewPackAC(false))
   }
 
+  const addCoverHandler = (value: string) => {
+    dispatch(deckCoverForAddAC(value))
+  }
+
   return (
     <ModalFields open={isOpenModalNewPack} callback={closeModalNewPack}>
       <div className={styles.modal}>
@@ -59,6 +63,7 @@ export const AddNewPack = () => {
         <AddOrEditPack
           newPackName={textNewPack}
           deckCoverForAdd={deckCoverForAdd}
+          coverCallback={addCoverHandler}
           onChange={onChangeHandler}
           isPrivate={isPrivateNewPack}
           onChangePrivate={onPrivateHandler}
