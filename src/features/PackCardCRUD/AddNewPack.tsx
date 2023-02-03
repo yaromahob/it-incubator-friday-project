@@ -1,11 +1,11 @@
 import React, { ChangeEvent } from 'react'
-import { HeaderModal } from '../../common/ModalFields/HeaderModal/HeaderModal'
-import { AddOrEditPack } from '../../common/ModalFields/AddOrEditPack/AddOrEditPack'
-import { SaveAndCancelField } from '../../common/ModalFields/SaveAndCancelField/SaveAndCancelField'
-import { useAppDispatch, useAppSelector } from '../../App/store'
+import { HeaderModal } from 'common/ModalFields/HeaderModal'
+import { AddOrEditPack } from 'common/ModalFields/AddOrEditPack'
+import { SaveAndCancelField } from 'common/ModalFields/SaveAndCancelField'
+import { useAppDispatch, useAppSelector } from 'App/store'
 import { addPackTC, deckCoverForAddAC, isPrivateNewPackAC, setOpenModalNewPackAC, textNewPackAC } from '../PackList/PackList-reducer'
-import styles from '../../common/ModalFields/ModalFields.module.scss'
-import { ModalFields } from '../../common/ModalFields/ModalFields'
+import styles from 'common/ModalFields/ModalFields.module.scss'
+import { ModalFields } from 'common/ModalFields'
 
 export const AddNewPack = () => {
   const { textNewPack, isPrivateNewPack, isOpenModalNewPack, deckCoverForAdd } = useAppSelector(state => state.packList)

@@ -1,13 +1,13 @@
 import React from 'react'
 import styles from '../PackList.module.scss'
-import { useAppDispatch, useAppSelector } from '../../../App/store'
+import { useAppDispatch, useAppSelector } from 'App/store'
 import { setPackTC, setUserIdAC } from '../PackList-reducer'
 
 export const AllCards = () => {
   const dispatch = useAppDispatch()
   const profileId = useAppSelector(state => state.profile._id)
   const isDisable = useAppSelector(state => state.packList.isDisabled)
-  const {minCardsCount, maxCardsCount} = useAppSelector(state => state.packList)
+  const { minCardsCount, maxCardsCount } = useAppSelector(state => state.packList)
   const userId = useAppSelector(state => state.packList.userId)
 
   const allActiveHandler = () => {

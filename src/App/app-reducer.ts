@@ -1,9 +1,9 @@
 import { AppDispatch } from './store'
 import { apiAuth } from '../api/api-auth'
-import { setProfileAC } from '../features/Profile/profileReducer'
-import { setIsLoggedInAC } from '../features/Login/loginReducer'
+import { setProfileAC } from 'features/Profile/profileReducer'
+import { setIsLoggedInAC } from 'features/Login/loginReducer'
 import axios, { AxiosError } from 'axios'
-import { headerSetNameAC } from '../features/Header/headerReducer'
+import { headerSetNameAC } from 'features/Header/headerReducer'
 
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 
@@ -48,7 +48,6 @@ export const appReducer = (state: InitialStateType = initialState, action: AppAc
 }
 
 export const setInitialized = (value: boolean) => ({ type: 'APP/SET-INITIALIZED', value } as const)
-
 export const setAppStatus = (status: RequestStatusType) => ({ type: 'APP/SET-STATUS', status } as const)
 
 export const setAppError = (error: null | string) => ({ type: 'APP/SET-ERROR', error } as const)

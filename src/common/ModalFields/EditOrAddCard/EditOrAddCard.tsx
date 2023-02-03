@@ -1,10 +1,10 @@
 import React, { ChangeEvent, useState } from 'react'
 import styles from './EditOrAddCard.module.scss'
-import SuperSelect from '../../SuperSelect/SuperSelect'
-import SuperInputText from '../../SuperInputText/SuperInputText'
-import { InputUploadCover } from '../../UploadCover/UploadCover'
 import { useAppDispatch } from '../../../App/store'
 import { addCardAnswerImgAC, addCardQuestionImgAC } from '../../../features/CardList/Card-reducer'
+import { SuperSelect } from '../../SuperSelect'
+import { SuperInputText } from '../../SuperInputText'
+import { InputUploadCover } from '../../UploadCover'
 
 const names = [
   { id: 1, value: 'Text' },

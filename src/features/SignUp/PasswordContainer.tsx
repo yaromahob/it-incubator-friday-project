@@ -1,7 +1,7 @@
 import React from 'react'
-import SuperInputText from '../../common/SuperInputText/SuperInputText'
-// import styles from './SignUp.module.scss'
-import showPass from '../../assets/svg/eye.svg'
+import { SuperInputText } from 'common/SuperInputText'
+
+import showPass from 'assets/svg/eye.svg'
 import { FieldInputProps } from 'formik/dist/types'
 import styles from './PasswordContainer.module.scss'
 
@@ -18,11 +18,7 @@ export const PasswordContainer: React.FC<PasswordContainerType> = ({ ...restProp
 
   return (
     <div className={styles.passwordContainer}>
-      <SuperInputText
-        type={visiblePass ? 'text' : 'password'}
-        placeholder={restProps.placeholder}
-        {...restProps}
-      />
+      <SuperInputText type={visiblePass ? 'text' : 'password'} placeholder={restProps.placeholder} {...restProps} />
 
       <div className={visiblePass ? styles.active : styles.showPass} onClick={visiblePassHandler}>
         <img src={showPass} alt="show password" />

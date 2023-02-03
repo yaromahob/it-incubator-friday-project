@@ -1,7 +1,7 @@
-import { AppThunk } from '../../App/store'
-import { AddCardsPack, packsAPI, PackType, ParamsListPacksType, ResponseTypePacksList, UpdatePackType } from '../../api/api-packsList'
+import { AppThunk } from 'App/store'
+import { AddCardsPack, packsAPI, PackType, ParamsListPacksType, ResponseTypePacksList, UpdatePackType } from 'api/api-packsList'
 import dayjs from 'dayjs'
-import { sortByDateAC } from '../../App/app-reducer'
+import { sortByDateAC } from 'App/app-reducer'
 
 export type InitialStateType = {
   cardPacks: PackType[]

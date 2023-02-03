@@ -3,11 +3,9 @@ import educationIcon from '../../assets/svg/educating.svg'
 import editIcon from '../../assets/svg/edit.svg'
 import deleteIcon from '../../assets/svg/delete.svg'
 import styles from './ActionButtonsContainer.module.scss'
-import { UpdatePackType } from '../../api/api-packsList'
 import { useAppDispatch, useAppSelector } from '../../App/store'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { PATH } from '../../root'
-import { deckCoverForAddAC } from '../../features/PackList/PackList-reducer'
 
 export const ActionButtonsContainer: React.FC<ActionButtonsContainerType> = ({
   id,

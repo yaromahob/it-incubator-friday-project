@@ -1,0 +1,1 @@
+export { InputUploadCover } from './UploadCover'

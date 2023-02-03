@@ -1,11 +1,11 @@
 import React from 'react'
 import TableCell from '@mui/material/TableCell'
-import arrowDown from '../../../assets/svg/down.svg'
-import arrowUp from '../../../assets/svg/up.svg'
+import arrowDown from 'assets/svg/down.svg'
+import arrowUp from 'assets/svg/up.svg'
 import styles from '../SuperTable.module.scss'
 import { ASC, DESC } from '../SuperTable'
-import { useAppDispatch, useAppSelector } from '../../../App/store'
-import { setSortValueAC } from '../../../App/app-reducer'
+import { useAppDispatch, useAppSelector } from 'App/store'
+import { setSortValueAC } from 'App/app-reducer'
 
 type HeaderCellType = {
   title: string

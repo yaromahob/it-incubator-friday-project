@@ -2,7 +2,7 @@ import React from 'react'
 
 import Slider, { SliderProps } from '@mui/material/Slider'
 
-const SuperRange: React.FC<SliderProps> = props => {
+export const SuperRange: React.FC<SliderProps> = props => {
   return (
     <Slider
       sx={{
@@ -26,5 +26,3 @@ const SuperRange: React.FC<SliderProps> = props => {
     />
   )
 }
-
-export default SuperRange;

@@ -1,22 +1,23 @@
 import React, { useState } from 'react'
-import { SuperTable } from '../../common/SuperTable/SuperTable'
+import { SuperTable } from 'common/SuperTable'
 import { SortInfoType } from '../PackList/PackList'
-import { useAppDispatch, useAppSelector } from '../../App/store'
+import { useAppDispatch, useAppSelector } from 'App/store'
 import styles from './Cards.module.scss'
-import searchIcon from '../../assets/svg/search.svg'
-import SuperDebouncedInput from '../../common/SuperDebouncedInput/SuperDebouncedInput'
-import { Grade } from '../../common/Grade/Grade'
+import searchIcon from 'assets/svg/search.svg'
+import { SuperDebouncedInput } from 'common/SuperDebouncedInput'
+import { Grade } from 'common/Grade'
+import { setPackTC } from '../PackList/PackList-reducer'
 import { BackToPackList } from '../BackToPackList/BackToPackList'
 import { FriendOrMyCard } from '../FriendOrMyCard/FriendOrMyCard'
-import { ActionButtonsContainer } from '../../common/ActionButtonsContainer/ActionButtonsContainer'
-import { CardType } from '../../api/api-cardsList'
+import { ActionButtonsContainer } from 'common/ActionButtonsContainer'
+import { CardType } from 'api/api-cardsList'
 import {
   setAnswerValueAC,
+  setCardTC,
   setIdEditCardAC,
   openDeleteCardModalAC,
   setQuestionValueAC,
   openEditCardModalAC,
-  setCardTC,
 } from './Card-reducer'
 import { AddNewCard } from '../PackCardCRUD/AddNewCard'
 import { useParams } from 'react-router-dom'

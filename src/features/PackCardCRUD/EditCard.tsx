@@ -1,18 +1,11 @@
 import React, { ChangeEvent } from 'react'
-import { ModalFields } from '../../common/ModalFields/ModalFields'
-import { HeaderModal } from '../../common/ModalFields/HeaderModal/HeaderModal'
-import { EditOrAddCard } from '../../common/ModalFields/EditOrAddCard/EditOrAddCard'
-import styles from '../../common/ModalFields/ModalFields.module.scss'
-import { SaveAndCancelField } from '../../common/ModalFields/SaveAndCancelField/SaveAndCancelField'
-import { useAppDispatch, useAppSelector } from '../../App/store'
-import {
-  addCardTC,
-  openEditCardModalAC,
-  openNewCardModalAC,
-  setAnswerValueAC,
-  setQuestionValueAC,
-  updateCardTC,
-} from '../CardList/Card-reducer'
+import { ModalFields } from 'common/ModalFields'
+import { HeaderModal } from 'common/ModalFields/HeaderModal'
+import { EditOrAddCard } from 'common/ModalFields/EditOrAddCard'
+import styles from 'common/ModalFields/ModalFields.module.scss'
+import { SaveAndCancelField } from 'common/ModalFields/SaveAndCancelField'
+import { useAppDispatch, useAppSelector } from 'App/store'
+import { openEditCardModalAC, setAnswerValueAC, setQuestionValueAC, updateCardTC } from '../CardList/Card-reducer'
 
 export const EditCard = () => {
   const dispatch = useAppDispatch()

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { AppRootStateType, useAppDispatch } from '../../App/store'
+import { AppRootStateType, useAppDispatch } from 'App/store'
 import { useFormik } from 'formik'
 import { newPasswordTC } from '../Login/loginReducer'
 import SuperButton from '../../common/SuperButton/SuperButton'

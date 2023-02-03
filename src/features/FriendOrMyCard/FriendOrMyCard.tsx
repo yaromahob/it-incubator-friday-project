@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import styles from './FriendOrMyCard.module.scss'
-import { ActionButtonsContainer } from '../../common/ActionButtonsContainer/ActionButtonsContainer'
-import { Navigate, NavLink, useParams } from 'react-router-dom'
+import { ActionButtonsContainer } from 'common/ActionButtonsContainer'
+import { Navigate, useParams } from 'react-router-dom'
 import {
-  addCardTC,
   deleteCardTC,
   setAnswerValueAC,
   setCardTC,
@@ -11,8 +10,8 @@ import {
   openNewCardModalAC,
   setQuestionValueAC,
 } from '../CardList/Card-reducer'
-import { useAppDispatch, useAppSelector } from '../../App/store'
-import SuperButton from '../../common/SuperButton/SuperButton'
+import { useAppDispatch, useAppSelector } from 'App/store'
+import { SuperButton } from 'common/SuperButton'
 import { PATH } from '../../root'
 
 export const FriendOrMyCard: React.FC<FriendOrMyCardType> = ({ cardPackID }) => {

@@ -1,13 +1,12 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import styles from './EmptyCard.module.scss'
-import SuperButton from '../../../common/SuperButton/SuperButton'
-
-import { useAppDispatch, useAppSelector } from '../../../App/store'
+import { useAppDispatch, useAppSelector } from 'App/store'
 import { BackToPackList } from '../../BackToPackList/BackToPackList'
 import { openNewCardModalAC, setAnswerValueAC, setQuestionValueAC } from '../../CardList/Card-reducer'
-import { Navigate, NavLink, useParams } from 'react-router-dom'
+import { Navigate, useParams } from 'react-router-dom'
 import { AddNewCard } from '../../PackCardCRUD/AddNewCard'
 import { PATH } from '../../../root'
+import { SuperButton } from 'common/SuperButton'
 
 export const EmptyCard = () => {
   const dispatch = useAppDispatch()

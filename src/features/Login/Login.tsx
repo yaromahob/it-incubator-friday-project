@@ -1,15 +1,15 @@
-import { AppRootStateType, useAppDispatch } from '../../App/store'
+import { AppRootStateType, useAppDispatch } from 'App/store'
 import { useFormik } from 'formik'
 import { Navigate, NavLink } from 'react-router-dom'
 import styles from './Login.module.scss'
-import SuperInputText from '../../common/SuperInputText/SuperInputText'
+import { SuperInputText } from 'common/SuperInputText'
 import { PasswordContainer } from '../SignUp/PasswordContainer'
-import SuperButton from '../../common/SuperButton/SuperButton'
+import { SuperButton } from 'common/SuperButton'
 import React from 'react'
-import { loginTC } from './loginReducer'
 import { useSelector } from 'react-redux'
-import SuperCheckbox from '../../common/SuperCheckbox/SuperCheckbox'
+import { SuperCheckbox } from 'common/SuperCheckbox'
 import { PATH } from '../../root'
+import { loginTC } from './loginReducer'
 
 type FormikErrorType = {
   email?: string
@@ -41,6 +41,7 @@ const Login = () => {
       return errors
     },
     onSubmit: values => {
+      debugger
       dispatch(loginTC(values))
       formik.resetForm() //зачистить поле
     },
