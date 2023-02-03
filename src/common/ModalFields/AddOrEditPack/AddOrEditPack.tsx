@@ -1,11 +1,11 @@
 import React, { ChangeEvent } from 'react'
 import styles from './AddOrEditPack.module.scss'
-import SuperCheckbox from '../../SuperCheckbox/SuperCheckbox'
-import SuperDebouncedInput from '../../SuperDebouncedInput/SuperDebouncedInput'
 import noImage from '../../../assets/svg/no_image_available.svg'
-import { InputUploadCover } from '../../UploadCover/UploadCover'
-import { useAppDispatch } from '../../../App/store'
-import { addPackTC } from '../../../features/PackList/PackList-reducer'
+import { useAppDispatch } from 'App/store'
+import { addPackTC } from 'features/PackList/PackList-reducer'
+import { SuperCheckbox } from '../../SuperCheckbox'
+import { InputUploadCover } from '../../UploadCover'
+import { SuperDebouncedInput } from '../../SuperDebouncedInput'
 
 export const AddOrEditPack: React.FC<AddOrEditPack> = ({ newPackName, onChange, isPrivate, onChangePrivate, deckCoverForAdd }) => {
   const dispatch = useAppDispatch()

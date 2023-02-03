@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react'
-import SuperDebouncedInput from '../../common/SuperDebouncedInput/SuperDebouncedInput'
+import { SuperDebouncedInput } from 'common/SuperDebouncedInput'
 import styles from './PackList.module.scss'
 import clearFilterIcon from '../../assets/svg/clearFilters.svg'
 import searchIcon from '../../assets/svg/search.svg'
 import SuperButton from '../../common/SuperButton/SuperButton'
 import { useAppDispatch, useAppSelector } from '../../App/store'
-import { SuperTable } from '../../common/SuperTable/SuperTable'
-import { ActionButtonsContainer } from '../../common/ActionButtonsContainer/ActionButtonsContainer'
+import { SuperTable } from 'common/SuperTable/SuperTable'
+import { ActionButtonsContainer } from 'common/ActionButtonsContainer'
 import {
   clearFilterTC,
   deckCoverForAddAC,
@@ -22,7 +22,7 @@ import {
 import { PackType } from '../../api/api-packsList'
 import { CardsCount } from './CardsCount/CardsCount'
 import { AllCards } from './AllCards/AllCards'
-import { SuperPagination } from '../../common/SuperPagination/SuperPagination'
+import { SuperPagination } from 'common/SuperPagination'
 import { Navigate, NavLink } from 'react-router-dom'
 import { EditPack } from '../PackCardCRUD/EditPack'
 import { PATH } from '../../root'

@@ -1,8 +1,8 @@
 import React from 'react'
-import { useAppDispatch } from '../../App/store'
+import { useAppDispatch } from 'App/store'
 import { setPackTC } from '../PackList/PackList-reducer'
 import styles from './BackToPackList.module.scss'
-import arrow from '../../assets/svg/profile/arrow.svg'
+import arrow from 'assets/svg/profile/arrow.svg'
 
 export const BackToPackListWithoutRedirect = () => {
   const dispatch = useAppDispatch()

@@ -1,10 +1,10 @@
 import React from 'react'
-import { HeaderModal } from '../../common/ModalFields/HeaderModal/HeaderModal'
-import { ModalFields } from '../../common/ModalFields/ModalFields'
-import { DeletePackOrCard } from '../../common/ModalFields/DeletePackOrCard/DeletePackOrCard'
-import { SaveAndCancelField } from '../../common/ModalFields/SaveAndCancelField/SaveAndCancelField'
-import styles from '../../common/ModalFields/ModalFields.module.scss'
-import { useAppDispatch, useAppSelector } from '../../App/store'
+import { HeaderModal } from 'common/ModalFields/HeaderModal'
+import { ModalFields } from 'common/ModalFields'
+import { DeletePackOrCard } from 'common/ModalFields/DeletePackOrCard'
+import { SaveAndCancelField } from 'common/ModalFields/SaveAndCancelField'
+import styles from 'common/ModalFields/ModalFields.module.scss'
+import { useAppDispatch, useAppSelector } from 'App/store'
 import { deletePackTC, idEditPackAC, setOpenModalDeletePackAC } from '../PackList/PackList-reducer'
 
 export const DeletePack: React.FC<DeletePackType> = ({ nameItem }) => {

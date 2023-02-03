@@ -1,7 +1,7 @@
-import { AppThunk } from '../../App/store'
-import { updateUserApi, UpdateUserType } from '../../api/api-auth'
+import { AppThunk } from 'App/store'
+import { updateUserApi, UpdateUserType } from 'api/api-auth'
 
-import { setAppError } from '../../App/app-reducer'
+import { setAppError } from 'App/app-reducer'
 import { headerSetNameAC } from '../Header/headerReducer'
 
 export type ProfileActionType =

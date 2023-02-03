@@ -1,9 +1,9 @@
 import React from 'react'
-import logo from '../../assets/svg/logo.svg'
-import SuperButton from '../../common/SuperButton/SuperButton'
+import logo from 'assets/svg/logo.svg'
+import { SuperButton } from 'common/SuperButton'
 import styles from './Header.module.scss'
-import { useAppSelector } from '../../App/store'
-import defaultPhoto from '../../assets/png/Lesson 1/default-avatar-profile.jpg'
+import { useAppSelector } from 'App/store'
+import defaultPhoto from 'assets/png/Lesson 1/default-avatar-profile.jpg'
 import { NavLink } from 'react-router-dom'
 import { PATH } from '../../root'
 

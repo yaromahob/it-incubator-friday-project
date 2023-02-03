@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import styles from '../PackList.module.scss'
-import SuperRange from '../../../common/SuperRange/SuperRange'
-import { useAppDispatch, useAppSelector } from '../../../App/store'
-import {  setPackTC } from '../PackList-reducer'
+import { SuperRange } from 'common/SuperRange'
+import { useAppDispatch, useAppSelector } from 'App/store'
+import { setPackTC } from '../PackList-reducer'
 
 export const CardsCount = () => {
   const dispatch = useAppDispatch()
-  const {minCardsCount, maxCardsCount, isDisabled, userId} = useAppSelector(state => state.packList)
+  const { minCardsCount, maxCardsCount, isDisabled, userId } = useAppSelector(state => state.packList)
   const [valueSearchCard, setValueSearchCard] = useState([minCardsCount, maxCardsCount])
   const changeItemOnPageHandler = (event: Event, value: number | number[]) => {
     if (Array.isArray(value)) {
@@ -14,17 +14,14 @@ export const CardsCount = () => {
     }
   }
   useEffect(() => {
-      setValueSearchCard([minCardsCount, maxCardsCount])
+    setValueSearchCard([minCardsCount, maxCardsCount])
   }, [minCardsCount, maxCardsCount])
-  
+
   const changeHandler = () => {
-    if(userId) {
+    if (userId) {
       dispatch(setPackTC({ user_id: userId, min: valueSearchCard[0], max: valueSearchCard[1] }))
     } else dispatch(setPackTC({ min: valueSearchCard[0], max: valueSearchCard[1] }))
-    
-    
-  };
-
+  }
 
   return (
     <div className={styles.cardsView}>

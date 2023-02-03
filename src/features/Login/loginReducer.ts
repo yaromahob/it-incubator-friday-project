@@ -1,8 +1,8 @@
-import { AppActionType, AppThunk } from '../../App/store'
-import { newPasswordType, recoveryPasswordType } from '../../api/api-auth'
-import { setAppStatus, SetErrorType, SetStatusType } from '../../App/app-reducer'
-import { apiAuth, LoginParamsType } from '../../api/api-auth'
-import { setAppError, setAuthApi, setAuthApiTC } from '../../App/app-reducer'
+import { AppThunk } from 'App/store'
+import { newPasswordType, recoveryPasswordType } from 'api/api-auth'
+import { setAppStatus, SetErrorType, SetStatusType } from 'App/app-reducer'
+import { apiAuth, LoginParamsType } from 'api/api-auth'
+import { setAppError, setAuthApi, setAuthApiTC } from 'App/app-reducer'
 import axios, { AxiosError } from 'axios'
 
 const initialState: AuthStateType = {

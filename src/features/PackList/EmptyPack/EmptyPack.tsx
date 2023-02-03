@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './EmptyPack.module.scss'
-import SuperButton from '../../../common/SuperButton/SuperButton'
+import { SuperButton } from 'common/SuperButton'
 import { BackToPackListWithoutRedirect } from '../../BackToPackList/BackToPackListWithoutRedirect'
 
 export const EmptyPack: React.FC<EmptyPackType> = ({ callback }) => {

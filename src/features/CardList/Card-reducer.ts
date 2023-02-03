@@ -1,6 +1,6 @@
-import { AppActionType, AppThunk } from '../../App/store'
+import { AppActionType, AppThunk } from 'App/store'
 
-import { AddCardType, cardsAPI, CardType, LearnCardType, ParamsCardsListType } from '../../api/api-cardsList'
+import { AddCardType, cardsAPI, CardType, LearnCardType, ParamsCardsListType } from 'api/api-cardsList'
 import dayjs from 'dayjs'
 
 export type InitialStateType = {

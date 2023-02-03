@@ -3,17 +3,14 @@ import React, { ChangeEvent, DetailedHTMLProps, InputHTMLAttributes } from 'reac
 import s from './SuperCheckbox.module.css'
 
 // тип пропсов обычного инпута
-type DefaultInputPropsType = DetailedHTMLProps<
-  InputHTMLAttributes<HTMLInputElement>,
-  HTMLInputElement
->
+type DefaultInputPropsType = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
 
 type SuperCheckboxPropsType = Omit<DefaultInputPropsType, 'type'> & {
   onChangeChecked?: (checked: boolean) => void
   spanClassName?: string
 }
 
-const SuperCheckbox: React.FC<SuperCheckboxPropsType> = ({
+export const SuperCheckbox: React.FC<SuperCheckboxPropsType> = ({
   onChange,
   onChangeChecked,
   className,
@@ -47,5 +44,3 @@ const SuperCheckbox: React.FC<SuperCheckboxPropsType> = ({
     </label> // благодаря label нажатие на спан передастся в инпут
   )
 }
-
-export default SuperCheckbox

@@ -1,20 +1,11 @@
 import React, { ChangeEvent } from 'react'
-import { ModalFields } from '../../common/ModalFields/ModalFields'
-import { HeaderModal } from '../../common/ModalFields/HeaderModal/HeaderModal'
-import { EditOrAddCard } from '../../common/ModalFields/EditOrAddCard/EditOrAddCard'
-import { AddOrEditPack } from '../../common/ModalFields/AddOrEditPack/AddOrEditPack'
-import { SaveAndCancelField } from '../../common/ModalFields/SaveAndCancelField/SaveAndCancelField'
-import styles from '../../common/ModalFields/ModalFields.module.scss'
-import { useAppDispatch, useAppSelector } from '../../App/store'
-import {
-  addPackTC,
-  deckCoverForAddAC,
-  isPrivateNewPackAC,
-  setOpenModalEditPackAC,
-  setOpenModalNewPackAC,
-  textNewPackAC,
-  updatePackTC,
-} from '../PackList/PackList-reducer'
+import { ModalFields } from 'common/ModalFields'
+import { HeaderModal } from 'common/ModalFields/HeaderModal'
+import { AddOrEditPack } from 'common/ModalFields/AddOrEditPack'
+import { SaveAndCancelField } from 'common/ModalFields/SaveAndCancelField'
+import styles from 'common/ModalFields/ModalFields.module.scss'
+import { useAppDispatch, useAppSelector } from 'App/store'
+import { deckCoverForAddAC, isPrivateNewPackAC, setOpenModalEditPackAC, textNewPackAC, updatePackTC } from '../PackList/PackList-reducer'
 
 export const EditPack = () => {
   const { textNewPack, isPrivateNewPack, idEditPack, isOpenModalEditPack, deckCoverForAdd } = useAppSelector(state => state.packList)
@@ -41,7 +32,16 @@ export const EditPack = () => {
   }
 
   const closeModalEditPack = () => {
-    textNewPack && dispatch(updatePackTC({ cardsPack: { _id: idEditPack, name: textNewPack, private: isPrivateNewPack } }))
+    textNewPack &&
+      dispatch(
+        updatePackTC({
+          cardsPack: {
+            _id: idEditPack,
+            name: textNewPack,
+            private: isPrivateNewPack,
+          },
+        })
+      )
     dispatch(setOpenModalEditPackAC(false))
     dispatch(deckCoverForAddAC(''))
   }

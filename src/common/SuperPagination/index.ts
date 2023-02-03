@@ -1,0 +1,1 @@
+export { SuperPagination } from './SuperPagination'

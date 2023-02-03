@@ -1,7 +1,8 @@
-import { signUpAPI, SignUpData } from '../../api/signUp-API'
+import { signUpAPI, SignUpData } from 'api/signUp-API'
 import axios from 'axios'
-import { setAppError } from '../../App/app-reducer'
-import {AppDispatch, AppThunk} from "../../App/store";
+import { setAppError } from 'App/app-reducer'
+import { AppThunk } from 'App/store'
+
 const initialState = {
   isSignUp: false as boolean,
 }
@@ -30,7 +31,7 @@ export const signUpAC = (isSignUp: boolean) => {
 
 export const signUpTC =
   (data: SignUpData): AppThunk =>
-  (dispatch) => {
+  dispatch => {
     signUpAPI
       .register(data)
       .then(res => {

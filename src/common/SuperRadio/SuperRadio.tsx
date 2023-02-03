@@ -4,10 +4,7 @@ import { OptionsType } from '../types'
 
 import s from './SuperRadio.module.css'
 
-type DefaultRadioPropsType = DetailedHTMLProps<
-  InputHTMLAttributes<HTMLInputElement>,
-  HTMLInputElement
->
+type DefaultRadioPropsType = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
 // тип пропсов обычного спана
 type DefaultSpanPropsType = DetailedHTMLProps<HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>
 
@@ -18,7 +15,7 @@ type SuperRadioPropsType = Omit<DefaultRadioPropsType, 'type'> & {
   spanProps?: DefaultSpanPropsType // пропсы для спана
 }
 
-const SuperRadio: React.FC<SuperRadioPropsType> = ({
+export const SuperRadio: React.FC<SuperRadioPropsType> = ({
   id,
   name,
   className,
@@ -63,5 +60,3 @@ const SuperRadio: React.FC<SuperRadioPropsType> = ({
 
   return <div className={s.options}>{mappedOptions}</div>
 }
-
-export default SuperRadio
