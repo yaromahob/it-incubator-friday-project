@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
 import styles from './FriendOrMyCard.module.scss'
 import { ActionButtonsContainer } from 'common/ActionButtonsContainer'
 import { Navigate, useParams } from 'react-router-dom'
@@ -15,6 +15,7 @@ import { SuperButton } from 'common/SuperButton'
 import { PATH } from '../../root'
 
 export const FriendOrMyCard: React.FC<FriendOrMyCardType> = ({ cardPackID }) => {
+  const popUpMenu = useRef(null)
   const [showAction, setShowAction] = useState(false)
   const dispatch = useAppDispatch()
   const setIsLoggedInCards = useAppSelector(state => state.cardList.setIsLoggedInCards)
@@ -39,6 +40,11 @@ export const FriendOrMyCard: React.FC<FriendOrMyCardType> = ({ cardPackID }) => 
     // console.log(data)
   }
 
+  const test = (event: MouseEvent) => {
+    if (event.target === popUpMenu.current) setShowAction(true)
+    if (event.target !== popUpMenu.current) setShowAction(false)
+  }
+
   if (setIsLoggedInCards) {
     return <Navigate to={PATH.LEARN} />
   }
@@ -47,6 +53,11 @@ export const FriendOrMyCard: React.FC<FriendOrMyCardType> = ({ cardPackID }) => 
     if (!packId) return
     dispatch(setCardTC({ cardsPack_id: packId }))
   }, [packId])
+
+  useEffect(() => {
+    document.addEventListener('click', test)
+    return () => document.removeEventListener('click', test)
+  }, [])
 
   const learnToPackHandler = () => {
     return <Navigate to={PATH.PACK_LIST} />
@@ -57,14 +68,12 @@ export const FriendOrMyCard: React.FC<FriendOrMyCardType> = ({ cardPackID }) => 
       <div className={styles.myPackWrapper}>
         <div>
           <h2>My Pack</h2>
-          <div className={styles.editMyPack} onClick={() => setShowAction(!showAction)}>
+          <div className={styles.editMyPack} ref={popUpMenu}>
             <div className={styles.spanWrapper}>
               <span></span>
               <span></span>
               <span></span>
             </div>
-            {/* T O D O   T O D O   T O D O*/}
-            {/*ActionButtonsContainer ИД чего нужно? какой юзерИД нужен и прочая информация, может она не обязательна?*/}
             {showAction && (
               <div className={styles.actionButtons}>
                 <ActionButtonsContainer

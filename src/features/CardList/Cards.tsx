@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { SuperTable } from 'common/SuperTable'
 import { SortInfoType } from '../PackList/PackList'
-import { useAppDispatch, useAppSelector } from 'App/store'
+import { AppRootStateType, useAppDispatch, useAppSelector } from 'App/store'
 import styles from './Cards.module.scss'
 import searchIcon from 'assets/svg/search.svg'
 import { SuperDebouncedInput } from 'common/SuperDebouncedInput'
@@ -20,15 +20,18 @@ import {
   openEditCardModalAC,
 } from './Card-reducer'
 import { AddNewCard } from '../PackCardCRUD/AddNewCard'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { DeleteCard } from '../PackCardCRUD/DeleteCard'
 import { EditCard } from '../PackCardCRUD/EditCard'
 import { sortByDateAC } from '../../App/app-reducer'
+import { PATH } from 'root'
 
 const ASC = '0'
 const DESC = '1'
 
 export const Cards = () => {
+  const navigate = useNavigate()
+  const isLoggedIn = useAppSelector(state => state.login.isLoggedIn)
   const profileID = useAppSelector(state => state.profile._id)
   const columns2 = [
     { key: 'question', name: 'Question' },
@@ -38,11 +41,10 @@ export const Cards = () => {
       key: 'grade',
       name: 'Grade',
       render: (card: CardType) => {
-        const cardID = card.user_id
         return (
           <div className={styles.renderWrapper}>
             <Grade id={card._id} />
-            {profileID === cardID && (
+            {profileID === card.user_id && (
               <ActionButtonsContainer
                 id={card._id}
                 userId={card.user_id}
@@ -90,6 +92,8 @@ export const Cards = () => {
     dispatch(setAnswerValueAC(packAnswer!))
     dispatch(setIdEditCardAC(id))
   }
+
+  if (!isLoggedIn) navigate(PATH.LOGIN)
 
   return (
     <div className={styles.listWrapper}>
