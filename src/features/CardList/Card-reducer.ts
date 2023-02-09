@@ -2,6 +2,10 @@ import { AppActionType, AppThunk } from 'App/store'
 
 import { AddCardType, cardsAPI, CardType, LearnCardType, ParamsCardsListType } from 'api/api-cardsList'
 import dayjs from 'dayjs'
+import axios, { AxiosError } from 'axios'
+import { setProfileAC } from '../Profile/profileReducer'
+import { setIsLoggedInAC } from '../Login/loginReducer'
+import { setAuthApi } from '../../App/app-reducer'
 
 export type InitialStateType = {
   cards: CardType[]
@@ -101,11 +105,23 @@ export const addCardAnswerImgAC = (value: string) => ({ type: 'ADD-CARD-ANSWER-I
 export const setCardTC =
   (data: ParamsCardsListType): AppThunk =>
   dispatch => {
-    cardsAPI.setCards(data).then(res => {
-      if (res.data) {
-        dispatch(setCardsAC(res.data.cards))
-      }
-    })
+    cardsAPI
+      .setCards(data)
+      .then(res => {
+        if (res.data) {
+          dispatch(setCardsAC(res.data.cards))
+        }
+      })
+      .catch(e => {
+        const err = e as Error | AxiosError<{ error: string }>
+        console.log(err)
+        if (axios.isAxiosError(err)) {
+          const error = err.response?.data ? err.response.data.error : err.message
+          dispatch(setProfileAC('', '', '', '', ''))
+          dispatch(setAuthApi(false))
+          dispatch(setIsLoggedInAC(false))
+        }
+      })
   }
 
 export const addCardTC =

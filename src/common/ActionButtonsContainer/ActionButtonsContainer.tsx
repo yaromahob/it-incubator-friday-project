@@ -18,7 +18,6 @@ export const ActionButtonsContainer: React.FC<ActionButtonsContainerType> = ({
   editAction,
   deleteAction,
 }) => {
-  const dispatch = useAppDispatch()
   const profileId = useAppSelector(state => state.profile._id)
   const navigate = useNavigate()
   const educationCallback = (e: MouseEvent<HTMLDivElement>) => {
@@ -43,16 +42,16 @@ export const ActionButtonsContainer: React.FC<ActionButtonsContainerType> = ({
         </div>
       )}
       {userId === profileId && editAction && (
-        <div>
-          <button onClick={editCallback}>
+        <div onClick={editCallback}>
+          <button>
             <img src={editIcon} alt="edit icon" />
           </button>
         </div>
       )}
 
       {userId === profileId && deleteAction && (
-        <div>
-          <button onClick={deleteCallback}>
+        <div onClick={deleteCallback}>
+          <button>
             <img src={deleteIcon} alt="delete icon" />
           </button>
         </div>

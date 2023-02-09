@@ -2,6 +2,7 @@ import { AppThunk } from 'App/store'
 import { AddCardsPack, packsAPI, PackType, ParamsListPacksType, ResponseTypePacksList, UpdatePackType } from 'api/api-packsList'
 import dayjs from 'dayjs'
 import { sortByDateAC } from 'App/app-reducer'
+import { Navigate } from 'react-router-dom'
 
 export type InitialStateType = {
   cardPacks: PackType[]

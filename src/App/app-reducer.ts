@@ -69,6 +69,7 @@ export const setAuthApiTC = () => async (dispatch: AppDispatch) => {
     dispatch(setIsLoggedInAC(true))
   } catch (e) {
     const err = e as Error | AxiosError<{ error: string }>
+
     if (axios.isAxiosError(err)) {
       const error = err.response?.data ? err.response.data.error : err.message
       dispatch(setProfileAC('', '', '', '', ''))

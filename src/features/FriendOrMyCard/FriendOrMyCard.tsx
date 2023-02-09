@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
 import styles from './FriendOrMyCard.module.scss'
 import { ActionButtonsContainer } from 'common/ActionButtonsContainer'
-import { Navigate, useParams } from 'react-router-dom'
+import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import {
   deleteCardTC,
   setAnswerValueAC,
@@ -13,12 +13,22 @@ import {
 import { useAppDispatch, useAppSelector } from 'App/store'
 import { SuperButton } from 'common/SuperButton'
 import { PATH } from '../../root'
+import {
+  deckCoverForAddAC,
+  idEditPackAC,
+  setOpenModalDeletePackAC,
+  setOpenModalEditPackAC,
+  textNewPackAC,
+} from '../PackList/PackList-reducer'
+import { EditPack } from '../PackCardCRUD/EditPack'
+import { PackType } from '../../api/api-packsList'
+import { DeletePack } from '../PackCardCRUD/DeletePack'
 
-export const FriendOrMyCard: React.FC<FriendOrMyCardType> = ({ cardPackID }) => {
+export const FriendOrMyCard: React.FC<FriendOrMyCardType> = ({ cardPack }) => {
+  const navigate = useNavigate()
   const popUpMenu = useRef(null)
   const [showAction, setShowAction] = useState(false)
   const dispatch = useAppDispatch()
-  const setIsLoggedInCards = useAppSelector(state => state.cardList.setIsLoggedInCards)
   const userID = useAppSelector(state => state.profile._id)
   const { packOwner, packId } = useParams()
 
@@ -32,21 +42,22 @@ export const FriendOrMyCard: React.FC<FriendOrMyCardType> = ({ cardPackID }) => 
     dispatch(openNewCardModalAC(true))
   }
 
-  const deleteCard = (id: string) => {
-    dispatch(deleteCardTC(id))
+  const deleteCard = () => {
+    // dispatch(setOpenModalDeletePackAC(true))
+    // dispatch(textNewPackAC(cardPack.name))
+    // dispatch(idEditPackAC(cardPack._id))
   }
 
-  const updateCard = (id: string, packName: string) => {
-    // console.log(data)
+  const editPack = () => {
+    dispatch(textNewPackAC(cardPack.name))
+    dispatch(deckCoverForAddAC(cardPack.deckCover))
+    dispatch(idEditPackAC(cardPack._id))
+    dispatch(setOpenModalEditPackAC(true))
   }
 
-  const test = (event: MouseEvent) => {
+  const closePopUp = (event: MouseEvent) => {
     if (event.target === popUpMenu.current) setShowAction(true)
     if (event.target !== popUpMenu.current) setShowAction(false)
-  }
-
-  if (setIsLoggedInCards) {
-    return <Navigate to={PATH.LEARN} />
   }
 
   useEffect(() => {
@@ -55,8 +66,8 @@ export const FriendOrMyCard: React.FC<FriendOrMyCardType> = ({ cardPackID }) => 
   }, [packId])
 
   useEffect(() => {
-    document.addEventListener('click', test)
-    return () => document.removeEventListener('click', test)
+    document.addEventListener('click', closePopUp)
+    return () => document.removeEventListener('click', closePopUp)
   }, [])
 
   const learnToPackHandler = () => {
@@ -67,7 +78,7 @@ export const FriendOrMyCard: React.FC<FriendOrMyCardType> = ({ cardPackID }) => 
     return (
       <div className={styles.myPackWrapper}>
         <div>
-          <h2>My Pack</h2>
+          <h2>{cardPack.name}</h2>
           <div className={styles.editMyPack} ref={popUpMenu}>
             <div className={styles.spanWrapper}>
               <span></span>
@@ -81,7 +92,7 @@ export const FriendOrMyCard: React.FC<FriendOrMyCardType> = ({ cardPackID }) => 
                   userId={userID}
                   cardsCount={5}
                   deleteAction={deleteCard}
-                  editAction={updateCard}
+                  editAction={editPack}
                   educationsAction={educationCardList}
                 />
               </div>
@@ -94,7 +105,7 @@ export const FriendOrMyCard: React.FC<FriendOrMyCardType> = ({ cardPackID }) => 
   } else {
     return (
       <div className={styles.myPackWrapper}>
-        <h2>Friend’s Pack</h2>
+        <h2>{cardPack.name}</h2>
         <SuperButton onClick={learnToPackHandler}>Learn to pack</SuperButton>
       </div>
     )
@@ -102,5 +113,5 @@ export const FriendOrMyCard: React.FC<FriendOrMyCardType> = ({ cardPackID }) => 
 }
 
 type FriendOrMyCardType = {
-  cardPackID?: string
+  cardPack: PackType
 }

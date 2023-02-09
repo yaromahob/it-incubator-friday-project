@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { SuperTable } from 'common/SuperTable'
-import { SortInfoType } from '../PackList/PackList'
-import { AppRootStateType, useAppDispatch, useAppSelector } from 'App/store'
+import { useAppDispatch, useAppSelector } from 'App/store'
 import styles from './Cards.module.scss'
 import searchIcon from 'assets/svg/search.svg'
 import { SuperDebouncedInput } from 'common/SuperDebouncedInput'
 import { Grade } from 'common/Grade'
-import { setPackTC } from '../PackList/PackList-reducer'
 import { BackToPackList } from '../BackToPackList/BackToPackList'
 import { FriendOrMyCard } from '../FriendOrMyCard/FriendOrMyCard'
 import { ActionButtonsContainer } from 'common/ActionButtonsContainer'
@@ -20,19 +18,29 @@ import {
   openEditCardModalAC,
 } from './Card-reducer'
 import { AddNewCard } from '../PackCardCRUD/AddNewCard'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { DeleteCard } from '../PackCardCRUD/DeleteCard'
 import { EditCard } from '../PackCardCRUD/EditCard'
 import { sortByDateAC } from '../../App/app-reducer'
 import { PATH } from 'root'
+import { EditPack } from '../PackCardCRUD/EditPack'
+import { PackType } from '../../api/api-packsList'
+import login from '../Login/Login'
+import { DeletePack } from '../PackCardCRUD/DeletePack'
 
 const ASC = '0'
 const DESC = '1'
 
 export const Cards = () => {
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
-  const isLoggedIn = useAppSelector(state => state.login.isLoggedIn)
+  const { sortBy, isAuth } = useAppSelector(state => state.app)
   const profileID = useAppSelector(state => state.profile._id)
+  const { isDisabled, cardPacks } = useAppSelector(state => state.packList)
+  const { question, cards } = useAppSelector(state => state.cardList)
+  const { packId } = useParams()
+  const activePackList = cardPacks.find(item => item._id === packId)
+
   const columns2 = [
     { key: 'question', name: 'Question' },
     { key: 'answer', name: 'Answer' },
@@ -60,14 +68,6 @@ export const Cards = () => {
     },
   ]
 
-  const dispatch = useAppDispatch()
-  const { sortBy } = useAppSelector(state => state.app)
-  const cardPacks = useAppSelector(state => state.cardList.cards)
-  const isDisable = useAppSelector(state => state.packList.isDisabled)
-  const cardPackID = cardPacks.find(item => item.user_id === profileID)
-  const { question } = useAppSelector(state => state.cardList)
-  const { packId } = useParams()
-
   const onClickHandler = (value: string | null) => {
     if (sortBy === DESC) {
       dispatch(setCardTC({ cardsPack_id: packId!, sortCards: `0${value}` }))
@@ -93,13 +93,19 @@ export const Cards = () => {
     dispatch(setIdEditCardAC(id))
   }
 
-  if (!isLoggedIn) navigate(PATH.LOGIN)
+  if (!activePackList) {
+    return null
+  }
+
+  useEffect(() => {
+    if (!isAuth) navigate(PATH.LOGIN)
+  }, [])
 
   return (
     <div className={styles.listWrapper}>
       <div>
         <BackToPackList />
-        <FriendOrMyCard cardPackID={cardPackID && cardPackID.user_id} />
+        <FriendOrMyCard cardPack={activePackList} />
         <div className={styles.interfaceField}>
           <div className={styles.search}>
             <span>Search</span>
@@ -109,11 +115,13 @@ export const Cards = () => {
             </div>
           </div>
         </div>
-        <SuperTable columns={columns2} data={cardPacks} onClick={onClickHandler} sortBy={sortBy} disabled={isDisable} />
+        <SuperTable columns={columns2} data={cards} onClick={onClickHandler} sortBy={sortBy} disabled={isDisabled} />
       </div>
       <AddNewCard packId={packId!} />
       <DeleteCard nameItem={question} />
       <EditCard />
+      <EditPack />
+      <DeletePack nameItem={activePackList.name} />
     </div>
   )
 }
