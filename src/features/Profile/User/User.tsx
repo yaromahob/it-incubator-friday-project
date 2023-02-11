@@ -55,7 +55,7 @@ export const User = () => {
           <div>
             <span className={error ? style.inputError : ''}>{error ? error : nickName}</span>
             <button onClick={openInput}>
-              <img src={edit} />
+              <img src={edit} alt="photo" />
             </button>
           </div>
         )}

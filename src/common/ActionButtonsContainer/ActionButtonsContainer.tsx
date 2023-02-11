@@ -60,8 +60,6 @@ export const ActionButtonsContainer: React.FC<ActionButtonsContainerType> = ({
   )
 }
 
-// types                data: UpdatePackType
-
 export type ActionButtonsContainerType = {
   id: string
   userId: string

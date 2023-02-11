@@ -6,15 +6,6 @@
 
 }
 
-//.folder{
-//  display: flex;
-//  justify-content: space-between;
-//  align-items: center;
-//
-//
-//}
-
-
 .myPackWrapper {
   display: flex;
   justify-content: space-between;
@@ -22,6 +13,11 @@
 
   h2 {
     @include sectionTitle();
+    display: inline-block;
+    max-width: 300px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   button {
@@ -44,6 +40,7 @@
       border: 1px solid #0D0C0B;
       border-radius: 50%;
       cursor: pointer;
+
 
       .spanWrapper {
         display: flex;
@@ -126,6 +123,17 @@
 
 
       }
+    }
+
+
+  }
+
+  .coverPack {
+    margin-left: 30px;
+
+    img {
+      max-width: 100px;
+      max-height: 70px;
     }
   }
 }

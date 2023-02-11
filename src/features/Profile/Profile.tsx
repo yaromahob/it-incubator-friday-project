@@ -17,14 +17,9 @@ const Profile = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (!isLoggedIn) {
-      navigate(PATH.LOGIN)
-    }
+    if (!isLoggedIn) navigate(PATH.LOGIN)
   })
 
-  if (!isAuth) {
-    return <div className={style.loading}>loading...</div>
-  }
   const logOut = () => {
     dispatch(logoutTC())
   }
@@ -36,7 +31,7 @@ const Profile = () => {
         <span className={style.info}>Personal Information</span>
         <User />
         <SuperButton className={style.button} onClick={logOut}>
-          <img src={logout} />
+          <img src={logout} alt="icon" />
           <span>Log out</span>
         </SuperButton>
       </div>

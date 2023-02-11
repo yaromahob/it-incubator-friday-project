@@ -29,6 +29,7 @@ export const setIsLoggedInAC = (value: boolean) => ({ type: 'login/SET-IS-LOGGED
 export const setIsLoggedInRecoveryPasswordAC = (value: boolean) => ({ type: 'login/SET-VALUE', value } as const)
 export const newPasswordAC = (value: boolean) => ({ type: 'login/NEW-PASSWORD', value } as const)
 //thunk
+
 export const loginTC =
   (data: LoginParamsType): AppThunk =>
   dispatch => {

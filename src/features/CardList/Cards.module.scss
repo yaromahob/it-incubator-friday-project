@@ -26,9 +26,14 @@
             width: 250px;
           }
 
+          &:last-child {
+            width: 20px;
+          }
+
         }
       }
     }
+
   }
 
 }
@@ -36,6 +41,7 @@
 .renderWrapper {
   display: flex;
   align-items: center;
+  width: 75px;
 
   div {
     display: flex;

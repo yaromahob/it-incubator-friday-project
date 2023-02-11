@@ -1,15 +1,8 @@
-import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styles from './FriendOrMyCard.module.scss'
 import { ActionButtonsContainer } from 'common/ActionButtonsContainer'
-import { Navigate, useNavigate, useParams } from 'react-router-dom'
-import {
-  deleteCardTC,
-  setAnswerValueAC,
-  setCardTC,
-  setIsLoggedInCardsAC,
-  openNewCardModalAC,
-  setQuestionValueAC,
-} from '../CardList/Card-reducer'
+import { Navigate, useParams } from 'react-router-dom'
+import { setAnswerValueAC, setCardTC, setIsLoggedInCardsAC, openNewCardModalAC, setQuestionValueAC } from '../CardList/Card-reducer'
 import { useAppDispatch, useAppSelector } from 'App/store'
 import { SuperButton } from 'common/SuperButton'
 import { PATH } from '../../root'
@@ -20,12 +13,9 @@ import {
   setOpenModalEditPackAC,
   textNewPackAC,
 } from '../PackList/PackList-reducer'
-import { EditPack } from '../PackCardCRUD/EditPack'
 import { PackType } from '../../api/api-packsList'
-import { DeletePack } from '../PackCardCRUD/DeletePack'
 
 export const FriendOrMyCard: React.FC<FriendOrMyCardType> = ({ cardPack }) => {
-  const navigate = useNavigate()
   const popUpMenu = useRef(null)
   const [showAction, setShowAction] = useState(false)
   const dispatch = useAppDispatch()
@@ -43,9 +33,9 @@ export const FriendOrMyCard: React.FC<FriendOrMyCardType> = ({ cardPack }) => {
   }
 
   const deleteCard = () => {
-    // dispatch(setOpenModalDeletePackAC(true))
-    // dispatch(textNewPackAC(cardPack.name))
-    // dispatch(idEditPackAC(cardPack._id))
+    dispatch(setOpenModalDeletePackAC(true))
+    dispatch(textNewPackAC(cardPack.name))
+    dispatch(idEditPackAC(cardPack._id))
   }
 
   const editPack = () => {
@@ -98,6 +88,11 @@ export const FriendOrMyCard: React.FC<FriendOrMyCardType> = ({ cardPack }) => {
               </div>
             )}
           </div>
+          {cardPack.deckCover && (
+            <div className={styles.coverPack}>
+              <img src={cardPack.deckCover} alt="cover Pack" />
+            </div>
+          )}
         </div>
         <SuperButton onClick={addCard}>Add new card</SuperButton>
       </div>
@@ -105,7 +100,14 @@ export const FriendOrMyCard: React.FC<FriendOrMyCardType> = ({ cardPack }) => {
   } else {
     return (
       <div className={styles.myPackWrapper}>
-        <h2>{cardPack.name}</h2>
+        <div>
+          <h2>{cardPack.name}</h2>
+          {cardPack.deckCover && (
+            <div className={styles.coverPack}>
+              <img src={cardPack.deckCover} alt="cover Pack" />
+            </div>
+          )}
+        </div>
         <SuperButton onClick={learnToPackHandler}>Learn to pack</SuperButton>
       </div>
     )

@@ -11,7 +11,6 @@ import { SuperButton } from 'common/SuperButton'
 export const EmptyCard = () => {
   const dispatch = useAppDispatch()
   const cards = useAppSelector(state => state.cardList.cards)
-  console.log(cards)
   const { packOwner, packId } = useParams()
   const addCard = () => {
     dispatch(setQuestionValueAC(''))
@@ -24,7 +23,7 @@ export const EmptyCard = () => {
   }
 
   return (
-    <div>
+    <div className={styles.wrapper}>
       <div className={styles.pack}>
         <BackToPackList />
         <h2>Name Card</h2>

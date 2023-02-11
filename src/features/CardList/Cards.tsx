@@ -93,13 +93,14 @@ export const Cards = () => {
     dispatch(setIdEditCardAC(id))
   }
 
-  if (!activePackList) {
-    return null
-  }
-
   useEffect(() => {
     if (!isAuth) navigate(PATH.LOGIN)
   }, [])
+
+  if (!activePackList) {
+    return <Navigate to={PATH.PACK_LIST} />
+  }
+  console.log(activePackList)
 
   return (
     <div className={styles.listWrapper}>
