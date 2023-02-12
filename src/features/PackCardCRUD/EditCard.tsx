@@ -16,11 +16,7 @@ import {
 } from '../CardList/Card-reducer'
 import defaultPhoto from 'assets/png/Lesson 1/default-answer-question-photo-card.png'
 
-type EditCardType = {
-  packId: string
-}
-
-export const EditCard: React.FC<EditCardType> = ({ packId }) => {
+export const EditCard = () => {
   const dispatch = useAppDispatch()
   const { question, answer, idEditCard, openEditCardModal } = useAppSelector(state => state.cardList)
   const cards = useAppSelector(state => state.cardList.cards)

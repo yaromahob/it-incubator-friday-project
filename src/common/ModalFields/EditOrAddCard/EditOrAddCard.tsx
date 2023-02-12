@@ -20,8 +20,8 @@ export const EditOrAddCard: React.FC<EditOrAddCardType> = ({
   CardAnswerHandler,
 }) => {
   const [value, setValue] = useState(1)
-  const test = (e: any) => {
-    setValue(e)
+  const changeOptionHandler = (value: number) => {
+    setValue(value)
   }
 
   console.log('rerender')
@@ -29,7 +29,7 @@ export const EditOrAddCard: React.FC<EditOrAddCardType> = ({
     <div className={styles.formWrapper}>
       <div className={styles.chooseFormat}>
         <span>Choose a question format</span>
-        <SuperSelect options={names} onChangeOption={test} />
+        <SuperSelect options={names} onChangeOption={changeOptionHandler} />
       </div>
       {value === 1 ? (
         <div className={styles.questionOrAnswer}>
