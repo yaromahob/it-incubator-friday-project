@@ -1,35 +1,34 @@
 @import "./src/styles/mixins";
-.renderWrapper{
+
+.renderWrapper {
   display: flex;
   align-items: center;
 
 }
 
-//.folder{
-//  display: flex;
-//  justify-content: space-between;
-//  align-items: center;
-//
-//
-//}
-
-
-.myPackWrapper{
+.myPackWrapper {
   display: flex;
   justify-content: space-between;
   align-items: center;
 
   h2 {
     @include sectionTitle();
+    display: inline-block;
+    max-width: 300px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   button {
     @include buttonTitle();
     width: 175px;
   }
+
   div {
     display: flex;
     align-items: center;
+
     .editMyPack {
       position: relative;
       display: flex;
@@ -41,12 +40,16 @@
       border: 1px solid #0D0C0B;
       border-radius: 50%;
       cursor: pointer;
-      .spanWrapper{
+
+
+      .spanWrapper {
         display: flex;
         flex-direction: column;
         justify-content: space-evenly;
         align-items: center;
         height: 100%;
+        z-index: -1;
+
         span {
           display: flex;
           background-color: #0D0C0B;
@@ -58,7 +61,7 @@
 
       }
 
-      .actionButtons{
+      .actionButtons {
         position: absolute;
         width: 115px;
         background-color: #fff;
@@ -67,15 +70,21 @@
         z-index: 1;
         top: 30px;
         left: -95px;
+
         div {
           display: flex;
           flex-direction: column;
+          width: 100%;
+          align-items: flex-start;
+          overflow: hidden;
+
           div {
             position: relative;
             background-color: #fff;
             margin: 10px 10px;
             transition: all 0.05s ease-in-out;
-            &:hover{
+
+            &:hover {
               scale: 1.05;
             }
 
@@ -83,24 +92,26 @@
               width: 25px;
             }
 
-            &:first-child{
-              &:after{
+            &:first-child {
+              &:after {
                 position: absolute;
                 content: 'Learn';
                 color: #0D0C0B;
                 left: 25px;
               }
             }
-            &:nth-child(2){
-              &:after{
+
+            &:nth-child(2) {
+              &:after {
                 position: absolute;
                 content: 'Edit';
                 color: #0D0C0B;
                 left: 25px;
               }
             }
-            &:last-child{
-              &:after{
+
+            &:last-child {
+              &:after {
                 position: absolute;
                 content: 'Delete';
                 color: #0D0C0B;
@@ -112,6 +123,17 @@
 
 
       }
+    }
+
+
+  }
+
+  .coverPack {
+    margin-left: 30px;
+
+    img {
+      max-width: 100px;
+      max-height: 70px;
     }
   }
 }

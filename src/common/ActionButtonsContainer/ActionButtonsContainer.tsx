@@ -42,16 +42,16 @@ export const ActionButtonsContainer: React.FC<ActionButtonsContainerType> = ({
         </div>
       )}
       {userId === profileId && editAction && (
-        <div>
-          <button onClick={editCallback}>
+        <div onClick={editCallback}>
+          <button>
             <img src={editIcon} alt="edit icon" />
           </button>
         </div>
       )}
 
       {userId === profileId && deleteAction && (
-        <div>
-          <button onClick={deleteCallback}>
+        <div onClick={deleteCallback}>
+          <button>
             <img src={deleteIcon} alt="delete icon" />
           </button>
         </div>
@@ -59,8 +59,6 @@ export const ActionButtonsContainer: React.FC<ActionButtonsContainerType> = ({
     </div>
   )
 }
-
-// types                data: UpdatePackType
 
 export type ActionButtonsContainerType = {
   id: string

@@ -1,4 +1,4 @@
-import { AppRootStateType, useAppDispatch } from 'App/store'
+import { AppRootStateType, useAppDispatch, useAppSelector } from 'App/store'
 import { useFormik } from 'formik'
 import { Navigate, NavLink } from 'react-router-dom'
 import styles from './Login.module.scss'
@@ -18,7 +18,7 @@ type FormikErrorType = {
 }
 const Login = () => {
   const dispatch = useAppDispatch()
-  const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
+  const isLoggedIn = useAppSelector(state => state.login.isLoggedIn)
 
   const formik = useFormik({
     initialValues: {
@@ -45,8 +45,9 @@ const Login = () => {
       formik.resetForm() //зачистить поле
     },
   })
+
   if (isLoggedIn) {
-    return <Navigate to={PATH.PROFILE} />
+    return <Navigate to={PATH.PACK_LIST} />
   }
 
   return (

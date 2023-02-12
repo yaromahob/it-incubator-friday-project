@@ -12,7 +12,7 @@ import { CheckEmail } from 'features/CheckEmail/CheckEmail'
 import Login from 'features/Login/Login'
 import { NewPassword } from 'features/NewPassword/NewPassword'
 import { setAuthApiTC } from './app-reducer'
-import { AppRootStateType, useAppDispatch, useAppSelector } from './store'
+import { useAppDispatch, useAppSelector } from './store'
 import { PackList } from 'features/PackList/PackList'
 import { Cards } from 'features/CardList/Cards'
 import { EmptyPack } from 'features/PackList/EmptyPack/EmptyPack'
@@ -20,12 +20,13 @@ import { Learn } from 'features/Learn/Learn'
 import { PATH } from '../root'
 import { EmptyCard } from 'features/PackList/EmptyCard/EmptyCard'
 import { LinearProgress } from '@mui/material'
-import { useSelector } from 'react-redux'
+
 
 function App() {
   const dispatch = useAppDispatch()
   const status = useAppSelector(state => state.app.status)
 
+  const isAuth = useAppSelector(state => state.app.isAuth)
   useEffect(() => {
     dispatch(setAuthApiTC())
   }, [])

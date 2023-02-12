@@ -22,7 +22,7 @@ import { PackType } from '../../api/api-packsList'
 import { CardsCount } from './CardsCount/CardsCount'
 import { AllCards } from './AllCards/AllCards'
 import { SuperPagination } from 'common/SuperPagination'
-import { Navigate, NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { EditPack } from '../PackCardCRUD/EditPack'
 import { PATH } from '../../root'
 import { AddNewPack } from '../PackCardCRUD/AddNewPack'
@@ -41,7 +41,8 @@ export const PackList = () => {
       key: 'cover',
       name: 'Cover',
       deckCover: (card: PackType) => {
-        return <img src={card.deckCover ? card.deckCover : noImage} alt="card cover" />
+        const deckCover = card.deckCover === '' ? noImage : card.deckCover === 'url or base64' ? noImage : card.deckCover
+        return <img src={deckCover} alt="card cover" />
       },
     },
     {
@@ -97,12 +98,12 @@ export const PackList = () => {
 
   const onClickHandler = (value: string) => {
     if (sortBy === DESC) {
-      dispatch(setPackTC({ sortPacks: `0${value}` }))
+      dispatch(setPackTC({ sortPacks: `0${value}`, user_id: userId ? userId : '' }))
       dispatch(sortByDateAC(ASC))
     }
 
     if (sortBy === ASC) {
-      dispatch(setPackTC({ sortPacks: `1${value}` }))
+      dispatch(setPackTC({ sortPacks: `1${value}`, user_id: userId ? userId : '' }))
       dispatch(sortByDateAC(DESC))
     }
   }
@@ -119,7 +120,7 @@ export const PackList = () => {
     dispatch(idEditPackAC(id))
   }
 
-  const editPack = (id: string, packName: string, _: string | undefined, deckCover: string | undefined) => {
+  const editPack = (id: string, packName: string, _: string = '', deckCover: string = '') => {
     dispatch(textNewPackAC(packName))
     deckCover && dispatch(deckCoverForAddAC(deckCover))
     dispatch(idEditPackAC(id))
@@ -136,7 +137,6 @@ export const PackList = () => {
     if (userId) dispatch(setPackTC({ user_id: userId }))
   }, [isAuth])
 
-  if (!isAuth) <Navigate to={PATH.LOGIN} />
   return (
     <div className={styles.listWrapper}>
       {cardPacksTotalCount ? (
@@ -175,7 +175,7 @@ export const PackList = () => {
           <DeletePack nameItem={textNewPack} />
         </div>
       ) : (
-        <EmptyPack callback={addPack} />
+        <EmptyPack />
       )}
     </div>
   )

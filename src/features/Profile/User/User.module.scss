@@ -14,7 +14,7 @@
     text-align: center;
 
     img {
-      margin-top: 10px;
+      margin-top: 5px;
     }
   }
 
@@ -30,57 +30,64 @@
   margin-top: 14px;
   font-size: 14px;
 }
-  .nickName {
-    margin-top: 15px;
-    font-weight: 500;
-    font-size: 20px;
 
-    span {
-      padding-left: 5px;
-    }
+.nickName {
+  margin-top: 15px;
+  font-weight: 500;
+  font-size: 20px;
 
-    button {
-      border: none;
-      background: none;
-      margin-left: 5px;
-      :active {
-        opacity: .4;
-      }
+  span {
+    padding-left: 5px;
+  }
 
-    }
-    .input{
-      .nick{
-        font-size: 13px;
-        opacity: .5;
-      }
-      .inputContainer{
-        display: flex;
-        justify-content: space-between;
-        input{
-          width: 100%;
-          border: none;
-          font-weight: 500;
-          font-size: 16px;
-          outline: none;
-        }
-        .saveButton{
-          margin-right: 12px;
-          width: 52px;
-          height: 24px;
-          text-align: center;
-          background-color: #366EFF;
-        }
-      }
+  button {
+    border: none;
+    background: none;
+    margin-left: 5px;
 
-      .border{
-        width: 347px;
-        margin-top: 4px;
-     border-bottom: 2px solid rgba(0, 0, 0, 0.27);;
-      }
-    }
-    .inputError{
-      font-size: 14px;
-      color: red;
+    :active {
+      opacity: .4;
     }
 
   }
+
+  .input {
+    .nick {
+      font-size: 13px;
+      opacity: .5;
+    }
+
+    .inputContainer {
+      display: flex;
+      justify-content: space-between;
+
+      input {
+        width: 100%;
+        border: none;
+        font-weight: 500;
+        font-size: 16px;
+        outline: none;
+      }
+
+      .saveButton {
+        margin-right: 12px;
+        width: 52px;
+        height: 24px;
+        text-align: center;
+        background-color: #366EFF;
+      }
+    }
+
+    .border {
+      width: 347px;
+      margin-top: 4px;
+      border-bottom: 2px solid rgba(0, 0, 0, 0.27);;
+    }
+  }
+
+  .inputError {
+    font-size: 14px;
+    color: red;
+  }
+
+}

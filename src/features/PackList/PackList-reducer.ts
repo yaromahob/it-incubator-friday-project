@@ -25,7 +25,7 @@ export type InitialStateType = {
 export const initialState: InitialStateType = {
   cardPacks: [],
   page: 1,
-  pageCount: 4,
+  pageCount: 5,
   cardPacksTotalCount: 2,
   minCardsCount: 0,
   maxCardsCount: 4,
@@ -65,6 +65,11 @@ export const PackListReducer = (state: InitialStateType = initialState, action: 
           },
         ],
       }
+    case 'PACKS/ADD-COUNT-PACK':
+      return {
+        ...state,
+        cardPacksTotalCount: action.addCount,
+      }
     case 'PACKS/DELETE-PACKS':
       return { ...state, cardPacks: state.cardPacks.filter(e => e._id !== action.idPack) }
     case 'PACKS/DISABLE-BUTTON':
@@ -97,7 +102,7 @@ export const PackListReducer = (state: InitialStateType = initialState, action: 
             : pack
         ),
       }
-    case 'PACKS/SET_USERID':
+    case 'PACKS/SET-USERID':
       return { ...state, userId: action.userId }
     case 'PACKS/SEARCH-BY-TEXT':
       return { ...state, searchedText: action.value }
@@ -112,8 +117,8 @@ export const addPackAC = (newCardsPack: PackType) => ({ type: 'PACKS/ADD-PACKS',
 export const deletePackAC = (idPack: string) => ({ type: 'PACKS/DELETE-PACKS', idPack } as const)
 export const disableButtonAC = (isDisabled: boolean) => ({ type: 'PACKS/DISABLE-BUTTON', isDisabled } as const)
 export const updatePackAC = (data: PackType) => ({ type: 'PACKS/UPDATE-PACKS', data } as const)
-export const setUserIdAC = (userId: string) => ({ type: 'PACKS/SET_USERID', userId } as const)
-
+export const setUserIdAC = (userId: string) => ({ type: 'PACKS/SET-USERID', userId } as const)
+export const addCountPackAC = (addCount: number) => ({ type: 'PACKS/ADD-COUNT-PACK', addCount } as const)
 export const searchTextAC = (value: string) => ({ type: 'PACKS/SEARCH-BY-TEXT', value } as const)
 export const textNewPackAC = (text: string) => ({ type: 'PACKS/SET-TEXT-NEW-PACK', text } as const)
 export const isPrivateNewPackAC = (value: boolean) => ({ type: 'PACKS/SET-IS-PRIVATE-NEW-PACK', value } as const)
@@ -201,3 +206,4 @@ export type PacksActionType =
   | ReturnType<typeof setOpenModalDeletePackAC>
   | ReturnType<typeof idEditPackAC>
   | ReturnType<typeof deckCoverForAddAC>
+  | ReturnType<typeof addCountPackAC>

@@ -47,8 +47,6 @@ export const SuperPagination: React.FC<SuperPaginationPropsType> = ({
         disabled={disabled}
       />
 
-      <span className={s.text1}>Show</span>
-
       <SuperSelect
         id={id + '-pagination-select'}
         value={itemsCountForPage}

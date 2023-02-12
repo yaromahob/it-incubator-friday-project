@@ -16,18 +16,17 @@ export const Header = () => {
   return (
     <header className={styles.header}>
       <div className={styles.headerWrapper}>
-        <div>
+        <NavLink to={PATH.PACK_LIST}>
           <img src={logo} alt="logo" />
-        </div>
-        <NavLink to={'/login'}>Login</NavLink>
+        </NavLink>
         {isAuth ? (
-          <NavLink to={PATH.LOGIN} className={styles.accountPhoto}>
+          <NavLink to={PATH.PROFILE} className={styles.accountPhoto}>
             <span>{nickName}</span> <img src={photo} alt="avatar" />
           </NavLink>
         ) : (
-          <div className={styles.account}>
+          <NavLink to={PATH.LOGIN} className={styles.account}>
             <SuperButton>Sign In</SuperButton>
-          </div>
+          </NavLink>
         )}
       </div>
     </header>

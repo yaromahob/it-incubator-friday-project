@@ -1,25 +1,29 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styles from './FriendOrMyCard.module.scss'
 import { ActionButtonsContainer } from 'common/ActionButtonsContainer'
 import { Navigate, useParams } from 'react-router-dom'
 import {
   deleteCardTC,
-  setAnswerValueAC,
-  setCardTC,
-  setIsLoggedInCardsAC,
-  openNewCardModalAC,
-  setQuestionValueAC,
   openEditCardModalAC,
   updateCardTC,
 } from '../CardList/Card-reducer'
+import { setAnswerValueAC, setCardTC, setIsLoggedInCardsAC, openNewCardModalAC, setQuestionValueAC } from '../CardList/Card-reducer'
 import { useAppDispatch, useAppSelector } from 'App/store'
 import { SuperButton } from 'common/SuperButton'
 import { PATH } from '../../root'
+import {
+  deckCoverForAddAC,
+  idEditPackAC,
+  setOpenModalDeletePackAC,
+  setOpenModalEditPackAC,
+  textNewPackAC,
+} from '../PackList/PackList-reducer'
+import { PackType } from '../../api/api-packsList'
 
-export const FriendOrMyCard: React.FC<FriendOrMyCardType> = ({ cardPackID }) => {
+export const FriendOrMyCard: React.FC<FriendOrMyCardType> = ({ cardPack }) => {
+  const popUpMenu = useRef(null)
   const [showAction, setShowAction] = useState(false)
   const dispatch = useAppDispatch()
-  const setIsLoggedInCards = useAppSelector(state => state.cardList.setIsLoggedInCards)
   const userID = useAppSelector(state => state.profile._id)
   const { packOwner, packId } = useParams()
 
@@ -33,22 +37,33 @@ export const FriendOrMyCard: React.FC<FriendOrMyCardType> = ({ cardPackID }) => 
     dispatch(openNewCardModalAC(true))
   }
 
-  const deleteCard = (id: string) => {
-    dispatch(deleteCardTC(id))
+  const deleteCard = () => {
+    dispatch(setOpenModalDeletePackAC(true))
+    dispatch(textNewPackAC(cardPack.name))
+    dispatch(idEditPackAC(cardPack._id))
   }
 
-  const updateCard = (id: string, packName: string) => {
-    // dispatch(openEditCardModalAC(true))
+  const editPack = () => {
+    dispatch(textNewPackAC(cardPack.name))
+    dispatch(deckCoverForAddAC(cardPack.deckCover))
+    dispatch(idEditPackAC(cardPack._id))
+    dispatch(setOpenModalEditPackAC(true))
   }
 
-  if (setIsLoggedInCards) {
-    return <Navigate to={PATH.LEARN} />
+  const closePopUp = (event: MouseEvent) => {
+    if (event.target === popUpMenu.current) setShowAction(true)
+    if (event.target !== popUpMenu.current) setShowAction(false)
   }
 
   useEffect(() => {
     if (!packId) return
     dispatch(setCardTC({ cardsPack_id: packId }))
   }, [packId])
+
+  useEffect(() => {
+    document.addEventListener('click', closePopUp)
+    return () => document.removeEventListener('click', closePopUp)
+  }, [])
 
   const learnToPackHandler = () => {
     return <Navigate to={PATH.PACK_LIST} />
@@ -58,15 +73,13 @@ export const FriendOrMyCard: React.FC<FriendOrMyCardType> = ({ cardPackID }) => 
     return (
       <div className={styles.myPackWrapper}>
         <div>
-          <h2>My Pack</h2>
-          <div className={styles.editMyPack} onClick={() => setShowAction(!showAction)}>
+          <h2>{cardPack.name}</h2>
+          <div className={styles.editMyPack} ref={popUpMenu}>
             <div className={styles.spanWrapper}>
               <span></span>
               <span></span>
               <span></span>
             </div>
-            {/* T O D O   T O D O   T O D O*/}
-            {/*ActionButtonsContainer ИД чего нужно? какой юзерИД нужен и прочая информация, может она не обязательна?*/}
             {showAction && (
               <div className={styles.actionButtons}>
                 <ActionButtonsContainer
@@ -74,12 +87,17 @@ export const FriendOrMyCard: React.FC<FriendOrMyCardType> = ({ cardPackID }) => 
                   userId={userID}
                   cardsCount={5}
                   deleteAction={deleteCard}
-                  editAction={updateCard}
+                  editAction={editPack}
                   educationsAction={educationCardList}
                 />
               </div>
             )}
           </div>
+          {cardPack.deckCover && (
+            <div className={styles.coverPack}>
+              <img src={cardPack.deckCover} alt="cover Pack" />
+            </div>
+          )}
         </div>
         <SuperButton onClick={addCard}>Add new card</SuperButton>
       </div>
@@ -87,7 +105,14 @@ export const FriendOrMyCard: React.FC<FriendOrMyCardType> = ({ cardPackID }) => 
   } else {
     return (
       <div className={styles.myPackWrapper}>
-        <h2>Friend’s Pack</h2>
+        <div>
+          <h2>{cardPack.name}</h2>
+          {cardPack.deckCover && (
+            <div className={styles.coverPack}>
+              <img src={cardPack.deckCover} alt="cover Pack" />
+            </div>
+          )}
+        </div>
         <SuperButton onClick={learnToPackHandler}>Learn to pack</SuperButton>
       </div>
     )
@@ -95,5 +120,5 @@ export const FriendOrMyCard: React.FC<FriendOrMyCardType> = ({ cardPackID }) => 
 }
 
 type FriendOrMyCardType = {
-  cardPackID?: string
+  cardPack: PackType
 }

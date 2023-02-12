@@ -2,6 +2,10 @@ import { AppActionType, AppThunk } from 'App/store'
 
 import { AddCardType, cardsAPI, CardType, LearnCardType, ParamsCardsListType } from 'api/api-cardsList'
 import dayjs from 'dayjs'
+import axios, { AxiosError } from 'axios'
+import { setProfileAC } from '../Profile/profileReducer'
+import { setIsLoggedInAC } from '../Login/loginReducer'
+import { setAuthApi } from '../../App/app-reducer'
 import { setAppStatus } from '../../App/app-reducer'
 
 export type InitialStateType = {
@@ -38,7 +42,6 @@ export const CardListReducer = (state: InitialStateType = initialState, action: 
       return {
         ...state,
         cards: action.cards.map(card => {
-          // console.log(action.cards)
           return {
             ...card,
             created: dayjs(card.created).format('DD.MM.YYYY HH:mm:ss'),
@@ -61,7 +64,6 @@ export const CardListReducer = (state: InitialStateType = initialState, action: 
     case 'CARD/DELETE-CARDS':
       return { ...state, cards: state.cards!.filter(c => c._id !== action.id) }
     case 'CARD/UPDATE-CARDS':
-      console.log('update cards works')
       return { ...state, cards: state.cards!.filter(c => (c._id === action.id ? { ...action.updatedCard } : c)) }
     case 'CARD/SET-IS-LOGGED-IN-CARDS':
       return { ...state, setIsLoggedInCards: action.value }
@@ -116,15 +118,24 @@ export const addCardAnswerImgAC = (value: string) => ({ type: 'ADD-CARD-ANSWER-I
 export const setCardTC =
   (data: ParamsCardsListType): AppThunk =>
   dispatch => {
-    // console.log(data)
     dispatch(setAppStatus('loading'))
-    cardsAPI.setCards(data).then(res => {
-      console.log('ПОЛУЧАЮ', res.data)
-      if (res.data) {
-        dispatch(setCardsAC(res.data.cards))
-        dispatch(setAppStatus('succeeded'))
-      }
-    })
+    cardsAPI
+      .setCards(data)
+      .then(res => {
+        if (res.data) {
+          dispatch(setCardsAC(res.data.cards))
+          dispatch(setAppStatus('succeeded'))
+        }
+      })
+      .catch(e => {
+        const err = e as Error | AxiosError<{ error: string }>
+        if (axios.isAxiosError(err)) {
+          const error = err.response?.data ? err.response.data.error : err.message
+          dispatch(setProfileAC('', '', '', '', ''))
+          dispatch(setAuthApi(false))
+          dispatch(setIsLoggedInAC(false))
+        }
+      })
   }
 
 export const addCardTC =
@@ -132,7 +143,6 @@ export const addCardTC =
   dispatch => {
     dispatch(setAppStatus('loading'))
     cardsAPI.addCard(data).then(res => {
-      console.log(data)
       dispatch(addCardsAC(res.data.newCard))
       dispatch(setAppStatus('succeeded'))
     })
@@ -171,7 +181,6 @@ export type updateCardType = {
 export const updateCardTC =
   (card: updateCardType): AppThunk =>
   dispatch => {
-    console.log('ИЗМЕНЯЮ', card)
     cardsAPI.createCard(card).then(res => {
       dispatch(updateCardsAC(res.data.updatedCard, res.data.updatedCard._id))
       dispatch(setCardTC({ cardsPack_id: res.data.updatedCard.cardsPack_id! }))
