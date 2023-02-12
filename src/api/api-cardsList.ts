@@ -44,7 +44,6 @@ export type AddCardType = {
     answerVideo?: string
   }
 }
-
 export type ResponseSetCardTyp = {
   cards: CardType[]
   packUserId: string
@@ -64,19 +63,21 @@ export type ResponseSetCardTyp = {
 
 export type CardType = {
   _id: string
-  cardsPack_id: string
-  user_id: string
-  question: string
+  cardsPack_id?: string
+  user_id?: string
+  question?: string
+  questionImg?: string
+  answerImg?: string
 
-  answer: string
-  grade: number
-  shots: number
-  comments: string
-  type: string
-  rating: number
-  more_id: string
-  created: string
-  updated: string
+  answer?: string
+  grade?: number
+  shots?: number
+  comments?: string
+  type?: string
+  rating?: number
+  more_id?: string
+  created?: string
+  updated?: string
 }
 
 export type ResponseAddCardType = {

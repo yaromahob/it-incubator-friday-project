@@ -71,7 +71,7 @@ export const PackList = () => {
             cardsCount={card.cardsCount}
             id={card._id}
             userId={card.user_id}
-            packName={card.name}
+            cardQuestion={card.name}
             deckCover={card.deckCover}
             educationsAction={() => {}}
             editAction={editPack}

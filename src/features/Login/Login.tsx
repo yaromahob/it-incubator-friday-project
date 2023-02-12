@@ -41,7 +41,6 @@ const Login = () => {
       return errors
     },
     onSubmit: values => {
-      debugger
       dispatch(loginTC(values))
       formik.resetForm() //зачистить поле
     },

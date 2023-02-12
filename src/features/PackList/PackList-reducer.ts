@@ -1,7 +1,7 @@
 import { AppThunk } from 'App/store'
 import { AddCardsPack, packsAPI, PackType, ParamsListPacksType, ResponseTypePacksList, UpdatePackType } from 'api/api-packsList'
 import dayjs from 'dayjs'
-import { sortByDateAC } from 'App/app-reducer'
+import { setAppStatus, sortByDateAC } from 'App/app-reducer'
 
 export type InitialStateType = {
   cardPacks: PackType[]
@@ -53,7 +53,6 @@ export const PackListReducer = (state: InitialStateType = initialState, action: 
         }
       })
       return { ...state, ...action.data, cardPacks: changeTimeFormat }
-
     case 'PACKS/ADD-PACKS':
       return {
         ...state,
@@ -100,7 +99,6 @@ export const PackListReducer = (state: InitialStateType = initialState, action: 
       }
     case 'PACKS/SET_USERID':
       return { ...state, userId: action.userId }
-
     case 'PACKS/SEARCH-BY-TEXT':
       return { ...state, searchedText: action.value }
 
@@ -128,6 +126,7 @@ export const deckCoverForAddAC = (cover: string) => ({ type: 'PACKS/SET-COVER-NE
 // thunk
 export const clearFilterTC = (): AppThunk => dispatch => {
   dispatch(disableButtonAC(true))
+  dispatch(setAppStatus('loading'))
   packsAPI
     .setPacks({
       sortPacks: '0updated',
@@ -140,6 +139,7 @@ export const clearFilterTC = (): AppThunk => dispatch => {
       dispatch(setUserIdAC(''))
       dispatch(sortByDateAC('0'))
       dispatch(disableButtonAC(false))
+      dispatch(setAppStatus('succeeded'))
     })
 }
 
@@ -147,32 +147,40 @@ export const setPackTC =
   (data?: ParamsListPacksType): AppThunk =>
   dispatch => {
     dispatch(disableButtonAC(true))
+    dispatch(setAppStatus('loading'))
     packsAPI.setPacks(data).then(res => {
       dispatch(setPacksAC(res.data))
       dispatch(searchTextAC(''))
       dispatch(disableButtonAC(false))
+      dispatch(setAppStatus('succeeded'))
     })
   }
 export const addPackTC =
   (data: AddCardsPack): AppThunk =>
   dispatch => {
+    dispatch(setAppStatus('loading'))
     packsAPI.addPack(data).then(res => {
       dispatch(addPackAC(res.data.newCardsPack))
+      dispatch(setAppStatus('succeeded'))
     })
   }
 export const deletePackTC =
   (id: string): AppThunk =>
   dispatch => {
+    dispatch(setAppStatus('loading'))
     packsAPI.deletePack(id).then(res => {
       dispatch(deletePackAC(res.data.deletedCardsPack._id))
+      dispatch(setAppStatus('succeeded'))
     })
   }
 
 export const updatePackTC =
   (data: UpdatePackType): AppThunk =>
   dispatch => {
+    dispatch(setAppStatus('loading'))
     packsAPI.createPack(data).then(res => {
       dispatch(updatePackAC(res.data.updatedCardsPack))
+      dispatch(setAppStatus('succeeded'))
     })
   }
 

@@ -2,6 +2,7 @@ import { AppActionType, AppThunk } from 'App/store'
 
 import { AddCardType, cardsAPI, CardType, LearnCardType, ParamsCardsListType } from 'api/api-cardsList'
 import dayjs from 'dayjs'
+import { setAppStatus } from '../../App/app-reducer'
 
 export type InitialStateType = {
   cards: CardType[]
@@ -37,6 +38,7 @@ export const CardListReducer = (state: InitialStateType = initialState, action: 
       return {
         ...state,
         cards: action.cards.map(card => {
+          // console.log(action.cards)
           return {
             ...card,
             created: dayjs(card.created).format('DD.MM.YYYY HH:mm:ss'),
@@ -45,10 +47,21 @@ export const CardListReducer = (state: InitialStateType = initialState, action: 
         }),
       }
     case 'CARD/ADD-CARDS':
-      return { ...state, cards: [...state.cards!, action.newCard] }
+      return {
+        ...state,
+        cards: [
+          ...state.cards,
+          {
+            ...action.newCard,
+            created: dayjs(action.newCard.created).format('DD.MM.YYYY HH:mm:ss'),
+            updated: dayjs(action.newCard.updated).format('DD.MM.YYYY HH:mm:ss'),
+          },
+        ],
+      }
     case 'CARD/DELETE-CARDS':
       return { ...state, cards: state.cards!.filter(c => c._id !== action.id) }
     case 'CARD/UPDATE-CARDS':
+      console.log('update cards works')
       return { ...state, cards: state.cards!.filter(c => (c._id === action.id ? { ...action.updatedCard } : c)) }
     case 'CARD/SET-IS-LOGGED-IN-CARDS':
       return { ...state, setIsLoggedInCards: action.value }
@@ -80,12 +93,14 @@ export const CardListReducer = (state: InitialStateType = initialState, action: 
 export const setCardsAC = (cards: CardType[]) => ({ type: 'CARD/SET-CARDS', cards } as const)
 export const addCardsAC = (newCard: CardType) => ({ type: 'CARD/ADD-CARDS', newCard } as const)
 export const deleteCardsAC = (id: string) => ({ type: 'CARD/DELETE-CARDS', id } as const)
-export const updateCardsAC = (updatedCard: CardType, id: string) =>
-  ({
+export const updateCardsAC = (updatedCard: CardType, id: string) => {
+  console.log('bono')
+  return {
     type: 'CARD/UPDATE-CARDS',
     updatedCard,
     id,
-  } as const)
+  } as const
+}
 export const setIsLoggedInCardsAC = (value: boolean) => ({ type: 'CARD/SET-IS-LOGGED-IN-CARDS', value } as const)
 export const gradeCardUpdateAC = (grade: number, id: string) => ({ type: 'CARD/GRADE-UPDATE', grade, id } as const)
 export const openNewCardModalAC = (value: boolean) => ({ type: 'CARD/OPEN-MODAL-ADD-NEW-CARD', value } as const)
@@ -101,9 +116,13 @@ export const addCardAnswerImgAC = (value: string) => ({ type: 'ADD-CARD-ANSWER-I
 export const setCardTC =
   (data: ParamsCardsListType): AppThunk =>
   dispatch => {
+    // console.log(data)
+    dispatch(setAppStatus('loading'))
     cardsAPI.setCards(data).then(res => {
+      console.log('ПОЛУЧАЮ', res.data)
       if (res.data) {
         dispatch(setCardsAC(res.data.cards))
+        dispatch(setAppStatus('succeeded'))
       }
     })
   }
@@ -111,16 +130,21 @@ export const setCardTC =
 export const addCardTC =
   (data: AddCardType): AppThunk =>
   dispatch => {
+    dispatch(setAppStatus('loading'))
     cardsAPI.addCard(data).then(res => {
+      console.log(data)
       dispatch(addCardsAC(res.data.newCard))
+      dispatch(setAppStatus('succeeded'))
     })
   }
 
 export const deleteCardTC =
   (id?: string): AppThunk =>
   dispatch => {
+    dispatch(setAppStatus('loading'))
     cardsAPI.deleteCard(id).then(res => {
       dispatch(deleteCardsAC(res.data.deletedCard._id))
+      dispatch(setAppStatus('succeeded'))
     })
   }
 
@@ -130,6 +154,9 @@ export type updateCardType = {
     cardsPack_id?: string
     user_id?: string
     question?: string
+    questionImg?: string
+    answerImg?: string
+
     answer?: string
     grade?: number
     shots?: number
@@ -139,14 +166,15 @@ export type updateCardType = {
     more_id?: string
     created?: string
     updated?: string
-    __v?: number
   }
 }
 export const updateCardTC =
   (card: updateCardType): AppThunk =>
   dispatch => {
+    console.log('ИЗМЕНЯЮ', card)
     cardsAPI.createCard(card).then(res => {
       dispatch(updateCardsAC(res.data.updatedCard, res.data.updatedCard._id))
+      dispatch(setCardTC({ cardsPack_id: res.data.updatedCard.cardsPack_id! }))
     })
   }
 export const gradeCardUpdateTC =

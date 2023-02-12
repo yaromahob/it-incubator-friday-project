@@ -10,15 +10,14 @@ import { PATH } from '../../root'
 export const ActionButtonsContainer: React.FC<ActionButtonsContainerType> = ({
   id,
   userId,
-  packName,
+  cardQuestion,
   deckCover,
-  packAnswer,
+  cardAnswer,
   cardsCount,
   educationsAction,
   editAction,
   deleteAction,
 }) => {
-  const dispatch = useAppDispatch()
   const profileId = useAppSelector(state => state.profile._id)
   const navigate = useNavigate()
   const educationCallback = (e: MouseEvent<HTMLDivElement>) => {
@@ -27,10 +26,10 @@ export const ActionButtonsContainer: React.FC<ActionButtonsContainerType> = ({
     navigate(`${PATH.LEARN}/${id}`)
   }
   const editCallback = () => {
-    editAction && editAction(id, packName!, packAnswer, deckCover)
+    editAction && editAction(id, cardQuestion!, cardAnswer, deckCover)
   }
   const deleteCallback = () => {
-    deleteAction && deleteAction(id, packName!)
+    deleteAction && deleteAction(id, cardQuestion!)
   }
 
   return (
@@ -66,9 +65,9 @@ export const ActionButtonsContainer: React.FC<ActionButtonsContainerType> = ({
 export type ActionButtonsContainerType = {
   id: string
   userId: string
-  packName?: string
+  cardQuestion?: string
   deckCover?: string
-  packAnswer?: string
+  cardAnswer?: string
   educationsAction?: (id: string) => void
   editAction?: (id: string, packName: string, packAnswer?: string, deckCoverEdit?: string) => void
   deleteAction?: (id: string, packName: string) => void

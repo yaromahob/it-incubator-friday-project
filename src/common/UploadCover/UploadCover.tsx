@@ -8,15 +8,12 @@ type InputUploadCoverType = {
   callback: (value: string) => void
 }
 export const InputUploadCover: React.FC<InputUploadCoverType> = ({ callback }) => {
-  const dispatch = useAppDispatch()
   const uploadHandler = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length) {
       const file = e.target.files[0]
-      // console.log('file: ', file)
 
       if (file.size < 4000000) {
         convertFileToBase64(file, (file64: string) => {
-          // console.log('file64: ', file64)
           callback(file64)
         })
       } else {

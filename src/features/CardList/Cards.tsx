@@ -1,12 +1,10 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { SuperTable } from 'common/SuperTable'
-import { SortInfoType } from '../PackList/PackList'
 import { useAppDispatch, useAppSelector } from 'App/store'
 import styles from './Cards.module.scss'
 import searchIcon from 'assets/svg/search.svg'
 import { SuperDebouncedInput } from 'common/SuperDebouncedInput'
 import { Grade } from 'common/Grade'
-import { setPackTC } from '../PackList/PackList-reducer'
 import { BackToPackList } from '../BackToPackList/BackToPackList'
 import { FriendOrMyCard } from '../FriendOrMyCard/FriendOrMyCard'
 import { ActionButtonsContainer } from 'common/ActionButtonsContainer'
@@ -45,9 +43,9 @@ export const Cards = () => {
             {profileID === cardID && (
               <ActionButtonsContainer
                 id={card._id}
-                userId={card.user_id}
-                packName={card.question}
-                packAnswer={card.answer}
+                userId={card.user_id!}
+                cardQuestion={card.question}
+                cardAnswer={card.answer}
                 editAction={updateCard}
                 deleteAction={deleteCard}
               />
@@ -63,8 +61,8 @@ export const Cards = () => {
   const cardPacks = useAppSelector(state => state.cardList.cards)
   const isDisable = useAppSelector(state => state.packList.isDisabled)
   const cardPackID = cardPacks.find(item => item.user_id === profileID)
-  const { question } = useAppSelector(state => state.cardList)
   const { packId } = useParams()
+  const { question } = useAppSelector(state => state.cardList)
 
   const onClickHandler = (value: string | null) => {
     if (sortBy === DESC) {
@@ -109,7 +107,7 @@ export const Cards = () => {
       </div>
       <AddNewCard packId={packId!} />
       <DeleteCard nameItem={question} />
-      <EditCard />
+      <EditCard packId={packId!} />
     </div>
   )
 }

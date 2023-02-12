@@ -37,9 +37,15 @@ export const SuperTable: React.FC<SuperTableType> = ({ columns, data, onClick, s
         <TableBody className={styles.test}>
           {data &&
             data.map((card, i) => {
+              const CARDS = card as CardType
+              // if(CARDS.questionImg){
+              //   console.log('SUPERTABLE', card)
+              // }
+
               const cardItem = card as { [index: string]: string | number | boolean }
+              // console.log(CARDS?.questionImg)
               return (
-                <TableRow key={`${data}-${i}`} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                <TableRow key={`${card.user_id}-${i}`} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                   {columns.map((col, i) => {
                     if (col.render) {
                       return (
@@ -55,6 +61,21 @@ export const SuperTable: React.FC<SuperTableType> = ({ columns, data, onClick, s
                         </TableCell>
                       )
                     }
+                    if (col.name === 'Question' && CARDS.questionImg && CARDS.questionImg !== 'noImg') {
+                      return (
+                        <TableCell key={`${col}_${i}`} align={'justify'} component="th" scope="row">
+                          <img className={styles.cover} src={CARDS.questionImg} alt="question cover" />
+                        </TableCell>
+                      )
+                    }
+                    if (col.name === 'Answer' && CARDS.answerImg && CARDS.answerImg !== 'noImg') {
+                      return (
+                        <TableCell key={`${col}_${i}`} align={'justify'} component="th" scope="row">
+                          <img className={styles.cover} src={CARDS.answerImg} alt="answer cover" />
+                        </TableCell>
+                      )
+                    }
+
                     return (
                       <TableCell key={`${col}_${i}`} align={'justify'} component="th" scope="row">
                         {cardItem[col.key]}

@@ -77,6 +77,10 @@
           text-overflow: ellipsis;
         }
 
+        .cover {
+          max-width: 200px;
+          max-height: 200px;
+        }
 
         &:last-child {
           span, a {

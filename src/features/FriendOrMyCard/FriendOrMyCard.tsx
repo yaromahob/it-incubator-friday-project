@@ -9,6 +9,8 @@ import {
   setIsLoggedInCardsAC,
   openNewCardModalAC,
   setQuestionValueAC,
+  openEditCardModalAC,
+  updateCardTC,
 } from '../CardList/Card-reducer'
 import { useAppDispatch, useAppSelector } from 'App/store'
 import { SuperButton } from 'common/SuperButton'
@@ -36,7 +38,7 @@ export const FriendOrMyCard: React.FC<FriendOrMyCardType> = ({ cardPackID }) => 
   }
 
   const updateCard = (id: string, packName: string) => {
-    // console.log(data)
+    // dispatch(openEditCardModalAC(true))
   }
 
   if (setIsLoggedInCards) {

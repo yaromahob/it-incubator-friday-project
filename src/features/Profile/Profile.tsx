@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom'
 import { logoutTC } from '../Login/loginReducer'
 import { BackToPackList } from '../BackToPackList/BackToPackList'
 import { PATH } from '../../root'
+import { CircularProgress } from '@mui/material'
 
 const Profile = () => {
   const isAuth = useAppSelector(state => state.app.isAuth)
@@ -23,7 +24,11 @@ const Profile = () => {
   })
 
   if (!isAuth) {
-    return <div className={style.loading}>loading...</div>
+    return (
+      <div style={{ position: 'fixed', top: '30%', textAlign: 'center', width: '100%' }}>
+        <CircularProgress />
+      </div>
+    )
   }
   const logOut = () => {
     dispatch(logoutTC())

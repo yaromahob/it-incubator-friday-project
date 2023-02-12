@@ -4,7 +4,7 @@ import edit from '../../../assets/svg/profile/edit.svg'
 import SuperButton from '../../../common/SuperButton/SuperButton'
 import { useAppDispatch, useAppSelector } from '../../../App/store'
 import { changeUsersNameAC, updateUsersDataTC } from '../profileReducer'
-import defaultPhoto from '../../../assets/png/Lesson 1/default-avatar-profile.jpg'
+import defaultPhoto from 'assets/png/Lesson 1/default-avatar-profile.jpg'
 import { InputFile } from './input-file'
 
 export const User = () => {

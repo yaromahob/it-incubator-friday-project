@@ -13,6 +13,7 @@ import {
   addCardQuestionImgAC,
   addCardAnswerImgAC,
 } from '../CardList/Card-reducer'
+import defaultPhoto from '../../assets/png/Lesson 1/default-answer-question-photo-card.png'
 
 export const AddNewCard: React.FC<AddNewCardType> = ({ packId }) => {
   const dispatch = useAppDispatch()
@@ -25,16 +26,15 @@ export const AddNewCard: React.FC<AddNewCardType> = ({ packId }) => {
   const answerHandler = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(setAnswerValueAC(e.target.value))
   }
-
   const saveHandler = () => {
     dispatch(
       addCardTC({
         card: {
           cardsPack_id: packId,
-          question: question,
-          answer: answer,
-          questionImg: addCardQuestionImg,
-          answerImg: addCardAnswerImg,
+          question: question!,
+          answer: answer!,
+          questionImg: addCardQuestionImg!,
+          answerImg: addCardAnswerImg!,
         },
       })
     )
@@ -59,10 +59,10 @@ export const AddNewCard: React.FC<AddNewCardType> = ({ packId }) => {
         addCardTC({
           card: {
             cardsPack_id: packId!,
-            question: question,
-            answer: answer,
-            questionImg: addCardQuestionImg,
-            answerImg: addCardAnswerImg,
+            question: question!,
+            answer: answer!,
+            questionImg: addCardQuestionImg!,
+            answerImg: addCardAnswerImg!,
           },
         })
       )
@@ -73,11 +73,29 @@ export const AddNewCard: React.FC<AddNewCardType> = ({ packId }) => {
     dispatch(addCardAnswerImgAC(''))
   }
 
+  const CardQuestionHandler = (v: string) => {
+    dispatch(addCardQuestionImgAC(v))
+  }
+  const CardAnswerHandler = (v: string) => {
+    dispatch(addCardAnswerImgAC(v))
+  }
+  const photoQuestion = addCardQuestionImg ? addCardQuestionImg : defaultPhoto
+  const photoAnswer = addCardAnswerImg ? addCardAnswerImg : defaultPhoto
+
   return (
     <ModalFields open={openAddNewCardModal} callback={closeAddModalHandler}>
       <div className={styles.modal}>
         <HeaderModal titleModal={'Add new card'} callback={closeAddModalHandler} />
-        <EditOrAddCard questionCallback={questionHandler} answerCallback={answerHandler} question={question} answer={answer} />
+        <EditOrAddCard
+          questionImgCallback={photoQuestion}
+          answerImgCallback={photoAnswer}
+          questionCallback={questionHandler}
+          answerCallback={answerHandler}
+          question={question}
+          answer={answer}
+          CardQuestionHandler={CardQuestionHandler}
+          CardAnswerHandler={CardAnswerHandler}
+        />
         <SaveAndCancelField type={'Save'} onAction={saveHandler} cancelAction={cancelHandler} />
       </div>
     </ModalFields>

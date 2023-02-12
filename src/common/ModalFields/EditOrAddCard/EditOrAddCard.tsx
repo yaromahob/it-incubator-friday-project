@@ -1,7 +1,5 @@
 import React, { ChangeEvent, useState } from 'react'
 import styles from './EditOrAddCard.module.scss'
-import { useAppDispatch } from '../../../App/store'
-import { addCardAnswerImgAC, addCardQuestionImgAC } from '../../../features/CardList/Card-reducer'
 import { SuperSelect } from '../../SuperSelect'
 import { SuperInputText } from '../../SuperInputText'
 import { InputUploadCover } from '../../UploadCover'
@@ -11,18 +9,22 @@ const names = [
   { id: 2, value: 'Feature' },
 ]
 
-export const EditOrAddCard: React.FC<EditOrAddCardType> = ({ question, answer, questionCallback, answerCallback }) => {
-  const dispatch = useAppDispatch()
+export const EditOrAddCard: React.FC<EditOrAddCardType> = ({
+  questionImgCallback,
+  answerImgCallback,
+  question,
+  answer,
+  questionCallback,
+  answerCallback,
+  CardQuestionHandler,
+  CardAnswerHandler,
+}) => {
   const [value, setValue] = useState(1)
   const test = (e: any) => {
     setValue(e)
   }
-  const addCardQuestionHandler = (v: string) => {
-    dispatch(addCardQuestionImgAC(v))
-  }
-  const addCardAnswerHandler = (v: string) => {
-    dispatch(addCardAnswerImgAC(v))
-  }
+
+  console.log('rerender')
   return (
     <div className={styles.formWrapper}>
       <div className={styles.chooseFormat}>
@@ -45,16 +47,16 @@ export const EditOrAddCard: React.FC<EditOrAddCardType> = ({ question, answer, q
           <div>
             <label className={styles.uploadCover} title={'use an image with a maximum 200х120px'}>
               Upload question cover
-              <InputUploadCover callback={addCardQuestionHandler} />
+              <InputUploadCover callback={CardQuestionHandler} />
             </label>
-            <img src="https://rdironworks.com/wp-content/uploads/2017/12/dummy-200x200.png" alt="questionImg" />
+            <img src={questionImgCallback} alt="questionImg" />
           </div>
           <div>
             <label className={styles.uploadCover} title={'use an image with a maximum  200х120px'}>
               Upload answer cover
-              <InputUploadCover callback={addCardAnswerHandler} />
+              <InputUploadCover callback={CardAnswerHandler} />
             </label>
-            <img src="https://rdironworks.com/wp-content/uploads/2017/12/dummy-200x200.png" alt="answerImg" />
+            <img src={answerImgCallback} alt="answerImg" />
           </div>
         </div>
       )}
@@ -63,8 +65,12 @@ export const EditOrAddCard: React.FC<EditOrAddCardType> = ({ question, answer, q
 }
 
 type EditOrAddCardType = {
+  questionImgCallback: string
+  answerImgCallback: string
   question: string
   answer: string
   questionCallback: (e: ChangeEvent<HTMLInputElement>) => void
   answerCallback: (e: ChangeEvent<HTMLInputElement>) => void
+  CardQuestionHandler: (v: string) => void
+  CardAnswerHandler: (v: string) => void
 }
