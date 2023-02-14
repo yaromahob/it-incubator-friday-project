@@ -1,8 +1,11 @@
 import { AppThunk } from 'App/store'
 import { updateUserApi, UpdateUserType } from 'api/api-auth'
 
-import { setAppError } from 'App/app-reducer'
+import { setAppError, setAppStatus } from 'App/app-reducer'
 import { headerSetNameAC } from '../Header/headerReducer'
+import { AxiosError } from 'axios'
+import { handleServerNetworkError } from '../../utils/utils-error'
+import { ErrorNames } from '../../api/api-packsList'
 
 export type ProfileActionType =
   | ReturnType<typeof setProfileAC>
@@ -61,6 +64,7 @@ export const changeUsersNameAC = (name: string) =>
 export const updateUsersDataTC =
   (data: UpdateUserType): AppThunk =>
   dispatch => {
+    dispatch(setAppStatus('loading'))
     updateUserApi
       .updateUsersData(data)
       .then(res => {
@@ -68,9 +72,9 @@ export const updateUsersDataTC =
         //const { name, avatar } = res.data.updatedUser
         dispatch(updateUsersDataAC(res.data.updatedUser.name, res.data.updatedUser.avatar))
         dispatch(headerSetNameAC(res.data.updatedUser.name))
+        dispatch(setAppStatus('succeeded'))
       })
-      .catch(e => {
-        const error = e.response ? e.response.data.error : e.message + ', more details in the console'
-        dispatch(setAppError(error))
+      .catch((e: AxiosError) => {
+        handleServerNetworkError(e, dispatch, ErrorNames.ERRORLOGIN)
       })
   }

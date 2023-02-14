@@ -4,6 +4,8 @@ import { setProfileAC } from 'features/Profile/profileReducer'
 import { setIsLoggedInAC } from 'features/Login/loginReducer'
 import axios, { AxiosError } from 'axios'
 import { headerSetNameAC } from 'features/Header/headerReducer'
+import { handleServerNetworkError } from '../utils/utils-error'
+import { ErrorNames } from '../api/api-packsList'
 
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 
@@ -49,16 +51,12 @@ export const appReducer = (state: InitialStateType = initialState, action: AppAc
 
 export const setInitialized = (value: boolean) => ({ type: 'APP/SET-INITIALIZED', value } as const)
 export const setAppStatus = (status: RequestStatusType) => ({ type: 'APP/SET-STATUS', status } as const)
-
 export const setAppError = (error: null | string) => ({ type: 'APP/SET-ERROR', error } as const)
-
 export const setAuthApi = (value: boolean) => ({ type: 'APP/SET-IsAUTH', value } as const)
-
 export const setSortValueAC = (sortField: string) => ({ type: 'APP/SET-SORT-VALUE', sortField } as const)
-
 export const sortByDateAC = (sortBy: string) => ({ type: 'APP/SORT-BY-DATE', sortBy } as const)
-
 export const setAuthApiTC = () => async (dispatch: AppDispatch) => {
+  dispatch(setAppStatus('loading'))
   try {
     const res = await apiAuth.me()
     const { _id, email, name, token, avatar, ...rest } = res.data
@@ -67,16 +65,12 @@ export const setAuthApiTC = () => async (dispatch: AppDispatch) => {
     dispatch(headerSetNameAC(name))
     dispatch(setAuthApi(true))
     dispatch(setIsLoggedInAC(true))
+    dispatch(setAppStatus('succeeded'))
   } catch (e) {
-    const err = e as Error | AxiosError<{ error: string }>
-
-    if (axios.isAxiosError(err)) {
-      const error = err.response?.data ? err.response.data.error : err.message
-      dispatch(setProfileAC('', '', '', '', ''))
-      dispatch(setAuthApi(false))
-      dispatch(setIsLoggedInAC(false))
-      console.log(error)
-    }
+    handleServerNetworkError(e, dispatch, ErrorNames.ERRORLOGIN)
+    dispatch(setProfileAC('', '', '', '', ''))
+    dispatch(setAuthApi(false))
+    dispatch(setIsLoggedInAC(false))
   }
 }
 
@@ -84,7 +78,6 @@ export type SetStatusType = ReturnType<typeof setAppStatus>
 export type SetErrorType = ReturnType<typeof setAppError>
 export type SetInitialized = ReturnType<typeof setInitialized>
 export type SetAuthApi = ReturnType<typeof setAuthApi>
-// export type SetSortValue =
 
 export type AppActionsType =
   | SetStatusType

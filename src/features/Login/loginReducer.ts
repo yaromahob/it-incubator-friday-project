@@ -4,6 +4,8 @@ import { setAppStatus, SetErrorType, SetStatusType } from 'App/app-reducer'
 import { apiAuth, LoginParamsType } from 'api/api-auth'
 import { setAppError, setAuthApi, setAuthApiTC } from 'App/app-reducer'
 import axios, { AxiosError } from 'axios'
+import { handleServerNetworkError } from '../../utils/utils-error'
+import { ErrorNames } from '../../api/api-packsList'
 
 const initialState: AuthStateType = {
   isLoggedIn: false,
@@ -33,25 +35,17 @@ export const newPasswordAC = (value: boolean) => ({ type: 'login/NEW-PASSWORD', 
 export const loginTC =
   (data: LoginParamsType): AppThunk =>
   dispatch => {
-    apiAuth.login(data).then(res => {
-      if (!res.data.error) {
-        dispatch(setIsLoggedInAC(true))
-      } else {
-        if (res.data.error) {
-          dispatch(setAppError(res.data.error))
+    apiAuth
+      .login(data)
+      .then(res => {
+        if (!res.data.error) {
+          dispatch(setIsLoggedInAC(true))
+          dispatch(setAuthApiTC())
         }
-      }
-      if (!res.data.error) {
-        dispatch(setIsLoggedInAC(true))
-        dispatch(setAuthApiTC())
-      }
-    })
-    // .catch(e => {
-    //   if (axios.isAxiosError(e)) {
-    //     const error = e.response ? e.response.data.error : e.message
-    //     dispatch(setAppError(error))
-    //   }
-    // })
+      })
+      .catch((e: AxiosError) => {
+        handleServerNetworkError(e, dispatch, ErrorNames.ERRORLOGIN)
+      })
   }
 export const recoveryPasswordTC =
   (data: recoveryPasswordType): AppThunk =>
@@ -63,16 +57,10 @@ export const recoveryPasswordTC =
         if (!res.data.error) {
           dispatch(setIsLoggedInRecoveryPasswordAC(true))
           dispatch(setAppStatus('succeeded'))
-        } else {
-          if (res.data.error) dispatch(setAppError(res.data.error))
         }
       })
-      .catch(e => {
-        if (axios.isAxiosError(e)) {
-          const error = e.response ? e.response.data.error : e.message
-          dispatch(setAppError(error))
-          dispatch(setAppStatus('succeeded'))
-        }
+      .catch((e: AxiosError) => {
+        handleServerNetworkError(e, dispatch, ErrorNames.ERRORLOGIN)
       })
   }
 export const newPasswordTC =
@@ -85,11 +73,8 @@ export const newPasswordTC =
           dispatch(newPasswordAC(true))
         }
       })
-      .catch(e => {
-        if (axios.isAxiosError(e)) {
-          const error = e.response ? e.response.data.error : e.message
-          dispatch(setAppError(error))
-        }
+      .catch((e: AxiosError) => {
+        handleServerNetworkError(e, dispatch, ErrorNames.ERRORLOGIN)
       })
   }
 
@@ -99,6 +84,8 @@ export const logoutTC = (): AppThunk => async dispatch => {
     dispatch(setIsLoggedInAC(false))
     dispatch(setAuthApi(false))
   } catch (e) {
+    handleServerNetworkError(e, dispatch, ErrorNames.ERRORLOGIN)
+  } /*catch (e) {
     const err = e as Error | AxiosError<{ error: string }>
     if (axios.isAxiosError(err)) {
       const error = err.response?.data ? err.response.data.error : err.message
@@ -106,7 +93,7 @@ export const logoutTC = (): AppThunk => async dispatch => {
     } else {
       dispatch(setAppError(`Native error ${err.message}`))
     }
-  }
+  }*/
 }
 
 export type AuthActionType =

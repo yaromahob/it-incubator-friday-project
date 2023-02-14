@@ -1,7 +1,9 @@
 import { signUpAPI, SignUpData } from 'api/signUp-API'
-import axios from 'axios'
-import { setAppError } from 'App/app-reducer'
+import axios, { AxiosError } from 'axios'
+import { setAppError, setAppStatus } from 'App/app-reducer'
 import { AppThunk } from 'App/store'
+import { handleServerNetworkError } from '../../utils/utils-error'
+import { ErrorNames } from '../../api/api-packsList'
 
 const initialState = {
   isSignUp: false as boolean,
@@ -32,18 +34,17 @@ export const signUpAC = (isSignUp: boolean) => {
 export const signUpTC =
   (data: SignUpData): AppThunk =>
   dispatch => {
+    dispatch(setAppStatus('loading'))
     signUpAPI
       .register(data)
       .then(res => {
         if (res.status === 201) {
           dispatch(signUpAC(true))
+          dispatch(setAppStatus('succeeded'))
         }
       })
-      .catch(e => {
-        if (axios.isAxiosError(e)) {
-          const error = e.response ? e.response.data.error : e.message
-          dispatch(setAppError(error))
-        }
+      .catch((e: AxiosError) => {
+        handleServerNetworkError(e, dispatch, ErrorNames.ERRORLOGIN)
       })
   }
 

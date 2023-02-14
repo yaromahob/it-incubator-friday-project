@@ -7,6 +7,8 @@ import { setProfileAC } from '../Profile/profileReducer'
 import { setIsLoggedInAC } from '../Login/loginReducer'
 import { setAuthApi } from '../../App/app-reducer'
 import { setAppStatus } from '../../App/app-reducer'
+import { handleServerNetworkError } from '../../utils/utils-error'
+import { ErrorNames } from '../../api/api-packsList'
 
 export type InitialStateType = {
   cards: CardType[]
@@ -127,14 +129,8 @@ export const setCardTC =
           dispatch(setAppStatus('succeeded'))
         }
       })
-      .catch(e => {
-        const err = e as Error | AxiosError<{ error: string }>
-        if (axios.isAxiosError(err)) {
-          const error = err.response?.data ? err.response.data.error : err.message
-          dispatch(setProfileAC('', '', '', '', ''))
-          dispatch(setAuthApi(false))
-          dispatch(setIsLoggedInAC(false))
-        }
+      .catch((e: AxiosError) => {
+        handleServerNetworkError(e, dispatch, ErrorNames.SETCARD)
       })
   }
 
@@ -142,20 +138,30 @@ export const addCardTC =
   (data: AddCardType): AppThunk =>
   dispatch => {
     dispatch(setAppStatus('loading'))
-    cardsAPI.addCard(data).then(res => {
-      dispatch(addCardsAC(res.data.newCard))
-      dispatch(setAppStatus('succeeded'))
-    })
+    cardsAPI
+      .addCard(data)
+      .then(res => {
+        dispatch(addCardsAC(res.data.newCard))
+        dispatch(setAppStatus('succeeded'))
+      })
+      .catch((e: AxiosError) => {
+        handleServerNetworkError(e, dispatch, ErrorNames.ADDCARD)
+      })
   }
 
 export const deleteCardTC =
   (id?: string): AppThunk =>
   dispatch => {
     dispatch(setAppStatus('loading'))
-    cardsAPI.deleteCard(id).then(res => {
-      dispatch(deleteCardsAC(res.data.deletedCard._id))
-      dispatch(setAppStatus('succeeded'))
-    })
+    cardsAPI
+      .deleteCard(id)
+      .then(res => {
+        dispatch(deleteCardsAC(res.data.deletedCard._id))
+        dispatch(setAppStatus('succeeded'))
+      })
+      .catch((e: AxiosError) => {
+        handleServerNetworkError(e, dispatch, ErrorNames.DELETECARD)
+      })
   }
 
 export type updateCardType = {
@@ -181,17 +187,27 @@ export type updateCardType = {
 export const updateCardTC =
   (card: updateCardType): AppThunk =>
   dispatch => {
-    cardsAPI.createCard(card).then(res => {
-      dispatch(updateCardsAC(res.data.updatedCard, res.data.updatedCard._id))
-      dispatch(setCardTC({ cardsPack_id: res.data.updatedCard.cardsPack_id! }))
-    })
+    cardsAPI
+      .createCard(card)
+      .then(res => {
+        dispatch(updateCardsAC(res.data.updatedCard, res.data.updatedCard._id))
+        dispatch(setCardTC({ cardsPack_id: res.data.updatedCard.cardsPack_id! }))
+      })
+      .catch((e: AxiosError) => {
+        handleServerNetworkError(e, dispatch, ErrorNames.UPDATECARD)
+      })
   }
 export const gradeCardUpdateTC =
   (data: LearnCardType): AppThunk =>
   dispatch => {
-    cardsAPI.gradeUpdate(data).then(res => {
-      dispatch(gradeCardUpdateAC(res.data.updatedGrade.grade, res.data.updatedGrade.card_id))
-    })
+    cardsAPI
+      .gradeUpdate(data)
+      .then(res => {
+        dispatch(gradeCardUpdateAC(res.data.updatedGrade.grade, res.data.updatedGrade.card_id))
+      })
+      .catch((e: AxiosError) => {
+        handleServerNetworkError(e, dispatch, ErrorNames.ERRORLOGIN)
+      })
   }
 
 export type CardsActionType =

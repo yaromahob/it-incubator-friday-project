@@ -15,6 +15,18 @@ export const packsAPI = {
   },
 }
 
+export enum ErrorNames {
+  DELETEPACK = 'Failed to delete pack',
+  ADDPACK = 'Failed to add pack',
+  UPDATEPACK = 'Failed to update pack',
+  SETPACK = 'Failed to load pack',
+  DELETECARD = 'Failed to delete card',
+  ADDCARD = 'Failed to add card',
+  UPDATECARD = 'Failed to update card',
+  SETCARD = 'Failed to load card',
+  ERRORLOGIN = 'An error has occurred',
+}
+
 export type ParamsListPacksType = {
   packName?: string
   min?: number

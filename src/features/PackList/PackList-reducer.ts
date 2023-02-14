@@ -1,7 +1,9 @@
 import { AppThunk } from 'App/store'
-import { AddCardsPack, packsAPI, PackType, ParamsListPacksType, ResponseTypePacksList, UpdatePackType } from 'api/api-packsList'
+import { AddCardsPack, ErrorNames, packsAPI, PackType, ParamsListPacksType, ResponseTypePacksList, UpdatePackType } from 'api/api-packsList'
 import dayjs from 'dayjs'
 import { setAppStatus, sortByDateAC } from 'App/app-reducer'
+import { AxiosError } from 'axios'
+import { handleServerNetworkError } from '../../utils/utils-error'
 
 export type InitialStateType = {
   cardPacks: PackType[]
@@ -146,6 +148,9 @@ export const clearFilterTC = (): AppThunk => dispatch => {
       dispatch(disableButtonAC(false))
       dispatch(setAppStatus('succeeded'))
     })
+    .catch((e: AxiosError) => {
+      handleServerNetworkError(e, dispatch, ErrorNames.ERRORLOGIN)
+    })
 }
 
 export const setPackTC =
@@ -153,40 +158,65 @@ export const setPackTC =
   dispatch => {
     dispatch(disableButtonAC(true))
     dispatch(setAppStatus('loading'))
-    packsAPI.setPacks(data).then(res => {
-      dispatch(setPacksAC(res.data))
-      dispatch(searchTextAC(''))
-      dispatch(disableButtonAC(false))
-      dispatch(setAppStatus('succeeded'))
-    })
+    packsAPI
+      .setPacks(data)
+      .then(res => {
+        if (res) {
+          dispatch(setPacksAC(res.data))
+          dispatch(searchTextAC(''))
+          dispatch(disableButtonAC(false))
+          dispatch(setAppStatus('succeeded'))
+        } else {
+          if (res) {
+          }
+        }
+      })
+      .catch((e: AxiosError) => {
+        handleServerNetworkError(e, dispatch, ErrorNames.SETPACK)
+      })
   }
 export const addPackTC =
   (data: AddCardsPack): AppThunk =>
   dispatch => {
     dispatch(setAppStatus('loading'))
-    packsAPI.addPack(data).then(res => {
-      dispatch(addPackAC(res.data.newCardsPack))
-      dispatch(setAppStatus('succeeded'))
-    })
+    packsAPI
+      .addPack(data)
+      .then(res => {
+        dispatch(addPackAC(res.data.newCardsPack))
+        dispatch(setAppStatus('succeeded'))
+      })
+      .catch((e: AxiosError) => {
+        handleServerNetworkError(e, dispatch, ErrorNames.ADDPACK)
+      })
   }
 export const deletePackTC =
   (id: string): AppThunk =>
   dispatch => {
     dispatch(setAppStatus('loading'))
-    packsAPI.deletePack(id).then(res => {
-      dispatch(deletePackAC(res.data.deletedCardsPack._id))
-      dispatch(setAppStatus('succeeded'))
-    })
+    packsAPI
+      .deletePack(id)
+      .then(res => {
+        dispatch(deletePackAC(res.data.deletedCardsPack._id))
+        dispatch(setAppStatus('succeeded'))
+      })
+      .catch((e: AxiosError) => {
+        handleServerNetworkError(e, dispatch, ErrorNames.DELETEPACK)
+      })
   }
 
 export const updatePackTC =
   (data: UpdatePackType): AppThunk =>
   dispatch => {
     dispatch(setAppStatus('loading'))
-    packsAPI.createPack(data).then(res => {
-      dispatch(updatePackAC(res.data.updatedCardsPack))
-      dispatch(setAppStatus('succeeded'))
-    })
+    packsAPI
+      .createPack(data)
+      .then(res => {
+        dispatch(updatePackAC(res.data.updatedCardsPack))
+        dispatch(setAppStatus('succeeded'))
+      })
+      .catch((e: AxiosError) => {
+        handleServerNetworkError(e, dispatch, ErrorNames.UPDATEPACK)
+      })
   }
 
 export type addPackType = ReturnType<typeof addPackAC>
