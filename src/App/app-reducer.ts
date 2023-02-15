@@ -2,7 +2,6 @@ import { AppDispatch } from './store'
 import { apiAuth } from '../api/api-auth'
 import { setProfileAC } from 'features/Profile/profileReducer'
 import { setIsLoggedInAC } from 'features/Login/loginReducer'
-import axios, { AxiosError } from 'axios'
 import { headerSetNameAC } from 'features/Header/headerReducer'
 import { handleServerNetworkError } from '../utils/utils-error'
 import { ErrorNames } from '../api/api-packsList'
@@ -67,10 +66,10 @@ export const setAuthApiTC = () => async (dispatch: AppDispatch) => {
     dispatch(setIsLoggedInAC(true))
     dispatch(setAppStatus('succeeded'))
   } catch (e) {
-    handleServerNetworkError(e, dispatch, ErrorNames.ERRORLOGIN)
     dispatch(setProfileAC('', '', '', '', ''))
     dispatch(setAuthApi(false))
     dispatch(setIsLoggedInAC(false))
+    dispatch(setAppStatus('succeeded'))
   }
 }
 
